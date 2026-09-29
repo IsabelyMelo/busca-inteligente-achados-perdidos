@@ -31,6 +31,7 @@ def create_app(
 
         application.state.matching_service = MatchingService(
             selected_repository,
+            method=selected_settings.match_method,
             alpha=selected_settings.match_alpha,
             beta=selected_settings.match_beta,
         )

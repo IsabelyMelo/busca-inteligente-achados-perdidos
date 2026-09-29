@@ -49,3 +49,34 @@ def test_search_endpoint_validates_short_description() -> None:
 
     assert response.status_code == 422
 
+
+def test_search_endpoint_uses_configured_matching_method() -> None:
+    repository = FakeItemRepository(
+        [
+            ItemCandidate(
+                id=1,
+                name="Smartphone Samsung",
+                description="Aparelho preto com capa azul",
+                location="Biblioteca",
+                category_name="Eletrônicos",
+                found_on=datetime(2026, 8, 20, 14, 30),
+            )
+        ]
+    )
+    application = create_app(
+        repository=repository,
+        settings=Settings(match_method="levenshtein"),
+    )
+
+    with TestClient(application) as client:
+        response = client.post(
+            "/matches/search",
+            json={
+                "description": "Celular Samsung preto com capa azul",
+                "top_k": 1,
+            },
+        )
+
+    assert response.status_code == 200
+    match = response.json()["matches"][0]
+    assert match["final_score"] == match["levenshtein_score"]

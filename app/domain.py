@@ -1,5 +1,12 @@
 from dataclasses import dataclass
 from datetime import datetime
+from enum import StrEnum
+
+
+class MatchingMethod(StrEnum):
+    COSINE = "cosine"
+    LEVENSHTEIN = "levenshtein"
+    HYBRID = "hybrid"
 
 
 @dataclass(frozen=True, slots=True)
@@ -18,4 +25,3 @@ class RankedItem:
     cosine_score: float
     levenshtein_score: float
     final_score: float
-

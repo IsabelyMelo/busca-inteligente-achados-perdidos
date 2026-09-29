@@ -4,6 +4,8 @@ from urllib.parse import quote_plus
 from pydantic import Field, model_validator
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
+from app.domain import MatchingMethod
+
 
 class Settings(BaseSettings):
     """Configurações carregadas do ambiente ou de um arquivo .env local."""
@@ -13,6 +15,7 @@ class Settings(BaseSettings):
     db_name: str = "matching_development"
     db_user: str = "matching_reader"
     db_password: str = ""
+    match_method: MatchingMethod = MatchingMethod.HYBRID
     match_alpha: float = Field(default=0.5, ge=0.0, le=1.0)
     match_beta: float = Field(default=0.5, ge=0.0, le=1.0)
 
@@ -41,4 +44,3 @@ class Settings(BaseSettings):
 @lru_cache
 def get_settings() -> Settings:
     return Settings()
-

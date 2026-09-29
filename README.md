@@ -35,9 +35,15 @@ DB_PORT=3306
 DB_NAME=matching_development
 DB_USER=matching_reader
 DB_PASSWORD=sua_senha_local
+MATCH_METHOD=hybrid
 MATCH_ALPHA=0.5
 MATCH_BETA=0.5
 ```
+
+`MATCH_METHOD` aceita `cosine`, `levenshtein` ou `hybrid`. No modo híbrido,
+`MATCH_ALPHA` e `MATCH_BETA` definem os pesos das duas medidas e devem somar 1.
+O índice TF-IDF é ajustado somente sobre os itens candidatos ativos, sem incluir
+a consulta, e é reutilizado enquanto essa coleção e seus textos não mudarem.
 
 ## Execução
 
