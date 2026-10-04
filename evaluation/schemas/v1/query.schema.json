@@ -1,0 +1,65 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://busca-inteligente.local/schemas/v1/query.schema.json",
+  "title": "Consulta rotulada da avaliação",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "query_id",
+    "reference_id",
+    "description",
+    "has_match",
+    "expected_item_id",
+    "split",
+    "difficulty",
+    "noise_types",
+    "provenance_id"
+  ],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "query_id": {"type": "string", "pattern": "^q-[0-9]{3,}$"},
+    "reference_id": {"type": "string", "pattern": "^ref-[a-z0-9-]+$"},
+    "description": {"type": "string", "minLength": 10, "maxLength": 1000},
+    "has_match": {"type": "boolean"},
+    "expected_item_id": {"type": ["integer", "null"], "minimum": 1},
+    "split": {"enum": ["pilot_development", "development", "test"]},
+    "difficulty": {"enum": ["easy", "hard", "no_match"]},
+    "noise_types": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "enum": [
+          "abbreviation",
+          "brand_model",
+          "exact_attributes",
+          "generic",
+          "location_cue",
+          "omission",
+          "reordered",
+          "synonym",
+          "typo"
+        ]
+      }
+    },
+    "provenance_id": {"type": "string", "pattern": "^prov-[a-z0-9-]+$"}
+  },
+  "allOf": [
+    {
+      "if": {"properties": {"has_match": {"const": true}}},
+      "then": {
+        "properties": {
+          "expected_item_id": {"type": "integer"},
+          "difficulty": {"enum": ["easy", "hard"]}
+        }
+      },
+      "else": {
+        "properties": {
+          "expected_item_id": {"type": "null"},
+          "difficulty": {"const": "no_match"}
+        }
+      }
+    }
+  ]
+}

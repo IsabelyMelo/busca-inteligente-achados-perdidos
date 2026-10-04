@@ -1,0 +1,30 @@
+{
+  "dataset_id": "pilot-lost-found",
+  "dataset_version": "0.1.0",
+  "purpose": "Validar o schema e a variedade dos casos antes da geração da base completa.",
+  "split_policy": "Todos os registros pertencem a pilot_development; nenhum registro é teste final.",
+  "provenance_records": [
+    {
+      "provenance_id": "prov-pilot-manual-20260929",
+      "created_on": "2026-09-29",
+      "method": "Construção sintética caso a caso, sem consulta ao MySQL e sem chamada externa de geração.",
+      "tool": "OpenAI Codex desktop",
+      "model": "GPT-5; a variante exata não foi registrada no artefato da sessão.",
+      "prompt_summary": "Criar somente o piloto de E03 com schemas versionáveis, 30 a 50 consultas positivas e negativas variadas, proveniência e validação automática.",
+      "source_data": "Nenhum dado institucional ou pessoal foi copiado. Nomes e atributos são fictícios; Pessoa Exemplo e Alex são marcadores sintéticos.",
+      "corrections": [
+        "As consultas foram revisadas durante a autoria para manter uma única correspondência principal nos positivos.",
+        "Negativos foram diferenciados por atributos discriminativos mesmo quando compartilham classe ou local com candidatos.",
+        "Todas as referências e datas foram criadas exclusivamente para este piloto.",
+        "A autora validou o piloto em 2026-10-04 sem solicitar correções ou descartes adicionais."
+      ],
+      "discarded_cases": [],
+      "human_review": {
+        "status": "approved",
+        "reviewed_by": "autora",
+        "reviewed_on": "2026-10-04",
+        "scope": "Revisar todas as 10 consultas negativas e ao menos uma consulta de cada tipo de ruído antes do aceite de E03."
+      }
+    }
+  ]
+}

@@ -1,0 +1,33 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://busca-inteligente.local/schemas/v1/item.schema.json",
+  "title": "Item candidato da avaliação",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "item_id",
+    "reference_id",
+    "name",
+    "description",
+    "location",
+    "category",
+    "found_on",
+    "status",
+    "split",
+    "provenance_id"
+  ],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "item_id": {"type": "integer", "minimum": 1},
+    "reference_id": {"type": "string", "pattern": "^ref-[a-z0-9-]+$"},
+    "name": {"type": "string", "minLength": 1},
+    "description": {"type": "string", "minLength": 1},
+    "location": {"type": "string", "minLength": 1},
+    "category": {"type": "string", "minLength": 1},
+    "found_on": {"type": "string", "format": "date-time"},
+    "status": {"const": "ACTIVE"},
+    "split": {"enum": ["pilot_development", "development", "test"]},
+    "provenance_id": {"type": "string", "pattern": "^prov-[a-z0-9-]+$"}
+  }
+}
