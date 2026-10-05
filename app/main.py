@@ -45,6 +45,13 @@ def create_app(
         lifespan=lifespan,
     )
 
+    @application.middleware("http")
+    async def server_timing(request: Request, call_next):
+        started_at = perf_counter()
+        response = await call_next(request)
+        response.headers["X-Server-Time-Ms"] = f"{(perf_counter() - started_at) * 1000:.6f}"
+        return response
+
     @application.get("/health")
     def health() -> dict[str, str]:
         return {"status": "ok"}

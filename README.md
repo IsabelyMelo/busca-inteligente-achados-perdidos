@@ -10,6 +10,10 @@ API de recuperação e ranqueamento textual de itens encontrados, desenvolvida c
 - combinação linear e ordenação dos candidatos;
 - consulta somente de leitura aos itens com estado `ACTIVE`.
 
+O texto de recuperação concatena nome, descrição e local do item. A categoria
+permanece como metadado; a comparação controlada no piloto de desenvolvimento
+está registrada em `evaluation/README.md` e no resumo exportado pelo avaliador.
+
 ## Requisitos
 
 - Python 3.11 ou superior;

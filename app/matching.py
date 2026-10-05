@@ -10,9 +10,12 @@ from app.preprocessing import normalize_text
 from app.repository import ItemRepository
 
 
-def build_item_text(item: ItemCandidate) -> str:
+def build_item_text(item: ItemCandidate, *, include_category: bool = False) -> str:
     return normalize_text(
-        " ".join((item.name, item.description, item.location, item.category_name))
+        " ".join(
+            (item.name, item.description, item.location)
+            + ((item.category_name,) if include_category else ())
+        )
     )
 
 
@@ -23,6 +26,7 @@ class MatchingService:
         method: MatchingMethod | str = MatchingMethod.HYBRID,
         alpha: float = 0.5,
         beta: float = 0.5,
+        include_category: bool = False,
     ) -> None:
         if alpha < 0 or beta < 0 or abs((alpha + beta) - 1.0) > 1e-9:
             raise ValueError("alpha e beta devem ser não negativos e somar 1")
@@ -30,6 +34,7 @@ class MatchingService:
         self._method = MatchingMethod(method)
         self._alpha = alpha
         self._beta = beta
+        self._include_category = include_category
         self._index_lock = Lock()
         self._collection_signature: tuple[tuple[int, str], ...] | None = None
         self._vectorizer: TfidfVectorizer | None = None
@@ -85,7 +90,9 @@ class MatchingService:
         if not items:
             return []
 
-        item_texts = [build_item_text(item) for item in items]
+        item_texts = [
+            build_item_text(item, include_category=self._include_category) for item in items
+        ]
         signature = tuple(
             (item.id, item_text) for item, item_text in zip(items, item_texts, strict=True)
         )

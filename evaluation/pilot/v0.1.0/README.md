@@ -21,13 +21,7 @@ Na raiz do projeto:
 
 O comando verifica estrutura, tipos, limites da API, unicidade, referências positivas, coerência dos negativos, duplicatas, proveniência, cobertura mínima do piloto e ausência de `reference_id` em mais de um split. A validação estrutural não substitui a revisão semântica humana.
 
-## Revisão e uso
-
-A autora validou o piloto em 4 de outubro de 2026. A revisão humana está registrada como `approved` em `provenance.json`, abrangendo todas as consultas negativas e ao menos um caso de cada tipo de ruído. Ajustes futuros devem ser anotados em `corrections`; descartes devem ser preservados em `discarded_cases`, sem apagar o histórico.
-
-Este conjunto pode orientar schema e curadoria. Ele não deve ser usado para relatar resultado final, escolher pesos ou limiar, nem ser renomeado como teste.
-
-## Análise provisória de D03
+## Análise
 
 O piloto mantém `location` e `category` separados no schema para permitir ablação posterior. Há pistas de local tanto em positivos quanto em negativos difíceis, e pares da mesma classe diferem por atributos e local. A evidência qualitativa favorece manter `location` no texto de recuperação: o campo ajuda a distinguir candidatos próximos sem determinar sozinho a correspondência. `category` é amplo e se repete em candidatos concorrentes; incluí-lo no texto pode aumentar artificialmente a semelhança de todos os itens da mesma classe.
 
