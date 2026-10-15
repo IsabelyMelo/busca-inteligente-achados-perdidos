@@ -26,7 +26,7 @@ from app.matching import MatchingService
 from evaluation.validate import validate_dataset
 
 
-PILOT = Path(__file__).resolve().parent / "pilot" / "v0.1.0"
+PILOT = Path(__file__).resolve().parent / "pilot"
 WEIGHTS = (0.25, 0.5, 0.75)
 THRESHOLDS = (0.2, 0.4, 0.6)
 
@@ -168,8 +168,8 @@ def git_revision() -> dict:
 def run(dataset: Path, output: Path, split: str) -> dict:
     started_at = perf_counter()
     if split == "test":
-        raise ValueError("O conjunto de teste está reservado para E07")
-    paths = [dataset / name for name in ("items.jsonl", "queries.jsonl", "provenance.json")]
+        raise ValueError("O conjunto de teste não está disponível nesta execução")
+    paths = [dataset / name for name in ("items.jsonl", "queries.jsonl")]
     validation = validate_dataset(*paths, enforce_pilot_profile=(split == "pilot_development"))
     all_items = load_jsonl(paths[0])
     all_queries = load_jsonl(paths[1])
@@ -282,7 +282,7 @@ def run(dataset: Path, output: Path, split: str) -> dict:
 def main() -> None:
     parser = argparse.ArgumentParser(description="Avalia o piloto de desenvolvimento.")
     parser.add_argument("--dataset", type=Path, default=PILOT)
-    parser.add_argument("--output", type=Path, default=Path("evaluation/results/pilot-v0.1.0"))
+    parser.add_argument("--output", type=Path, default=Path("evaluation/pilot/results"))
     parser.add_argument("--split", choices=("pilot_development", "development"), default="pilot_development")
     arguments = parser.parse_args()
     result = run(arguments.dataset, arguments.output, arguments.split)

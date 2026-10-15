@@ -14,8 +14,7 @@
     "category",
     "found_on",
     "status",
-    "split",
-    "provenance_id"
+    "split"
   ],
   "properties": {
     "schema_version": {"const": "1.0"},
@@ -27,7 +26,6 @@
     "category": {"type": "string", "minLength": 1},
     "found_on": {"type": "string", "format": "date-time"},
     "status": {"const": "ACTIVE"},
-    "split": {"enum": ["pilot_development", "development", "test"]},
-    "provenance_id": {"type": "string", "pattern": "^prov-[a-z0-9-]+$"}
+    "split": {"enum": ["pilot_development", "development", "test"]}
   }
 }

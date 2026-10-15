@@ -13,8 +13,7 @@
     "expected_item_id",
     "split",
     "difficulty",
-    "noise_types",
-    "provenance_id"
+    "noise_types"
   ],
   "properties": {
     "schema_version": {"const": "1.0"},
@@ -42,8 +41,7 @@
           "typo"
         ]
       }
-    },
-    "provenance_id": {"type": "string", "pattern": "^prov-[a-z0-9-]+$"}
+    }
   },
   "allOf": [
     {

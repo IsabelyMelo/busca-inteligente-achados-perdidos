@@ -1,6 +1,6 @@
-# Dataset piloto v0.1.0
+# Dataset piloto
 
-Este piloto testa o contrato experimental antes da criação da base completa. Contém 20 itens candidatos `ACTIVE` e 40 consultas sintéticas: 30 positivas e 10 sem correspondência. Todos os registros usam `pilot_development`; não existe conjunto de teste final nesta versão.
+Este piloto testa o contrato experimental antes da criação da base completa. Contém 20 itens candidatos `ACTIVE` e 40 consultas sintéticas: 30 positivas e 10 sem correspondência. Todos os registros usam `pilot_development`; não existe conjunto de teste final neste diretório.
 
 Os casos cobrem marcas e modelos, atributos exatos, sinônimos, abreviações, erros de digitação, omissões, reordenação, descrições genéricas e pistas de local. Os negativos compartilham classes e, em alguns casos, locais com itens candidatos para evitar uma amostra composta apenas por rejeições triviais.
 
@@ -8,8 +8,10 @@ Os casos cobrem marcas e modelos, atributos exatos, sinônimos, abreviações, e
 
 - `items.jsonl`: candidatos compatíveis com os campos lidos por `ItemRepository`;
 - `queries.jsonl`: consultas rotuladas segundo D02 e H01;
-- `provenance.json`: origem, ferramenta, correções, descartes e estado da revisão humana;
-- `../../schemas/v1/`: contrato versionado dos registros.
+- `results/`: pares, latências e resumo da execução histórica do piloto;
+- `../schemas/v1/`: contrato dos registros.
+
+O resumo histórico mantém o caminho e os checksums das entradas da execução original; mover os arquivos não recalculou os resultados.
 
 ## Validação
 
@@ -19,7 +21,7 @@ Na raiz do projeto:
 .\.venv\Scripts\python.exe -m evaluation.validate
 ```
 
-O comando verifica estrutura, tipos, limites da API, unicidade, referências positivas, coerência dos negativos, duplicatas, proveniência, cobertura mínima do piloto e ausência de `reference_id` em mais de um split. A validação estrutural não substitui a revisão semântica humana.
+O comando verifica estrutura, tipos, limites da API, unicidade, referências positivas, coerência dos negativos, duplicatas, cobertura mínima do piloto e ausência de `reference_id` em mais de um split. A validação estrutural não substitui a revisão semântica humana.
 
 ## Análise
 

@@ -13,7 +13,7 @@ from evaluation.validate import (
 )
 
 
-PILOT_ROOT = Path(__file__).parents[1] / "evaluation" / "pilot" / "v0.1.0"
+PILOT_ROOT = Path(__file__).parents[1] / "evaluation" / "pilot"
 SCHEMA_ROOT = Path(__file__).parents[1] / "evaluation" / "schemas" / "v1"
 
 
@@ -23,35 +23,26 @@ def _read_jsonl(path: Path) -> list[dict]:
 
 def _patch_dataset(
     monkeypatch: pytest.MonkeyPatch,
-) -> tuple[list[dict], list[dict], dict]:
+) -> tuple[list[dict], list[dict]]:
     items = deepcopy(_read_jsonl(PILOT_ROOT / "items.jsonl"))
     queries = deepcopy(_read_jsonl(PILOT_ROOT / "queries.jsonl"))
-    provenance = json.loads(
-        (PILOT_ROOT / "provenance.json").read_text(encoding="utf-8")
-    )
 
     def load_jsonl(path: Path, label: str, errors: list[str]) -> list[dict]:
         del path, errors
         return items if label == "itens" else queries
 
     monkeypatch.setattr(validator_module, "_load_jsonl", load_jsonl)
-    monkeypatch.setattr(
-        validator_module,
-        "_load_provenance",
-        lambda path, errors: provenance,
-    )
-    return items, queries, provenance
+    return items, queries
 
 
 def _validate_patched_dataset() -> None:
-    validate_dataset(Path("items.jsonl"), Path("queries.jsonl"), Path("provenance.json"))
+    validate_dataset(Path("items.jsonl"), Path("queries.jsonl"))
 
 
 def test_pilot_dataset_is_valid_and_has_expected_distribution() -> None:
     report = validate_dataset(
         PILOT_ROOT / "items.jsonl",
         PILOT_ROOT / "queries.jsonl",
-        PILOT_ROOT / "provenance.json",
     )
 
     assert report.item_count == 20
@@ -60,7 +51,6 @@ def test_pilot_dataset_is_valid_and_has_expected_distribution() -> None:
     assert report.negative_count == 10
     assert report.difficulty_counts == {"easy": 20, "hard": 10, "no_match": 10}
     assert report.splits == ("pilot_development",)
-    assert report.human_review_statuses == ("approved",)
 
 
 @pytest.mark.parametrize(
@@ -84,7 +74,7 @@ def test_versioned_schema_is_parseable_and_matches_validator_fields(
 def test_validator_rejects_positive_with_unknown_expected_item(
     monkeypatch: pytest.MonkeyPatch,
 ) -> None:
-    _, queries, _ = _patch_dataset(monkeypatch)
+    _, queries = _patch_dataset(monkeypatch)
     queries[0]["expected_item_id"] = 999
 
     with pytest.raises(DatasetValidationError, match="expected_item_id não existe"):
@@ -94,7 +84,7 @@ def test_validator_rejects_positive_with_unknown_expected_item(
 def test_validator_rejects_negative_pointing_to_item(
     monkeypatch: pytest.MonkeyPatch,
 ) -> None:
-    _, queries, _ = _patch_dataset(monkeypatch)
+    _, queries = _patch_dataset(monkeypatch)
     negative = queries[-1]
     negative["reference_id"] = "ref-phone-samsung-a32"
     negative["expected_item_id"] = 1
@@ -109,7 +99,7 @@ def test_validator_rejects_negative_pointing_to_item(
 def test_validator_rejects_duplicate_query_id(
     monkeypatch: pytest.MonkeyPatch,
 ) -> None:
-    _, queries, _ = _patch_dataset(monkeypatch)
+    _, queries = _patch_dataset(monkeypatch)
     queries[1]["query_id"] = queries[0]["query_id"]
 
     with pytest.raises(DatasetValidationError, match="query_id duplicado"):
@@ -119,7 +109,7 @@ def test_validator_rejects_duplicate_query_id(
 def test_validator_rejects_reference_leakage_between_splits(
     monkeypatch: pytest.MonkeyPatch,
 ) -> None:
-    _, queries, _ = _patch_dataset(monkeypatch)
+    _, queries = _patch_dataset(monkeypatch)
     queries[1]["split"] = "development"
 
     with pytest.raises(DatasetValidationError) as captured:
@@ -129,20 +119,20 @@ def test_validator_rejects_reference_leakage_between_splits(
     assert any("reference_id presente em mais de um split" in error for error in captured.value.errors)
 
 
-def test_validator_rejects_undocumented_provenance(
+def test_validator_rejects_removed_provenance_field(
     monkeypatch: pytest.MonkeyPatch,
 ) -> None:
-    items, _, _ = _patch_dataset(monkeypatch)
+    items, _ = _patch_dataset(monkeypatch)
     items[0]["provenance_id"] = "prov-unknown"
 
-    with pytest.raises(DatasetValidationError, match="proveniência ausente"):
+    with pytest.raises(DatasetValidationError, match="campos desconhecidos: provenance_id"):
         _validate_patched_dataset()
 
 
 def test_validator_rejects_unknown_field(
     monkeypatch: pytest.MonkeyPatch,
 ) -> None:
-    _, queries, _ = _patch_dataset(monkeypatch)
+    _, queries = _patch_dataset(monkeypatch)
     queries[0]["score"] = 1.0
 
     with pytest.raises(DatasetValidationError, match="campos desconhecidos: score"):
