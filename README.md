@@ -18,7 +18,7 @@ está registrada em `evaluation/README.md` e no resumo exportado pelo avaliador.
 
 - Python 3.11 ou superior;
 - MySQL 8;
-- banco `matching_development` com as tabelas `item` e `category`.
+- schema sintético de desenvolvimento `matching_development` com as tabelas `item` e `category`.
 
 ## Configuração
 
@@ -48,6 +48,8 @@ MATCH_BETA=0.5
 `MATCH_ALPHA` e `MATCH_BETA` definem os pesos das duas medidas e devem somar 1.
 O índice TF-IDF é ajustado somente sobre os itens candidatos ativos, sem incluir
 a consulta, e é reutilizado enquanto essa coleção e seus textos não mudarem.
+
+`matching_development` foi criado para esta aplicação e é separado do banco institucional original. Em 15/10/2026, recebeu os 1.000 itens encontrados aprovados, com IDs 1001–2000 e estado `ACTIVE`. As consultas rotuladas permanecem nos JSONL de `evaluation/final/`; a divisão 700/300 existe apenas no manifesto e no avaliador. A carga e sua conferência estão descritas em `evaluation/final/README.md`.
 
 ## Execução
 

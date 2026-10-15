@@ -24,6 +24,7 @@ from app.domain import ItemCandidate
 from app.main import create_app
 from app.matching import MatchingService
 from evaluation.validate import validate_dataset
+from evaluation.finalize import FINAL, load_development
 
 
 PILOT = Path(__file__).resolve().parent / "pilot"
@@ -165,14 +166,19 @@ def git_revision() -> dict:
     return {"head": head, "working_tree_dirty": bool(status)}
 
 
-def run(dataset: Path, output: Path, split: str) -> dict:
-    started_at = perf_counter()
+def select_records(dataset: Path, split: str):
+    """Seleciona o catálogo e as consultas antes de qualquer cálculo de escores."""
     if split == "test":
         raise ValueError("O conjunto de teste não está disponível nesta execução")
     paths = [dataset / name for name in ("items.jsonl", "queries.jsonl")]
     validation = validate_dataset(*paths, enforce_pilot_profile=(split == "pilot_development"))
-    all_items = load_jsonl(paths[0])
-    all_queries = load_jsonl(paths[1])
+    if dataset.resolve() == FINAL.resolve():
+        if split != "development":
+            raise ValueError("A base final só permite desenvolvimento nesta etapa")
+        all_items, all_queries = load_development(dataset)
+    else:
+        all_items = load_jsonl(paths[0])
+        all_queries = load_jsonl(paths[1])
     items = [
         ItemCandidate(
             id=row["item_id"], name=row["name"], description=row["description"],
@@ -186,6 +192,13 @@ def run(dataset: Path, output: Path, split: str) -> dict:
         raise ValueError(f"Split {split} sem candidatos ou consultas")
     items.sort(key=lambda item: item.id)
     queries.sort(key=lambda query: query["query_id"])
+    return items, queries, validation
+
+
+def run(dataset: Path, output: Path, split: str) -> dict:
+    started_at = perf_counter()
+    items, queries, validation = select_records(dataset, split)
+    paths = [dataset / name for name in ("items.jsonl", "queries.jsonl")]
 
     # Comparação D03 pré-definida, sem grade: híbrido 0,5 e limiar 0,4.
     with_category = score_pairs(items, queries, include_category=True)
@@ -282,12 +295,15 @@ def run(dataset: Path, output: Path, split: str) -> dict:
 def main() -> None:
     parser = argparse.ArgumentParser(description="Avalia o piloto de desenvolvimento.")
     parser.add_argument("--dataset", type=Path, default=PILOT)
-    parser.add_argument("--output", type=Path, default=Path("evaluation/pilot/results"))
-    parser.add_argument("--split", choices=("pilot_development", "development"), default="pilot_development")
+    parser.add_argument("--output", type=Path, default=None)
+    parser.add_argument("--split", choices=("pilot_development", "development"), default=None)
     arguments = parser.parse_args()
-    result = run(arguments.dataset, arguments.output, arguments.split)
+    is_final = arguments.dataset.resolve() == FINAL.resolve()
+    split = arguments.split or ("development" if is_final else "pilot_development")
+    output = arguments.output or Path("evaluation/final/results" if is_final else "evaluation/pilot/results")
+    result = run(arguments.dataset, output, split)
     print(json.dumps({"field_choice": result["field_ablation"]["selected"],
-                      "selected": result["grid"]["selected"], "output": str(arguments.output)},
+                      "selected": result["grid"]["selected"], "output": str(output)},
                      ensure_ascii=False, indent=2))
 
 
