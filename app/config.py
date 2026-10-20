@@ -1,7 +1,7 @@
 from functools import lru_cache
 from urllib.parse import quote_plus
 
-from pydantic import Field, model_validator
+from pydantic import Field, SecretStr, model_validator
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 from app.domain import MatchingMethod
@@ -15,6 +15,9 @@ class Settings(BaseSettings):
     db_name: str = "matching_development"
     db_user: str = "matching_reader"
     db_password: str = ""
+    db_ssl_ca: str | None = None
+    service_api_key: SecretStr | None = None
+    rate_limit_per_minute: int = Field(default=60, ge=1, le=1000)
     match_method: MatchingMethod = MatchingMethod.HYBRID
     match_alpha: float = Field(default=0.5, ge=0.0, le=1.0)
     match_beta: float = Field(default=0.5, ge=0.0, le=1.0)
@@ -29,6 +32,8 @@ class Settings(BaseSettings):
     def validate_weights(self) -> "Settings":
         if abs((self.match_alpha + self.match_beta) - 1.0) > 1e-9:
             raise ValueError("MATCH_ALPHA + MATCH_BETA deve ser igual a 1")
+        if self.service_api_key is not None and len(self.service_api_key.get_secret_value()) < 32:
+            raise ValueError("SERVICE_API_KEY deve ter pelo menos 32 caracteres")
         return self
 
     @property
