@@ -23,7 +23,7 @@ def _read_jsonl(path):
 
 
 def test_dataset_is_structurally_valid():
-    assert {path.name for path in DATASET.iterdir()} == {
+    assert {path.name for path in DATASET.iterdir()} >= {
         "README.md", "items.jsonl", "queries.jsonl", "manifest.json", "load.sql", "verify_load.sql",
     }
     report = validate_dataset(

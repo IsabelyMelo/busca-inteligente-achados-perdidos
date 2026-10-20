@@ -1,0 +1,19 @@
+{
+  "recorded_at_utc": "2026-10-20T01:20:28.474677+00:00",
+  "global_attempt": 2,
+  "reason": "Primeira tentativa interrompida antes da primeira medição HTTP: TestClient bloqueado por restrição de sockets locais do sandbox Windows",
+  "method_changes": false,
+  "dataset_changes": false,
+  "configuration_changes": false,
+  "user_authorized_controlled_retry": true,
+  "first_execution_sha256": "e86f11e00399fc70bcd801d03b1eaf870426da64047abdcc9259b1c3964dfb79",
+  "pretest_config_sha256": "b0fcf136327fedd810e6b2688ceddf9856ef51b9442a65431e34e90c3486981f",
+  "original_runner_sha256": "e3d48d52d0f8fec9736e19ef04dbc9ae636ddb1c337af5291b43ec5f4020a43c",
+  "recovery_runner_sha256": "bc9fcd07affcbedc646ae279c2321281a9ebbe28f22a7df4e7198157ebc6d430",
+  "winner": {
+    "method": "hybrid",
+    "alpha": 0.5,
+    "beta": 0.5,
+    "threshold": 0.6
+  }
+}

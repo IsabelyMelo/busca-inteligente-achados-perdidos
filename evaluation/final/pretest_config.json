@@ -1,0 +1,113 @@
+{
+  "created_at_utc": "2026-10-20T00:29:08.401283+00:00",
+  "dataset_version": "1.0.0",
+  "dataset_sha256": {
+    "items.jsonl": "973651d6b3a9447e567cd7ec611c424799af64cf6a5c4030d251ff1542b0fa16",
+    "queries.jsonl": "b699348228126ecfc7623193fcd05a51d295e91af4c3e9b75de4c46716d72dfb"
+  },
+  "dataset_manifest_sha256": "80a03f23838af2b30f525c7dfabb39ab80445b23cf67e6c24fad6a9e0ade69fb",
+  "sql_sha256": {
+    "load.sql": "7958c4de0cb4571f63aac0e4e5b664a95859238417d55073da6432782128ee61",
+    "verify_load.sql": "f619e67ca0a35032eb2631798b6f47d38ff2c32ed33eec900db712706b29107a"
+  },
+  "development_sha256": {
+    "summary.json": "cd31ad8d18aa91703c99b03628ed1a0491b6162ec66caf791ff3df2a4892ceb7",
+    "pairs.csv": "322f790ed617ed0c20fa3f8095e04bf50af86e199648b6f7783c3a27a3d6dc9a",
+    "latency.csv": "07e06806730fc746f7ffd4c8cfb9c183c05ea42fda5cfbd37fa1c692b72745d3"
+  },
+  "git": {
+    "head": "5efc3aa4a8d60db81bd21f21015883e6f8b0e34d",
+    "working_tree_dirty": true
+  },
+  "code_sha256": {
+    "evaluation/evaluate.py": "6baa4a077514211d4341db1dab0f2dc554c57c402217af5d784f98a86587d024",
+    "evaluation/final_experiment.py": "e3d48d52d0f8fec9736e19ef04dbc9ae636ddb1c337af5291b43ec5f4020a43c",
+    "evaluation/finalize.py": "1e9c7688ff8871f218d5b2ba17fd1f764eda58951a064abdbcd14963368c832f",
+    "evaluation/validate.py": "d965ad9d75c6938fbfb812c834b9704bfe95e1ed05dd30b14bf901f8b28a39df",
+    "app/matching.py": "1ab3f7dd95fa6b13264a6ed3d91a9ea79e567ea6c84d5773c341a297273b2c2a",
+    "app/preprocessing.py": "a0731cb217890e6ee038e864c0e79369bb2665082d534edd1cd4c0d0b9dc1356",
+    "app/main.py": "9a8eba8702e460e8b19be7a79de18d354754e601b6fa0362ec74386ff6edcda8",
+    "app/config.py": "3d2c93f453173ebb18a551ff0cb7447ad67995bf574b7860ff691253b8bb44f2"
+  },
+  "environment": {
+    "python": "3.12.14 (main, Aug 25 2026, 14:01:42) [MSC v.1944 64 bit (AMD64)]",
+    "platform": "Windows-11-10.0.26300-SP0",
+    "processor": "Intel64 Family 6 Model 151 Stepping 2, GenuineIntel",
+    "memory_bytes": 8393842688,
+    "packages": {
+      "fastapi": "0.141.1",
+      "httpx": "0.28.1",
+      "numpy": "2.5.2",
+      "rapidfuzz": "3.14.6",
+      "scikit-learn": "1.9.0",
+      "pydantic": "2.13.5",
+      "pydantic-settings": "2.15.0"
+    }
+  },
+  "fields": [
+    "name",
+    "description",
+    "location"
+  ],
+  "stopwords": [
+    "a",
+    "as",
+    "de",
+    "do",
+    "dos",
+    "e",
+    "em",
+    "eu",
+    "meu",
+    "minha",
+    "o",
+    "os",
+    "perdi",
+    "perdida",
+    "perdido",
+    "um",
+    "uma"
+  ],
+  "field_selection": "without_category",
+  "field_rule": "Hit@1, MRR, F1; empate sem categoria; híbrido 0,5 e limiar 0,4",
+  "grid": {
+    "weights": [
+      0.25,
+      0.5,
+      0.75
+    ],
+    "thresholds": [
+      0.2,
+      0.4,
+      0.6
+    ],
+    "selection_rule": "max F1, precision, threshold, method order cosine/levenshtein/hybrid, alpha"
+  },
+  "per_method": {
+    "cosine": {
+      "method": "cosine",
+      "alpha": 1.0,
+      "beta": 0.0,
+      "threshold": 0.6
+    },
+    "levenshtein": {
+      "method": "levenshtein",
+      "alpha": 0.0,
+      "beta": 1.0,
+      "threshold": 0.6
+    },
+    "hybrid": {
+      "method": "hybrid",
+      "alpha": 0.5,
+      "beta": 0.5,
+      "threshold": 0.6
+    }
+  },
+  "winner": {
+    "method": "hybrid",
+    "alpha": 0.5,
+    "beta": 0.5,
+    "threshold": 0.6
+  },
+  "test_execution_count_before_freeze": 0
+}

@@ -14,6 +14,8 @@ from app.schemas import MatchItem, SearchRequest, SearchResponse
 def create_app(
     repository: ItemRepository | None = None,
     settings: Settings | None = None,
+    *,
+    include_category: bool = False,
 ) -> FastAPI:
     selected_settings = settings or get_settings()
 
@@ -34,6 +36,7 @@ def create_app(
             method=selected_settings.match_method,
             alpha=selected_settings.match_alpha,
             beta=selected_settings.match_beta,
+            include_category=include_category,
         )
         yield
         if engine is not None:

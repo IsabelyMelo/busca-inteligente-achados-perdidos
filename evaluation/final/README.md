@@ -17,11 +17,11 @@ Para validar a estrutura, execute na raiz do projeto:
 
 ## Aceite e divisão
 
-Em 14/10/2026, a autora aprovou os `item_id` 1001–2000 e os `query_id` `q-000001`–`q-001200`: 1.000 itens e 1.200 consultas, sem correções ou descartes comunicados na revisão final. A aprovação humana está registrada na E05 do roadmap da monografia. O validador confere estrutura e vínculos, mas não substitui essa revisão.
+Foram revisados os `item_id` 1001–2000 e os `query_id` `q-000001`–`q-001200`: 1.000 itens e 1.200 consultas, sem correções ou descartes comunicados na revisão final. O validador confere estrutura e vínculos, mas não substitui essa revisão humana.
 
 A versão experimental `1.0.0` está identificada em `manifest.json`. Somente o campo `split` mudou nos dois JSONL aprovados. Antes da divisão, seus SHA-256 eram `2c1f7c92a12f9ed903ce7933b001690d6bf923ff3824865d8602f6931d722e8d` (itens) e `5818b5933d01cea07ea83cadd99d10f567b5a12dd9f90c93a1af5ba4250b55c3` (consultas).
 
-O comando de divisão, executado uma vez sobre esses arquivos aprovados, foi:
+O comando de divisão, executado uma vez sobre esses arquivos, foi:
 
 ```powershell
 .\.venv\Scripts\python.exe -m evaluation.finalize --write
@@ -35,7 +35,7 @@ Para conferir novamente os arquivos congelados, sem modificá-los:
 .\.venv\Scripts\python.exe -m evaluation.finalize
 ```
 
-O avaliador confere o manifesto e seleciona apenas os candidatos e consultas de desenvolvimento antes de pontuar. O teste permanece bloqueado no avaliador até E07. Qualquer alteração futura dos JSONL exige nova versão, revisão e novos checksums; não repita `--write` nos arquivos já divididos.
+O avaliador confere o manifesto e seleciona apenas os candidatos e consultas do split solicitado antes de pontuar. O comando padrão usa desenvolvimento; a avaliação final requer a configuração pré-teste congelada. Qualquer alteração futura dos JSONL exige nova versão, revisão e novos checksums; não repita `--write` nos arquivos já divididos.
 
 ## Carga MySQL em `matching_development`
 

@@ -127,19 +127,26 @@ def write_split(dataset: Path) -> None:
     (dataset / "manifest.json").write_text(json.dumps(result, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
 
 
-def load_development(dataset: Path = FINAL) -> tuple[list[dict], list[dict]]:
-    """Carrega apenas candidatos e consultas de desenvolvimento; teste fica fechado até E07."""
+def load_split(dataset: Path, split: str) -> tuple[list[dict], list[dict]]:
+    """Confere o manifesto congelado e carrega somente os IDs do split pedido."""
+    if split not in ("development", "test"):
+        raise ValueError(f"Split final desconhecido: {split}")
     expected = manifest(dataset)
     saved = json.loads((dataset / "manifest.json").read_text(encoding="utf-8"))
     if expected != saved:
         raise ValueError("Manifesto diverge dos JSONL congelados")
-    items = [row for row in read_jsonl(dataset / "items.jsonl") if row["split"] == "development"]
-    queries = [row for row in read_jsonl(dataset / "queries.jsonl") if row["split"] == "development"]
-    if sorted(row["item_id"] for row in items) != saved["groups"]["development"]["item_ids"]:
-        raise ValueError("IDs de desenvolvimento divergem do manifesto")
-    if sorted(row["query_id"] for row in queries) != saved["groups"]["development"]["query_ids"]:
-        raise ValueError("Consultas de desenvolvimento divergem do manifesto")
+    items = [row for row in read_jsonl(dataset / "items.jsonl") if row["split"] == split]
+    queries = [row for row in read_jsonl(dataset / "queries.jsonl") if row["split"] == split]
+    if sorted(row["item_id"] for row in items) != saved["groups"][split]["item_ids"]:
+        raise ValueError(f"IDs de {split} divergem do manifesto")
+    if sorted(row["query_id"] for row in queries) != saved["groups"][split]["query_ids"]:
+        raise ValueError(f"Consultas de {split} divergem do manifesto")
     return items, queries
+
+
+def load_development(dataset: Path = FINAL) -> tuple[list[dict], list[dict]]:
+    """Carrega apenas desenvolvimento; o avaliador mantém o teste fechado por padrão."""
+    return load_split(dataset, "development")
 
 
 def main() -> int:

@@ -1,0 +1,179 @@
+{
+  "completed_at_utc": "2026-10-20T01:20:28.350402+00:00",
+  "execution": "single final test; no calibration on test",
+  "split": "test",
+  "dataset_version": "1.0.0",
+  "candidate_count": 300,
+  "query_count": 360,
+  "validation": {
+    "items": 1000,
+    "queries": 1200
+  },
+  "pretest_config_sha256": "b0fcf136327fedd810e6b2688ceddf9856ef51b9442a65431e34e90c3486981f",
+  "dataset_manifest_sha256": "80a03f23838af2b30f525c7dfabb39ab80445b23cf67e6c24fad6a9e0ade69fb",
+  "git": {
+    "head": "5efc3aa4a8d60db81bd21f21015883e6f8b0e34d",
+    "working_tree_dirty": true
+  },
+  "environment": {
+    "python": "3.12.14 (main, Aug 25 2026, 14:01:42) [MSC v.1944 64 bit (AMD64)]",
+    "platform": "Windows-11-10.0.26300-SP0",
+    "processor": "Intel64 Family 6 Model 151 Stepping 2, GenuineIntel",
+    "memory_bytes": 8393842688,
+    "packages": {
+      "fastapi": "0.141.1",
+      "httpx": "0.28.1",
+      "numpy": "2.5.2",
+      "rapidfuzz": "3.14.6",
+      "scikit-learn": "1.9.0",
+      "pydantic": "2.13.5",
+      "pydantic-settings": "2.15.0"
+    }
+  },
+  "config": {
+    "fields": [
+      "name",
+      "description",
+      "location"
+    ],
+    "stopwords": [
+      "a",
+      "as",
+      "de",
+      "do",
+      "dos",
+      "e",
+      "em",
+      "eu",
+      "meu",
+      "minha",
+      "o",
+      "os",
+      "perdi",
+      "perdida",
+      "perdido",
+      "um",
+      "uma"
+    ],
+    "per_method": {
+      "cosine": {
+        "method": "cosine",
+        "alpha": 1.0,
+        "beta": 0.0,
+        "threshold": 0.6
+      },
+      "levenshtein": {
+        "method": "levenshtein",
+        "alpha": 0.0,
+        "beta": 1.0,
+        "threshold": 0.6
+      },
+      "hybrid": {
+        "method": "hybrid",
+        "alpha": 0.5,
+        "beta": 0.5,
+        "threshold": 0.6
+      }
+    },
+    "winner": {
+      "method": "hybrid",
+      "alpha": 0.5,
+      "beta": 0.5,
+      "threshold": 0.6
+    }
+  },
+  "metrics": {
+    "cosine": {
+      "pairs": 108000,
+      "positive_pairs": 300,
+      "negative_pairs": 107700,
+      "queries": 360,
+      "positive_queries": 300,
+      "confusion_matrix": {
+        "tp": 239,
+        "fp": 220,
+        "tn": 107480,
+        "fn": 61
+      },
+      "precision": 0.5206971677559913,
+      "recall": 0.7966666666666666,
+      "f1": 0.6297760210803689,
+      "hit_at_1": 0.83,
+      "hit_at_3": 0.9,
+      "hit_at_5": 0.95,
+      "mrr": 0.8796810153448085
+    },
+    "levenshtein": {
+      "pairs": 108000,
+      "positive_pairs": 300,
+      "negative_pairs": 107700,
+      "queries": 360,
+      "positive_queries": 300,
+      "confusion_matrix": {
+        "tp": 129,
+        "fp": 199,
+        "tn": 107501,
+        "fn": 171
+      },
+      "precision": 0.3932926829268293,
+      "recall": 0.43,
+      "f1": 0.4108280254777071,
+      "hit_at_1": 0.66,
+      "hit_at_3": 0.7733333333333333,
+      "hit_at_5": 0.82,
+      "mrr": 0.7375411372091987
+    },
+    "hybrid": {
+      "pairs": 108000,
+      "positive_pairs": 300,
+      "negative_pairs": 107700,
+      "queries": 360,
+      "positive_queries": 300,
+      "confusion_matrix": {
+        "tp": 200,
+        "fp": 23,
+        "tn": 107677,
+        "fn": 100
+      },
+      "precision": 0.8968609865470852,
+      "recall": 0.6666666666666666,
+      "f1": 0.7648183556405354,
+      "hit_at_1": 0.8566666666666667,
+      "hit_at_3": 0.9466666666666667,
+      "hit_at_5": 0.9666666666666667,
+      "mrr": 0.9053014208014208
+    }
+  },
+  "latency": {
+    "measurement": "server-side HTTP middleware, request to response object; independent TestClient calls",
+    "top_k": 5,
+    "statistics": {
+      "cosine": {
+        "count": 360,
+        "mean_ms": 6.202454166666667,
+        "median_ms": 6.0531500000000005,
+        "stddev_ms": 0.8851933267712859,
+        "p95_ms": 7.4855800000000015
+      },
+      "levenshtein": {
+        "count": 360,
+        "mean_ms": 6.005193055555556,
+        "median_ms": 5.9552,
+        "stddev_ms": 0.5991236634374105,
+        "p95_ms": 6.96095
+      },
+      "hybrid": {
+        "count": 360,
+        "mean_ms": 6.0545527777777775,
+        "median_ms": 5.99355,
+        "stddev_ms": 0.684990823777188,
+        "p95_ms": 6.918715000000001
+      }
+    }
+  },
+  "output_sha256": {
+    "execution.json": "e69895dd1459117aa8ca0d200bf45659b9f8fd0db5147bd6bc9531df1810b0bd",
+    "pairs.csv": "5401e5179e52a7087792bb25917da45eb84136619ce6b255f707153e4d8520cd",
+    "latency.csv": "4aa28dfa7d9d458ef200ff5cfdbbaf5f142cd8c8b0aee887071c38628bb9c02e"
+  }
+}

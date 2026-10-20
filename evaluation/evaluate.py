@@ -24,7 +24,7 @@ from app.domain import ItemCandidate
 from app.main import create_app
 from app.matching import MatchingService
 from evaluation.validate import validate_dataset
-from evaluation.finalize import FINAL, load_development
+from evaluation.finalize import FINAL, load_split
 
 
 PILOT = Path(__file__).resolve().parent / "pilot"
@@ -166,16 +166,16 @@ def git_revision() -> dict:
     return {"head": head, "working_tree_dirty": bool(status)}
 
 
-def select_records(dataset: Path, split: str):
+def select_records(dataset: Path, split: str, *, allow_test: bool = False):
     """Seleciona o catálogo e as consultas antes de qualquer cálculo de escores."""
-    if split == "test":
+    if split == "test" and not allow_test:
         raise ValueError("O conjunto de teste não está disponível nesta execução")
     paths = [dataset / name for name in ("items.jsonl", "queries.jsonl")]
     validation = validate_dataset(*paths, enforce_pilot_profile=(split == "pilot_development"))
     if dataset.resolve() == FINAL.resolve():
-        if split != "development":
-            raise ValueError("A base final só permite desenvolvimento nesta etapa")
-        all_items, all_queries = load_development(dataset)
+        if split not in ("development", "test"):
+            raise ValueError("Split inválido para a base final")
+        all_items, all_queries = load_split(dataset, split)
     else:
         all_items = load_jsonl(paths[0])
         all_queries = load_jsonl(paths[1])
