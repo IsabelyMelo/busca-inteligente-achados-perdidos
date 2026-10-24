@@ -90,7 +90,15 @@ chave ou a senha no Git.
 .\.venv\Scripts\python.exe -m uvicorn app.main:app --reload
 ```
 
-A documentação interativa fica disponível em `http://127.0.0.1:8000/docs`.
+A documentação interativa fica disponível em `http://127.0.0.1:8000/docs`
+no ambiente local e em
+`https://busca-inteligente-achados-perdidos.onrender.com/docs` no Render.
+No Swagger, clique em **Authorize** e informe a mesma chave configurada em
+`SERVICE_API_KEY` no Render; depois, abra `POST /matches/search`, clique em
+**Try it out**, preencha `description` e `top_k` e execute. A chave é enviada
+no cabeçalho `X-Service-Key`; a página de documentação é pública, mas a busca
+continua exigindo a chave. Não coloque a chave no corpo da requisição, em
+capturas de tela ou no repositório.
 `GET /health` responde `{"status":"ok"}` sem consultar o banco. O Render
 aceita esse caminho como health check HTTP; ele verifica a resposta do processo,
 não a disponibilidade da busca. Não há `/ready`, pois a hospedagem não exige
@@ -242,11 +250,48 @@ e a retomada após hibernação com os 1.000 itens consultados via MySQL; regist
 obtida com `TestClient` local e catálogo em memória, portanto não representa
 essa busca remota.
 
+Na implantação de 23/10/2026, o painel **Deploys** do Render confirma o
+primeiro deploy `Live` da revisão `332faf9` (commit completo
+`332faf96266807fef9bef380e17340cd96d2c087`), na região Ohio (US East).
+A API respondeu por HTTPS em
+`https://busca-inteligente-achados-perdidos.onrender.com`. A autora mediu uma
+busca positiva sobre o MySQL publicado: HTTP 200, item 1001 em primeiro lugar,
+`processing_time_ms=1774,57` e 2.091,3 ms de ponta a ponta no PowerShell. Uma
+consulta rotulada sem correspondência retornou cinco sugestões, como prevê o
+contrato atual: `processing_time_ms=566,282` e 14.185,4 ms de ponta a ponta.
+Esses valores são uma amostra por consulta, não percentis nem tempos do
+experimento local. A diferença entre o tempo da segunda resposta no cliente e
+na API ainda não foi atribuída a hibernação ou a outra causa.
+
+Depois de mais de 20 minutos sem acesso público, uma busca positiva idêntica
+levou 54.357,7 ms no PowerShell, dos quais 1.658,349 ms foram medidos pela
+API no processamento da busca. Uma repetição imediata levou 547,1 ms no
+PowerShell e 355,001 ms na API. Ambas retornaram HTTP 200, cinco sugestões e
+o item 1001 em primeiro lugar. A primeira demora é compatível com a retomada
+do Render Free após ociosidade. Os logs da autora mostram o encerramento da
+instância às 23:09, nova inicialização às 23:47 e as duas buscas logo após a
+retomada; os health checks internos pararam nesse intervalo. Assim, a primeira
+amostra inclui o despertar da instância, enquanto `processing_time_ms` começa
+somente quando a busca chega à API. São duas amostras e não representam
+percentis de latência.
+
+Na mesma implantação, a configuração não sensível conferida no painel Render
+foi `DB_NAME=matching_development`, `DB_USER=matching_reader`,
+`DB_REQUIRE_TLS=true`, `DB_SSL_CA=/etc/secrets/aiven-ca.pem` e
+`RATE_LIMIT_PER_MINUTE=60`, com o Secret File `aiven-ca.pem`. A autora também
+confirmou `MATCH_METHOD=hybrid`, `MATCH_ALPHA=0.5` e `MATCH_BETA=0.5`. O
+contexto TLS criado em `app/config.py` verifica o CA e a identidade do host;
+as buscas públicas bem-sucedidas confirmam que essa configuração conseguiu
+consultar a Aiven. O teste de CA inválido foi local, sem substituir o certificado do
+serviço publicado.
+
 Para monitorar, confira o painel do Render (deploys, logs e franquias) e o
 painel da Aiven (estado, conexões, armazenamento e aviso de inatividade).
 Mantenha os logs sem corpo da consulta, credencial ou senha. Em falha de
 implantação, use o rollback do Render para uma das duas revisões anteriores
-disponíveis no plano Free, confira as variáveis e o Secret File e repita
+disponíveis no plano Free, quando já houver um deploy anterior bem-sucedido.
+No primeiro deploy, ainda não existia alvo de rollback. Confira as
+variáveis e o Secret File e repita
 `/health` e a busca real. Preserve o schema sintético; se ele precisar ser
 recriado, use um schema remoto novo e vazio e reconfira `verify_load.sql`
 antes de redirecionar a API. Não restaure dados do schema local por sobrescrita.

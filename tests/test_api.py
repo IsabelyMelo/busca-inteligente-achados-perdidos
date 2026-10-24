@@ -114,6 +114,28 @@ def test_search_denies_missing_and_invalid_credentials() -> None:
     assert health.json() == {"status": "ok"}
 
 
+def test_swagger_documents_service_key_without_exposing_its_value() -> None:
+    application = create_app(repository=FakeItemRepository([]), settings=make_settings())
+
+    with TestClient(application) as client:
+        docs = client.get("/docs")
+        openapi = client.get("/openapi.json")
+
+    assert docs.status_code == 200
+    assert openapi.status_code == 200
+    schema = openapi.json()
+    schemes = schema["components"]["securitySchemes"]
+    assert schemes["APIKeyHeader"] == {
+        "type": "apiKey",
+        "in": "header",
+        "name": "X-Service-Key",
+    }
+    assert schema["paths"]["/matches/search"]["post"]["security"] == [
+        {"APIKeyHeader": []}
+    ]
+    assert TEST_KEY not in openapi.text
+
+
 def test_rate_limit_and_audit_omit_description_and_key(caplog) -> None:
     application = create_app(
         repository=FakeItemRepository([]),

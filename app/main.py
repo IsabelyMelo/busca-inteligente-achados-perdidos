@@ -8,9 +8,10 @@ from math import ceil
 from threading import Lock
 from time import perf_counter
 
-from fastapi import FastAPI, HTTPException, Request
+from fastapi import FastAPI, HTTPException, Request, Security
 from fastapi.exceptions import RequestValidationError
 from fastapi.responses import JSONResponse
+from fastapi.security import APIKeyHeader
 from sqlalchemy import create_engine
 
 from app.config import Settings, get_settings
@@ -19,6 +20,7 @@ from app.repository import ItemRepository, MySQLItemRepository
 from app.schemas import MatchItem, SearchRequest, SearchResponse
 
 audit_logger = logging.getLogger("app.audit")
+service_key_header = APIKeyHeader(name="X-Service-Key", auto_error=False)
 audit_logger.setLevel(logging.INFO)
 if not audit_logger.handlers:
     audit_handler = logging.StreamHandler()
@@ -136,7 +138,11 @@ def create_app(
     def health() -> dict[str, str]:
         return {"status": "ok"}
 
-    @application.post("/matches/search", response_model=SearchResponse)
+    @application.post(
+        "/matches/search",
+        response_model=SearchResponse,
+        dependencies=[Security(service_key_header)],
+    )
     def search(payload: SearchRequest, request: Request) -> SearchResponse:
         started_at = perf_counter()
         service: MatchingService = request.app.state.matching_service
