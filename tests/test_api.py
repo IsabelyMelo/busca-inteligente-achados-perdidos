@@ -1,6 +1,8 @@
 import logging
+import ssl
 from datetime import datetime
 
+import certifi
 import pytest
 from fastapi.testclient import TestClient
 from pydantic import SecretStr
@@ -194,12 +196,26 @@ def test_aiven_ca_enables_certificate_and_hostname_verification(monkeypatch) -> 
         return FakeEngine()
 
     monkeypatch.setattr("app.main.create_engine", fake_create_engine)
-    application = create_app(settings=make_settings(db_ssl_ca="C:/secret/ca.pem"))
+    application = create_app(
+        settings=make_settings(db_ssl_ca=certifi.where(), db_require_tls=True)
+    )
     with TestClient(application) as client:
         assert client.get("/health").status_code == 200
 
-    assert captured["connect_args"] == {
-        "ssl_ca": "C:/secret/ca.pem",
-        "ssl_verify_cert": True,
-        "ssl_verify_identity": True,
-    }
+    context = captured["connect_args"]["ssl"]
+    assert isinstance(context, ssl.SSLContext)
+    assert context.verify_mode == ssl.CERT_REQUIRED
+    assert context.check_hostname is True
+    assert context.get_ca_certs()
+
+
+def test_invalid_ca_prevents_startup(monkeypatch, tmp_path) -> None:
+    invalid_ca = tmp_path / "invalid-ca.pem"
+    invalid_ca.write_text("invalid certificate", encoding="utf-8")
+    application = create_app(
+        settings=make_settings(db_ssl_ca=str(invalid_ca), db_require_tls=True)
+    )
+
+    with pytest.raises(ssl.SSLError):
+        with TestClient(application):
+            pass

@@ -1,4 +1,5 @@
 from functools import lru_cache
+import ssl
 from urllib.parse import quote_plus
 
 from pydantic import Field, SecretStr, model_validator
@@ -16,6 +17,7 @@ class Settings(BaseSettings):
     db_user: str = "matching_reader"
     db_password: str = ""
     db_ssl_ca: str | None = None
+    db_require_tls: bool = False
     service_api_key: SecretStr | None = None
     rate_limit_per_minute: int = Field(default=60, ge=1, le=1000)
     match_method: MatchingMethod = MatchingMethod.HYBRID
@@ -34,7 +36,17 @@ class Settings(BaseSettings):
             raise ValueError("MATCH_ALPHA + MATCH_BETA deve ser igual a 1")
         if self.service_api_key is not None and len(self.service_api_key.get_secret_value()) < 32:
             raise ValueError("SERVICE_API_KEY deve ter pelo menos 32 caracteres")
+        if self.db_require_tls and not self.db_ssl_ca:
+            raise ValueError("DB_SSL_CA deve ser configurado quando DB_REQUIRE_TLS=true")
         return self
+
+    @property
+    def database_connect_args(self) -> dict:
+        if not self.db_ssl_ca:
+            return {}
+        # create_default_context confere o arquivo CA antes da primeira busca.
+        # PyMySQL usa este contexto para validar cadeia e identidade do host.
+        return {"ssl": ssl.create_default_context(cafile=self.db_ssl_ca)}
 
     @property
     def database_url(self) -> str:

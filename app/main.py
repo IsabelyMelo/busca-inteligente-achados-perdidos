@@ -61,18 +61,11 @@ def create_app(
         engine = None
         selected_repository = repository
         if selected_repository is None:
-            connect_args = {}
-            if selected_settings.db_ssl_ca:
-                connect_args = {
-                    "ssl_ca": selected_settings.db_ssl_ca,
-                    "ssl_verify_cert": True,
-                    "ssl_verify_identity": True,
-                }
             engine = create_engine(
                 selected_settings.database_url,
                 pool_pre_ping=True,
                 pool_recycle=1800,
-                connect_args=connect_args,
+                connect_args=selected_settings.database_connect_args,
             )
             selected_repository = MySQLItemRepository(engine)
 

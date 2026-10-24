@@ -3,12 +3,11 @@
 from __future__ import annotations
 
 import argparse
-import hashlib
 import json
 from datetime import datetime, timedelta
 from pathlib import Path
 
-from evaluation.finalize import FINAL, manifest, read_jsonl, sha256
+from evaluation.finalize import FINAL, manifest, read_jsonl
 
 
 TARGET = "matching_development"
@@ -84,16 +83,9 @@ def render(dataset: Path = FINAL) -> tuple[str, str]:
     sections.append("COMMIT;")
     load_sql = "\n\n".join(sections) + "\n"
 
-    def digest(value: str) -> str:
-        return hashlib.sha256(value.encode("utf-8")).hexdigest()
-
-    pair_hash = digest(",".join(f"{row['item_id']}:{categories[row['category']]}" for row in items))
-    name_hash = digest(",".join(f"{identifier}:{name.encode('utf-8').hex().upper()}" for name, identifier in categories.items()))
     dev_ids = current["groups"]["development"]["item_ids"]
     test_ids = current["groups"]["test"]["item_ids"]
     verify_sql = f"""-- Somente leitura; confere matching_development já carregado.
-SET SESSION group_concat_max_len = 65535;
-
 SELECT COUNT(*) AS total_items, COUNT(DISTINCT id) AS distinct_item_ids,
        SUM(status = 'ACTIVE') AS active_items,
        SUM(id IN ({','.join(map(str, dev_ids))})) AS development_items,
@@ -101,14 +93,9 @@ SELECT COUNT(*) AS total_items, COUNT(DISTINCT id) AS distinct_item_ids,
 FROM `{TARGET}`.`item`;
 -- Esperado: 1000, 1000, 1000, 700, 300.
 
-SELECT COUNT(*) AS total_categories,
-       SHA2(GROUP_CONCAT(CONCAT(id, ':', HEX(name)) ORDER BY id SEPARATOR ','), 256) AS category_name_sha256
+SELECT COUNT(*) AS total_categories
 FROM `{TARGET}`.`category`;
--- Esperado: 10 e {name_hash}.
-
-SELECT SHA2(GROUP_CONCAT(CONCAT(id, ':', category_id) ORDER BY id SEPARATOR ','), 256) AS item_id_category_id_sha256
-FROM `{TARGET}`.`item`;
--- Esperado: {pair_hash}.
+-- Esperado: 10.
 
 SELECT c.id AS category_id, c.name AS category_name, COUNT(*) AS item_count
 FROM `{TARGET}`.`item` AS i

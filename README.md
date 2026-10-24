@@ -20,6 +20,9 @@ está registrada em `evaluation/README.md` e no resumo exportado pelo avaliador.
 - MySQL 8;
 - schema sintético de desenvolvimento `matching_development` com as tabelas `item` e `category`.
 
+O arquivo `.python-version` seleciona Python 3.12 no Render. A avaliação final
+foi executada com Python 3.12.14; o Render usa o patch mais recente da série 3.12.
+
 ## Configuração
 
 Crie e ative um ambiente virtual. Em seguida, instale o projeto com as dependências de desenvolvimento:
@@ -71,11 +74,13 @@ item necessários para apresentação; publique somente a base sintética aprova
 
 Para a opção Render Free + Aiven MySQL Free, configure as mesmas variáveis no
 Render e monte o certificado CA da Aiven como arquivo secreto. Defina
-`DB_SSL_CA` com o caminho absoluto desse arquivo: a conexão PyMySQL passa a
-exigir certificado válido e identidade do host. Em produção, use um usuário
+`DB_SSL_CA=/etc/secrets/aiven-ca.pem` e `DB_REQUIRE_TLS=true`: a conexão
+PyMySQL passa a exigir certificado válido e identidade do host. O serviço
+recusa iniciar se o CA faltar ou for inválido. Em produção, use um usuário
 MySQL com `SELECT` restrito às tabelas necessárias; a aplicação não executa
-escritas. A conexão TLS real, privilégios e CA inválida devem ser validados em
-E09 antes da publicação. Nunca inclua o CA, a chave ou a senha no Git.
+escritas. A conexão TLS real e os privilégios precisam ser conferidos no
+servidor remoto antes de anunciar a disponibilidade. Nunca inclua o CA, a
+chave ou a senha no Git.
 
 `matching_development` foi criado para esta aplicação e é separado do banco institucional original. Em 15/10/2026, recebeu os 1.000 itens encontrados aprovados, com IDs 1001–2000 e estado `ACTIVE`. As consultas rotuladas permanecem nos JSONL de `evaluation/final/`; a divisão 700/300 existe apenas no manifesto e no avaliador. A carga e sua conferência estão descritas em `evaluation/final/README.md`.
 
@@ -116,6 +121,31 @@ uma correspondência. O limiar 0,6 pertence somente à classificação experimen
 por par e não filtra a resposta da API. Mesmo uma descrição sem correspondência
 rotulada pode receber `top_k` candidatos.
 
+Uma resposta tem esta estrutura (valores ilustrativos):
+
+```json
+{
+  "returned_count": 1,
+  "processing_time_ms": 12.3,
+  "matches": [
+    {
+      "item_id": 1001,
+      "name": "Celular preto",
+      "description": "Celular em tom preto, com pequena marca azul.",
+      "location": "Biblioteca",
+      "category": "Eletrônicos",
+      "found_on": "2026-08-01T08:00:00",
+      "cosine_score": 0.875303,
+      "levenshtein_score": 0.738462,
+      "final_score": 0.806882
+    }
+  ]
+}
+```
+
+`processing_time_ms` é medido em cada requisição; os escores e a ordem mudam
+com o catálogo consultado. A resposta acima não representa uma medição remota.
+
 ### Transporte e limite na hospedagem prevista
 
 O [Render fornece TLS e redireciona HTTP para HTTPS](https://render.com/docs/web-services)
@@ -123,8 +153,103 @@ na borda do Web Service; a aplicação recebe tráfego HTTP após a terminação
 O [plano Free permite uma instância e hiberna após 15 minutos sem tráfego](https://render.com/docs/free),
 com retorno que pode levar cerca de um minuto. Por isso o limite fica no
 processo único, sem gateway próprio. O HTTPS do domínio implantado e o limite
-observado externamente ainda exigem teste em E09. O tráfego API–Aiven deve ser
+observado externamente ainda exigem teste após publicação. O tráfego API–Aiven deve ser
 validado separadamente com o CA da Aiven.
+
+## Implantação de demonstração no Render e na Aiven
+
+Condições consultadas em 23/10/2026: o [Render Free](https://render.com/docs/free)
+oferece uma instância com [0,1 CPU e 512 MB de RAM](https://render.com/docs/compute-plans),
+750 horas de instância por mês e hiberna após 15 minutos sem tráfego. A retomada
+pode levar cerca de um minuto. A instância não tem disco persistente nem escala
+horizontal. No workspace Hobby, há [5 GB de tráfego de saída](https://render.com/docs/outbound-bandwidth)
+e [500 minutos de build](https://render.com/docs/build-pipeline) por mês;
+o excedente de tráfego público custa US$ 0,15/GB. Com pagamento cadastrado,
+excedentes podem ser cobrados, e sem pagamento
+o serviço ou novos builds podem ser suspensos. Tráfego iniciado pelo serviço
+para um banco externo também pode motivar suspensão no plano Free. O Render
+desaconselha esse plano para aplicações de produção; use-o aqui somente para a
+demonstração acadêmica, sem promessa de disponibilidade contínua.
+
+A [Aiven MySQL Free](https://aiven.io/docs/products/mysql/concepts/mysql-free-tier)
+e sua [tabela de preços](https://aiven.io/pricing/mysql) indicam US$ 0/mês,
+sem cartão exigido para cadastro, 1 CPU, 1 GB de RAM, 1 GB de armazenamento,
+um nó e até 76 conexões. Há uma instância gratuita de MySQL por organização,
+sem região fixa selecionável, suporte ou SLA de 99,99%. O serviço pode ser
+desligado por falta de uso; há aviso antes do desligamento por inatividade
+contínua. Confira a seleção Free e o custo mostrado na conta antes de criar o
+recurso. Não converta o serviço para um plano pago automaticamente.
+
+A criação no [console Aiven](https://aiven.io/docs/products/mysql/get-started)
+segue **Services > Create service > MySQL > Free > Create service**. Aguarde o
+estado `Running`; a região gratuita é escolhida pela Aiven. Em **Connect >
+Databases > Create database**, crie `matching_development`, conforme a
+[instrução oficial](https://aiven.io/docs/products/mysql/howto/create-database).
+Com uma conexão administrativa protegida por TLS e o [CA do projeto
+Aiven](https://aiven.io/docs/platform/concepts/tls-ssl-certificates), crie
+o acesso ao schema e confirme que `SHOW TABLES FROM matching_development`
+não retorna linhas. Execute `evaluation/final/load.sql` uma única vez nesse
+schema remoto vazio e, depois, `evaluation/final/verify_load.sql`. Compare os
+1.000 IDs distintos e `ACTIVE`, 700/300 IDs dos splits e dez categorias com
+100 itens cada com `evaluation/final/README.md`. O schema local
+já está preenchido e não deve receber nova carga. As consultas rotuladas ficam
+nos JSONL, fora do MySQL. Crie uma conta de serviço separada e conceda apenas
+`SELECT` sobre `matching_development.item` e `matching_development.category`;
+confira `SHOW GRANTS` dessa conta e teste que ela não pode escrever. A
+[Aiven informa que usuários adicionais recebem privilégios administrativos
+por padrão](https://aiven.io/docs/products/mysql/howto/manage-service-users);
+portanto não use uma conta criada sem restrição na API. Crie uma conta com
+permissões granulares e confira os privilégios efetivos antes de configurá-la
+no Render. Não use `avnadmin` na API.
+
+No [painel do Render](https://render.com/docs/web-services), escolha **New >
+Web Service**, conecte o repositório e selecione a revisão Git aprovada. Use
+o plano Free, runtime
+Python 3, build `pip install .`, start
+`uvicorn app.main:app --host 0.0.0.0 --port $PORT`, uma instância e health check
+`/health`. Desative a publicação automática até a revisão da configuração.
+Em **Settings > Auto-Deploy**, selecione **Off**; futuras implantações podem
+usar **Deploys > Manual Deploy > Deploy a specific commit**, conforme a
+[documentação do Render](https://render.com/docs/deploys). A criação do serviço
+dispara a primeira implantação, portanto configure segredos e banco antes de
+considerá-lo pronto para uso.
+Informe `DB_HOST`, `DB_PORT`, `DB_NAME=matching_development`, `DB_USER`,
+`DB_PASSWORD`, `SERVICE_API_KEY`, `DB_REQUIRE_TLS=true`,
+`DB_SSL_CA=/etc/secrets/aiven-ca.pem`, `RATE_LIMIT_PER_MINUTE=60`,
+`MATCH_METHOD=hybrid`, `MATCH_ALPHA=0.5` e `MATCH_BETA=0.5` nas variáveis de
+ambiente. Salve `aiven-ca.pem` como [Secret File do Render](https://render.com/docs/configure-environment-variables#secret-files),
+fora do repositório. O [Render instala Python a partir de `.python-version`](https://render.com/docs/python-version).
+O TLS público termina na borda do Render, que fornece certificado gerenciado e
+redireciona HTTP para HTTPS. O TLS da conexão com a Aiven é verificado
+separadamente pelo cliente MySQL. Se o CA girar, atualize o Secret File e
+reteste a busca.
+
+Antes de publicar, repita localmente `pip install .` e o mesmo comando de início,
+com `PORT` definido; no PowerShell, use `$env:PORT=8000` e
+`python -m uvicorn app.main:app --host 0.0.0.0 --port $env:PORT`. A checagem
+local de CA válido/inválido cobre a leitura do certificado; uma busca real na
+URL publicada deve comprovar a negociação TLS com a Aiven. Registre a revisão,
+a URL e a região efetiva sem copiar segredos para a documentação.
+
+Após a publicação, faça `/health` por HTTPS e buscas autorizadas positiva e
+sem correspondência. Confira 401 para `X-Service-Key` ausente e inválida, 429
+com `Retry-After` após 60 buscas autorizadas na janela de 60 segundos, e 503
+seguro quando o banco falhar. `/health` mede somente o processo e pode continuar
+em 200 durante falha do MySQL. Uma consulta sem correspondência ainda retorna
+sugestões ranqueadas. Meça separadamente a primeira resposta, a resposta quente
+e a retomada após hibernação com os 1.000 itens consultados via MySQL; registre
+`processing_time_ms` e o tempo HTTP de ponta a ponta. A latência de E07 foi
+obtida com `TestClient` local e catálogo em memória, portanto não representa
+essa busca remota.
+
+Para monitorar, confira o painel do Render (deploys, logs e franquias) e o
+painel da Aiven (estado, conexões, armazenamento e aviso de inatividade).
+Mantenha os logs sem corpo da consulta, credencial ou senha. Em falha de
+implantação, use o rollback do Render para uma das duas revisões anteriores
+disponíveis no plano Free, confira as variáveis e o Secret File e repita
+`/health` e a busca real. Preserve o schema sintético; se ele precisar ser
+recriado, use um schema remoto novo e vazio e reconfira `verify_load.sql`
+antes de redirecionar a API. Não restaure dados do schema local por sobrescrita.
 
 ## Testes
 
@@ -140,7 +265,7 @@ Para repetir a verificação manual local, sem acessar o banco, execute:
 ```
 
 Ela exerce busca válida, credenciais ausente e inválida, limite, falha simulada
-do banco, `/health` e inspeção dos logs. Após configurar Render e Aiven em E09,
+do banco, `/health` e inspeção dos logs. Após configurar Render e Aiven,
 repita por HTTPS contra a URL publicada e confira também certificado TLS,
 permissões `SELECT` e comportamento após hibernação. A latência HTTP medida
 localmente com catálogo em memória na avaliação não representa o tempo de busca
