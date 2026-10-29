@@ -30,6 +30,8 @@ from evaluation.finalize import FINAL, load_split
 PILOT = Path(__file__).resolve().parent / "pilot"
 WEIGHTS = (0.25, 0.5, 0.75)
 THRESHOLDS = (0.2, 0.4, 0.6)
+EVALUATION_KEY = "local-evaluation-key-" + "x" * 20
+EVALUATION_HEADERS = {"X-Service-Key": EVALUATION_KEY}
 
 
 class FixedRepository:
@@ -52,7 +54,7 @@ def score_pairs(
     )
     rows = []
     for query in queries:
-        # search ajusta o TF-IDF só aos candidatos e calcula ambos os escores uma vez.
+        # Calcula os dois escores uma vez por par e os reutiliza na grade de métodos
         for result in service.search(query["description"], top_k=len(items)):
             rows.append(
                 {
@@ -200,14 +202,14 @@ def run(dataset: Path, output: Path, split: str) -> dict:
     items, queries, validation = select_records(dataset, split)
     paths = [dataset / name for name in ("items.jsonl", "queries.jsonl")]
 
-    # Comparação D03 pré-definida, sem grade: híbrido 0,5 e limiar 0,4.
+    # Comparação D03 pré-definida, sem grade: híbrido 0,5 e limiar 0,4
     with_category = score_pairs(items, queries, include_category=True)
     without_category = score_pairs(items, queries, include_category=False)
     ablation = {
         "with_category": metrics(with_category, "hybrid", 0.5, 0.4),
         "without_category": metrics(without_category, "hybrid", 0.5, 0.4),
     }
-    # Hit@1, MRR e F1; empate favorece texto menor, sem categoria.
+    # Hit@1, MRR e F1; empate favorece texto menor, sem categoria
     def field_key(result: dict) -> tuple:
         return result["hit_at_1"], result["mrr"], result["f1"]
 
@@ -232,7 +234,7 @@ def run(dataset: Path, output: Path, split: str) -> dict:
                     "threshold": threshold,
                     "metrics": metrics(rows, method, alpha, threshold),
                 })
-    # Regra da metodologia: F1, precisão e maior limiar; pesos e método fixam último empate.
+    # Regra da metodologia: F1, precisão e maior limiar; pesos e método fixam último empate
     method_order = {"cosine": 2, "levenshtein": 1, "hybrid": 0}
     def grid_key(entry: dict) -> tuple:
         result = entry["metrics"]
@@ -240,18 +242,21 @@ def run(dataset: Path, output: Path, split: str) -> dict:
                 method_order[entry["method"]], entry["alpha"])
 
     selected = max(grid, key=grid_key)
-    # Passagem independente pela rota HTTP real, com o mesmo catálogo do split.
+    # Mede a rota HTTP com uma chave local e um limite suficiente para todas as consultas
     latency_rows = []
     for method in ("cosine", "levenshtein", "hybrid"):
         best = max((entry for entry in grid if entry["method"] == method), key=grid_key)
         app = create_app(
             repository=FixedRepository(items),
-            settings=Settings(match_method=method, match_alpha=best["alpha"], match_beta=best["beta"]),
+            settings=Settings(_env_file=None, service_api_key=EVALUATION_KEY,
+                              rate_limit_per_minute=1000, match_method=method,
+                              match_alpha=best["alpha"], match_beta=best["beta"]),
         )
         with TestClient(app) as client:
             for query in queries:
                 response = client.post(
-                    "/matches/search", json={"description": query["description"], "top_k": 5}
+                    "/matches/search", json={"description": query["description"], "top_k": 5},
+                    headers=EVALUATION_HEADERS,
                 )
                 response.raise_for_status()
                 latency_rows.append({

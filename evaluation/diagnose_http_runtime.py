@@ -9,7 +9,10 @@ from fastapi.testclient import TestClient
 
 from app.config import Settings
 from app.main import create_app
-from evaluation.evaluate import FixedRepository, metrics, score_pairs, select_records
+from evaluation.evaluate import (
+    EVALUATION_HEADERS, EVALUATION_KEY, FixedRepository, metrics, score_pairs,
+    select_records,
+)
 from evaluation.finalize import FINAL
 
 
@@ -36,7 +39,9 @@ def main() -> None:
         print(f"Métricas {method}; {perf_counter() - started:.2f}s", flush=True)
         app = create_app(
             repository=FixedRepository(items),
-            settings=Settings(match_method=method, match_alpha=alpha, match_beta=beta),
+            settings=Settings(_env_file=None, service_api_key=EVALUATION_KEY,
+                              rate_limit_per_minute=1000, match_method=method,
+                              match_alpha=alpha, match_beta=beta),
         )
         print(f"Abrindo TestClient {method}; {perf_counter() - started:.2f}s", flush=True)
         with TestClient(app) as client:
@@ -47,6 +52,7 @@ def main() -> None:
                 response = client.post(
                     "/matches/search",
                     json={"description": query["description"], "top_k": 5},
+                    headers=EVALUATION_HEADERS,
                 )
                 response.raise_for_status()
                 if index <= 3:

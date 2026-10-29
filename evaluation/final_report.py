@@ -9,15 +9,16 @@ from collections import defaultdict
 from pathlib import Path
 
 from evaluation.evaluate import file_sha256, metrics, score
-from evaluation.final_experiment import LOCK, verify_lock
+from evaluation.final_experiment import LOCK
 from evaluation.finalize import FINAL
 
 
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--output", type=Path, default=FINAL / "test_results")
+    parser.add_argument("--output", type=Path, default=FINAL / "test_results_retry_2")
     output = parser.parse_args().output
-    lock = verify_lock()
+    # Lê a configuração histórica sem exigir que o código atual tenha o mesmo hash
+    lock = json.loads(LOCK.read_text(encoding="utf-8"))
     summary = json.loads((output / "summary.json").read_text(encoding="utf-8"))
     if summary["pretest_config_sha256"] != file_sha256(LOCK):
         raise ValueError("Configuração pré-teste divergente")

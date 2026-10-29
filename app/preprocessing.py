@@ -2,7 +2,7 @@ import re
 import unicodedata
 
 
-# Lista conservadora: preserva marcas, cores, locais, materiais e números.
+# Lista conservadora: preserva marcas, cores, locais, materiais e números
 DOMAIN_STOPWORDS = {
     "a",
     "as",
@@ -30,6 +30,7 @@ def normalize_text(text: str | None) -> str:
     if not text:
         return ""
 
+    # Uniformiza caixa, acentos e pontuação antes de retirar palavras comuns
     decomposed = unicodedata.normalize("NFKD", text.casefold())
     without_accents = "".join(
         character

@@ -11,6 +11,7 @@ from app.repository import ItemRepository
 
 
 def build_item_text(item: ItemCandidate, *, include_category: bool = False) -> str:
+    # Combina apenas os campos escolhidos para a comparação textual
     return normalize_text(
         " ".join(
             (item.name, item.description, item.location)
@@ -46,6 +47,7 @@ class MatchingService:
         signature: tuple[tuple[int, str], ...],
     ) -> np.ndarray:
         with self._index_lock:
+            # Reajusta o TF-IDF somente quando IDs ou textos dos candidatos mudam
             if signature != self._collection_signature:
                 item_texts = [item_text for _, item_text in signature]
                 vectorizer = TfidfVectorizer()
@@ -67,6 +69,7 @@ class MatchingService:
         if vectorizer is None or item_matrix is None:
             return np.zeros(len(signature), dtype=float)
 
+        # Compara a consulta com a matriz já ajustada aos itens ativos
         query_vector = vectorizer.transform([query])
         return cosine_similarity(query_vector, item_matrix).ravel()
 
@@ -86,6 +89,7 @@ class MatchingService:
         if not query:
             raise ValueError("A descrição não contém termos úteis para a busca")
 
+        # Ordena por ID para manter o índice e os desempates reproduzíveis
         items = sorted(self._repository.find_active_items(), key=lambda item: item.id)
         if not items:
             return []
@@ -116,5 +120,6 @@ class MatchingService:
                 )
             )
 
+        # Prioriza maior escore e usa o ID como desempate estável
         ranked.sort(key=lambda result: (-result.final_score, result.item.id))
         return ranked[:top_k]

@@ -6,7 +6,7 @@ from evaluation.evaluate import latency_stats, metrics, score
 
 
 def test_manual_pair_metrics_and_negative_query() -> None:
-    # q1: esperado em 2º; q2: esperado em 1º; q3: sem correspondência.
+    # q1: esperado em 2º; q2: esperado em 1º; q3: sem correspondência
     values = {
         "q1": [(1, 0.9, 0), (2, 0.8, 1), (3, 0.1, 0)],
         "q2": [(1, 0.6, 1), (2, 0.3, 0), (3, 0.2, 0)],

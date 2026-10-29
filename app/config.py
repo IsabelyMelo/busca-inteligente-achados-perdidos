@@ -44,8 +44,8 @@ class Settings(BaseSettings):
     def database_connect_args(self) -> dict:
         if not self.db_ssl_ca:
             return {}
-        # create_default_context confere o arquivo CA antes da primeira busca.
-        # PyMySQL usa este contexto para validar cadeia e identidade do host.
+        # create_default_context confere o arquivo CA antes da primeira busca
+        # PyMySQL usa este contexto para validar cadeia e identidade do host
         return {"ssl": ssl.create_default_context(cafile=self.db_ssl_ca)}
 
     @property

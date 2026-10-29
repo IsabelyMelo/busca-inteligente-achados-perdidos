@@ -38,6 +38,7 @@ class ServiceRateLimiter:
 
     def allow(self, now: float) -> tuple[bool, int]:
         with self._lock:
+            # Remove chamadas fora da janela de 60 segundos antes de aplicar o limite
             while self._requests and now - self._requests[0] >= 60:
                 self._requests.popleft()
             if len(self._requests) >= self._limit:
@@ -58,6 +59,7 @@ def create_app(
 
     @asynccontextmanager
     async def lifespan(application: FastAPI) -> AsyncIterator[None]:
+        # Cria o acesso ao banco apenas ao iniciar a aplicação, permitindo testes sem MySQL
         if selected_settings.service_api_key is None:
             raise RuntimeError("SERVICE_API_KEY deve ser configurada para iniciar a API")
         engine = None
@@ -92,6 +94,7 @@ def create_app(
     async def security_and_audit(request: Request, call_next):
         started_at = perf_counter()
         client = "anonymous"
+        # Autentica e limita buscas antes de ler ou validar o corpo da requisição
         if request.method == "POST" and request.url.path == "/matches/search":
             configured_key = selected_settings.service_api_key
             supplied_key = request.headers.get("X-Service-Key", "")
@@ -113,6 +116,7 @@ def create_app(
         else:
             response = await call_next(request)
 
+        # Registra metadados da requisição sem descrição ou credencial
         duration_ms = (perf_counter() - started_at) * 1000
         response.headers["X-Server-Time-Ms"] = f"{duration_ms:.6f}"
         route = (
@@ -151,6 +155,7 @@ def create_app(
         except ValueError as error:
             raise HTTPException(status_code=422, detail="Descrição inválida") from error
         except Exception as error:
+            # Esconde detalhes internos de falhas no banco ou no ranqueamento
             raise HTTPException(
                 status_code=503,
                 detail="Não foi possível consultar os itens encontrados",

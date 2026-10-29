@@ -146,7 +146,7 @@ def verify_lock() -> dict:
 
 def run_test() -> dict:
     lock = verify_lock()
-    # A criação exclusiva marca a única tentativa antes da leitura de teste.
+    # A criação exclusiva marca a única tentativa antes da leitura de teste
     TEST_OUTPUT.mkdir(exist_ok=False)
     (TEST_OUTPUT / "execution.json").write_text(json.dumps({
         "started_at_utc": datetime.now(timezone.utc).isoformat(),

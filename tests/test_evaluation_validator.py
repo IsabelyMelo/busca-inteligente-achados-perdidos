@@ -137,3 +137,21 @@ def test_validator_rejects_unknown_field(
 
     with pytest.raises(DatasetValidationError, match="campos desconhecidos: score"):
         _validate_patched_dataset()
+
+
+def test_validator_reports_nested_values_instead_of_crashing(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    items, queries = _patch_dataset(monkeypatch)
+    items[0]["item_id"] = [1]
+    items[0]["split"] = ["pilot_development"]
+    queries[0]["query_id"] = ["q-001"]
+    queries[0]["expected_item_id"] = {"id": 1}
+    queries[0]["difficulty"] = ["easy"]
+
+    with pytest.raises(DatasetValidationError) as captured:
+        _validate_patched_dataset()
+
+    assert any("item_id deve ser inteiro positivo" in error for error in captured.value.errors)
+    assert any("split inválido" in error for error in captured.value.errors)
+    assert any("difficulty inválida" in error for error in captured.value.errors)

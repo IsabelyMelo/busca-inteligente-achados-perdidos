@@ -123,7 +123,7 @@ def _validate_common(record: dict[str, Any], context: str, errors: list[str]) ->
     reference_id = record.get("reference_id")
     if not isinstance(reference_id, str) or not REFERENCE_PATTERN.fullmatch(reference_id):
         errors.append(f"{context}: reference_id inválido")
-    if record.get("split") not in SPLITS:
+    if not isinstance(record.get("split"), str) or record["split"] not in SPLITS:
         errors.append(f"{context}: split inválido")
 
 
@@ -166,12 +166,12 @@ def _validate_query(record: dict[str, Any], index: int, errors: list[str]) -> No
         errors.append(f"{context}: has_match deve ser booleano")
     expected_item_id = record.get("expected_item_id")
     difficulty = record.get("difficulty")
-    if difficulty not in DIFFICULTIES:
+    if not isinstance(difficulty, str) or difficulty not in DIFFICULTIES:
         errors.append(f"{context}: difficulty inválida")
     if has_match is True:
         if not _is_positive_integer(expected_item_id):
             errors.append(f"{context}: positivo exige expected_item_id inteiro")
-        if difficulty not in {"easy", "hard"}:
+        if not isinstance(difficulty, str) or difficulty not in {"easy", "hard"}:
             errors.append(f"{context}: positivo exige difficulty easy ou hard")
     elif has_match is False:
         if expected_item_id is not None:
@@ -188,7 +188,8 @@ def _validate_query(record: dict[str, Any], index: int, errors: list[str]) -> No
 
 
 def _duplicates(values: list[Any]) -> set[Any]:
-    counts = Counter(values)
+    # Campos malformados já são apontados na validação individual; ignore valores não comparáveis
+    counts = Counter(value for value in values if isinstance(value, (str, int)))
     return {value for value, count in counts.items() if count > 1}
 
 
@@ -243,19 +244,24 @@ def _validate_relationships(
     for record in queries:
         query_id = record.get("query_id", "desconhecida")
         if record.get("has_match") is True:
-            target = items_by_id.get(record.get("expected_item_id"))
+            expected_id = record.get("expected_item_id")
+            target = items_by_id.get(expected_id) if _is_positive_integer(expected_id) else None
             if target is None:
                 errors.append(f"{query_id}: expected_item_id não existe nos itens")
             elif target.get("reference_id") != record.get("reference_id"):
                 errors.append(f"{query_id}: reference_id difere do item esperado")
             elif target.get("split") != record.get("split"):
                 errors.append(f"{query_id}: split difere do item esperado")
-        elif record.get("has_match") is False and record.get("reference_id") in item_reference_set:
+        elif (record.get("has_match") is False
+              and isinstance(record.get("reference_id"), str)
+              and record["reference_id"] in item_reference_set):
             errors.append(f"{query_id}: negativo referencia um item candidato existente")
 
-    reference_splits: dict[Any, set[Any]] = defaultdict(set)
+    reference_splits: dict[str, set[str]] = defaultdict(set)
     for record in [*items, *queries]:
-        reference_splits[record.get("reference_id")].add(record.get("split"))
+        reference_id, split = record.get("reference_id"), record.get("split")
+        if isinstance(reference_id, str) and isinstance(split, str):
+            reference_splits[reference_id].add(split)
     leaking = sorted(
         str(reference_id)
         for reference_id, splits in reference_splits.items()
@@ -278,7 +284,10 @@ def _validate_pilot_profile(
     negative_count = sum(record.get("has_match") is False for record in queries)
     if positive_count == 0 or negative_count < 5:
         errors.append("piloto exige positivos e pelo menos cinco negativos")
-    present_difficulties = {record.get("difficulty") for record in queries}
+    present_difficulties = {
+        record["difficulty"] for record in queries
+        if isinstance(record.get("difficulty"), str)
+    }
     missing_difficulties = {"easy", "hard", "no_match"} - present_difficulties
     if missing_difficulties:
         errors.append(

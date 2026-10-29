@@ -10,12 +10,13 @@ class ItemRepository(Protocol):
 
 
 class MySQLItemRepository:
-    """Consulta somente itens ativos; não executa operações de escrita."""
+    """Consulta somente itens ativos; não executa operações de escrita"""
 
     def __init__(self, engine: Engine) -> None:
         self._engine = engine
 
     def find_active_items(self) -> list[ItemCandidate]:
+        # Lê somente candidatos ativos e os dados necessários à resposta
         statement = text(
             """
             SELECT

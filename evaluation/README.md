@@ -56,3 +56,5 @@ O teste grava `evaluation/final/test_results/{execution.json,pairs.csv,latency.c
 ```
 
 `evaluation.verify_final_results` confere o produto cartesiano de IDs, matriz de confusão, precisão, revocação, F1, Hit@1/3/5, MRR e estatísticas de latência diretamente dos CSVs. O relatório derivado está em `evaluation/final/test_results_retry_2/report.md`. A execução de `evaluation.recover_final_experiment run` está bloqueada pelo diretório exclusivo da segunda tentativa.
+
+O código atual inclui autenticação na API e pequenas correções posteriores ao experimento. O avaliador de desenvolvimento usa uma chave local de teste para medir a rota HTTP. O bloqueio de SHA-256 em `pretest_config.json` continua representando a revisão histórica: `evaluation.final_experiment test` não deve ser repetido neste checkout. `evaluation.final_report` lê a configuração e os CSVs já congelados para regenerar o relatório, enquanto `evaluation.verify_final_results` confere as métricas sem exigir os hashes do código atual.
