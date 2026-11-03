@@ -1,4 +1,6 @@
+import json
 from datetime import datetime
+from pathlib import Path
 
 import pytest
 
@@ -40,6 +42,29 @@ def test_search_ranks_expected_item_first() -> None:
     assert results[0].item.id == 1
     assert results[0].final_score >= results[1].final_score
     assert all(0 <= result.final_score <= 1 for result in results)
+
+
+def test_phone_alias_ranks_catalog_cell_phone_for_reported_query() -> None:
+    catalog = Path(__file__).resolve().parents[1] / "evaluation/final/items.jsonl"
+    records = (json.loads(line) for line in catalog.read_text(encoding="utf-8").splitlines())
+    items = [
+        ItemCandidate(
+            id=record["item_id"],
+            name=record["name"],
+            description=record["description"],
+            location=record["location"],
+            category_name=record["category"],
+            found_on=datetime.fromisoformat(record["found_on"]),
+        )
+        for record in records
+        if record["status"] == "ACTIVE"
+    ]
+    service = MatchingService(FakeItemRepository(items))
+
+    results = service.search("Telefone preto com capinha amarela", top_k=5)
+
+    assert results[0].item.id == 1001
+    assert len(results) == 5
 
 
 def test_search_returns_empty_list_when_there_are_no_items() -> None:

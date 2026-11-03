@@ -23,6 +23,20 @@ DOMAIN_STOPWORDS = {
     "uma",
 }
 
+# Formas equivalentes usadas somente na comparação. As chaves e os valores já estão normalizados, expressões com mais de uma palavra vêm primeiro
+MATCHING_ALIASES: dict[tuple[str, ...], tuple[str, ...]] = {
+    ("power", "bank"): ("carregador", "portatil"),
+    ("telefone",): ("celular",),
+    ("smartphone",): ("celular",),
+    ("telemovel",): ("celular",),
+    ("capinha",): ("capa",),
+    ("pendrive",): ("pen", "drive"),
+    ("powerbank",): ("carregador", "portatil"),
+    ("headphone",): ("fone",),
+    ("headphones",): ("fone",),
+    ("headset",): ("fone",),
+}
+
 
 def normalize_text(text: str | None) -> str:
     """Normaliza texto em português sem destruir atributos do objeto."""
@@ -44,4 +58,22 @@ def normalize_text(text: str | None) -> str:
         if token not in DOMAIN_STOPWORDS
     )
     return " ".join(tokens)
+
+
+def normalize_for_matching(text: str | None) -> str:
+    """Normaliza e substitui sinônimos completos por uma forma canônica"""
+
+    tokens = normalize_text(text).split()
+    canonical: list[str] = []
+    position = 0
+    while position < len(tokens):
+        for alias, replacement in MATCHING_ALIASES.items():
+            if tuple(tokens[position : position + len(alias)]) == alias:
+                canonical.extend(replacement)
+                position += len(alias)
+                break
+        else:
+            canonical.append(tokens[position])
+            position += 1
+    return " ".join(canonical)
 

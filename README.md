@@ -5,6 +5,7 @@ API de recuperação e ranqueamento textual de itens encontrados, desenvolvida c
 ## Linha de base
 
 - normalização de texto em português;
+- equivalências controladas para sinônimos comuns de itens;
 - representação TF-IDF e similaridade do cosseno;
 - similaridade normalizada de Levenshtein;
 - combinação linear e ordenação dos candidatos;
@@ -13,6 +14,15 @@ API de recuperação e ranqueamento textual de itens encontrados, desenvolvida c
 O texto de recuperação concatena nome, descrição e local do item. A categoria
 permanece como metadado; a comparação controlada no piloto de desenvolvimento
 está registrada em `evaluation/README.md` e no resumo exportado pelo avaliador.
+
+Na busca, consulta e itens passam pela mesma lista de equivalências antes do
+ranqueamento: `telefone`, `smartphone` e `telemóvel` viram `celular`;
+`capinha` vira `capa`; `pendrive` vira `pen drive`; `power bank` e `powerbank`
+viram `carregador portátil`; `headphone`, `headphones` e `headset` viram `fone`.
+A substituição usa palavras inteiras e pode ser ampliada em
+`app/preprocessing.py`. Cores e outras características continuam distintas.
+Essa mudança altera escores e posições; os resultados experimentais já
+registrados em `evaluation/` descrevem a versão anterior do ranqueamento.
 
 ## Requisitos
 

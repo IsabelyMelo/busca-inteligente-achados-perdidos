@@ -6,13 +6,13 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 
 from app.domain import ItemCandidate, MatchingMethod, RankedItem
-from app.preprocessing import normalize_text
+from app.preprocessing import normalize_for_matching
 from app.repository import ItemRepository
 
 
 def build_item_text(item: ItemCandidate, *, include_category: bool = False) -> str:
     # Combina apenas os campos escolhidos para a comparação textual
-    return normalize_text(
+    return normalize_for_matching(
         " ".join(
             (item.name, item.description, item.location)
             + ((item.category_name,) if include_category else ())
@@ -85,7 +85,7 @@ class MatchingService:
         return self._alpha * cosine_score + self._beta * levenshtein_score
 
     def search(self, description: str, top_k: int = 5) -> list[RankedItem]:
-        query = normalize_text(description)
+        query = normalize_for_matching(description)
         if not query:
             raise ValueError("A descrição não contém termos úteis para a busca")
 
