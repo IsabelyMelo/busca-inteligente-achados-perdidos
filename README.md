@@ -92,7 +92,9 @@ escritas. A conexão TLS real e os privilégios precisam ser conferidos no
 servidor remoto antes de anunciar a disponibilidade. Nunca inclua o CA, a
 chave ou a senha no Git.
 
-`matching_development` foi criado para esta aplicação e é separado do banco institucional original. Em 15/10/2026, recebeu os 1.000 itens encontrados aprovados, com IDs 1001–2000 e estado `ACTIVE`. As consultas rotuladas permanecem nos JSONL de `evaluation/final/`; a divisão 700/300 existe apenas no manifesto e no avaliador. A carga e sua conferência estão descritas em `evaluation/final/README.md`.
+`matching_development` foi criado para esta aplicação e é separado do banco institucional original. Em 15/10/2026, recebeu os 1.000 itens encontrados aprovados, com IDs 1001–2000 e estado `ACTIVE`. As consultas rotuladas permanecem nos JSONL de `evaluation/v1/`; a divisão 700/300 existe apenas no manifesto e no avaliador. A carga e sua conferência estão descritas em `evaluation/v1/README.md`.
+
+Uma nova base sintética está em `evaluation/v2/`: 1.000 itens `ACTIVE` com IDs 1–1.000, 1.200 consultas rotuladas e um `insert.sql` que também inclui dez itens extras `RETURNED` ou `ARCHIVED` fora dos grupos de avaliação. A autora carregou essa base no MySQL local em 03/11/2026. A avaliação de desenvolvimento e teste está registrada em `evaluation/v2/report.md`. Consulte `evaluation/v2/README.md` para a divisão dos dados e as limitações do experimento.
 
 ## Execução
 
@@ -134,8 +136,8 @@ Invoke-RestMethod -Uri http://127.0.0.1:8000/matches/search -Method Post -Header
 ```
 
 O endpoint consulta somente itens `ACTIVE`. Registros `RETURNED` e `ARCHIVED` não participam do ranking.
-O resultado é uma lista de sugestões ordenadas; não confirma automaticamente
-uma correspondência. O limiar 0,6 pertence somente à classificação experimental
+O resultado é uma lista de sugestões ordenadas e não confirma automaticamente
+uma correspondência. O limiar 0,6 da avaliação v2 original pertence somente à classificação experimental
 por par e não filtra a resposta da API. Mesmo uma descrição sem correspondência
 rotulada pode receber `top_k` candidatos.
 
@@ -206,11 +208,12 @@ Databases > Create database**, crie `matching_development`, conforme a
 Com uma conexão administrativa protegida por TLS e o [CA do projeto
 Aiven](https://aiven.io/docs/platform/concepts/tls-ssl-certificates), crie
 o acesso ao schema e confirme que `SHOW TABLES FROM matching_development`
-não retorna linhas. Execute `evaluation/final/load.sql` uma única vez nesse
-schema remoto vazio e, depois, `evaluation/final/verify_load.sql`. Compare os
+não retorna linhas. Execute `evaluation/v1/load.sql` uma única vez nesse
+schema remoto vazio e, depois, `evaluation/v1/verify_load.sql`. Compare os
 1.000 IDs distintos e `ACTIVE`, 700/300 IDs dos splits e dez categorias com
-100 itens cada com `evaluation/final/README.md`. O schema local
-já está preenchido e não deve receber nova carga. As consultas rotuladas ficam
+100 itens cada com `evaluation/v1/README.md`. Esse procedimento recria a v1 em
+um schema vazio e não deve ser repetido no schema preenchido. Para substituir
+somente os itens pela v2, use as instruções de `evaluation/v2/README.md`. As consultas rotuladas ficam
 nos JSONL, fora do MySQL. Crie uma conta de serviço separada e conceda apenas
 `SELECT` sobre `matching_development.item` e `matching_development.category`;
 confira `SHOW GRANTS` dessa conta e teste que ela não pode escrever. A

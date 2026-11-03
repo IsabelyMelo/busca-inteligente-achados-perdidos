@@ -1,4 +1,4 @@
-# Base sintética final
+# Base sintética v1 (histórica)
 
 Este diretório contém dois arquivos em JSON Lines:
 
@@ -12,7 +12,7 @@ A lista combina os locais selecionados da planta baixa enviada com o Restaurante
 Para validar a estrutura, execute na raiz do projeto:
 
 ```powershell
-.\.venv\Scripts\python.exe -m evaluation.validate --items evaluation\final\items.jsonl --queries evaluation\final\queries.jsonl --no-pilot-profile
+.\.venv\Scripts\python.exe -m evaluation.validate --items evaluation\v1\items.jsonl --queries evaluation\v1\queries.jsonl --no-pilot-profile
 ```
 
 ## Aceite e divisão
@@ -43,11 +43,11 @@ O avaliador confere o manifesto e seleciona apenas os candidatos e consultas do 
 
 `load.sql` é o artefato de recriação para um schema `matching_development` existente, porém **sem tabelas**. Seu DDL foi baseado em `SHOW CREATE TABLE` das tabelas reais `category` e `item`, incluindo a chave estrangeira e as colunas `varchar(255)`, `foundOn datetime` e `status enum`. O arquivo cria as tabelas e insere dez categorias e 1.000 itens. Como `DATETIME` não armazena fuso, a hora civil `-03:00` dos JSONL é gravada sem offset. O arquivo não cria nem apaga schema, não contém consultas e não acessa o banco institucional.
 
-Antes de uma recriação planejada, confira que `SHOW TABLES FROM matching_development;` não retorna linhas. No Workbench, abra `C:\www\busca-inteligente-achados-perdidos\evaluation\final\load.sql` em **File > Open SQL Script**, mantenha **Continue On Error** desativado e execute o arquivo inteiro. Em seguida, execute `verify_load.sql` da mesma pasta. No cliente MySQL, após conectar-se ao servidor, os comandos equivalentes são:
+Antes de uma recriação planejada, confira que `SHOW TABLES FROM matching_development;` não retorna linhas. No Workbench, abra `C:\www\busca-inteligente-achados-perdidos\evaluation\v1\load.sql` em **File > Open SQL Script**, mantenha **Continue On Error** desativado e execute o arquivo inteiro. Em seguida, execute `verify_load.sql` da mesma pasta. No cliente MySQL, após conectar-se ao servidor, os comandos equivalentes são:
 
 ```sql
-source C:/www/busca-inteligente-achados-perdidos/evaluation/final/load.sql
-source C:/www/busca-inteligente-achados-perdidos/evaluation/final/verify_load.sql
+source C:/www/busca-inteligente-achados-perdidos/evaluation/v1/load.sql
+source C:/www/busca-inteligente-achados-perdidos/evaluation/v1/verify_load.sql
 ```
 
 `verify_load.sql` é somente leitura. Ele deve retornar 1.000 itens, 1.000 IDs distintos, todos `ACTIVE`, 700 IDs do split de desenvolvimento e 300 do split de teste, dez categorias e 100 itens por categoria. A seleção lógica 700/300 continua no manifesto. As consultas de hash de linhas foram retiradas após a carga remota, por decisão da autora.

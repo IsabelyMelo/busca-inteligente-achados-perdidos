@@ -29,7 +29,7 @@ if not audit_logger.handlers:
 
 
 class ServiceRateLimiter:
-    """Janela deslizante local para a única credencial de serviço."""
+    """Janela deslizante local para a única credencial de serviço"""
 
     def __init__(self, limit: int) -> None:
         self._limit = limit

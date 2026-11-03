@@ -8,7 +8,7 @@ from pathlib import Path
 from evaluation.validate import validate_dataset
 
 
-ROOT = Path(__file__).resolve().parent / "final"
+ROOT = Path(__file__).resolve().parent / "v1"
 COLORS = (
     "preto", "azul-marinho", "vermelho", "verde-escuro", "cinza",
     "branco", "roxo", "amarelo", "marrom", "rosa",

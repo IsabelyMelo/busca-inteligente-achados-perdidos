@@ -45,7 +45,7 @@ def test_search_ranks_expected_item_first() -> None:
 
 
 def test_phone_alias_ranks_catalog_cell_phone_for_reported_query() -> None:
-    catalog = Path(__file__).resolve().parents[1] / "evaluation/final/items.jsonl"
+    catalog = Path(__file__).resolve().parents[1] / "evaluation/v1/items.jsonl"
     records = (json.loads(line) for line in catalog.read_text(encoding="utf-8").splitlines())
     items = [
         ItemCandidate(

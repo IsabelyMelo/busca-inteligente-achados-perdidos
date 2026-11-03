@@ -30,6 +30,8 @@ from evaluation.finalize import FINAL, load_split
 PILOT = Path(__file__).resolve().parent / "pilot"
 WEIGHTS = (0.25, 0.5, 0.75)
 THRESHOLDS = (0.2, 0.4, 0.6)
+RANKING_THRESHOLD = 0.4
+SELECTION_POLICIES = ("ranking", "pair_f1")
 EVALUATION_KEY = "local-evaluation-key-" + "x" * 20
 EVALUATION_HEADERS = {"X-Service-Key": EVALUATION_KEY}
 
@@ -77,6 +79,42 @@ def score(row: dict, method: str, alpha: float = 0.5) -> float:
     if method == "levenshtein":
         return levenshtein
     return alpha * cosine + (1 - alpha) * levenshtein
+
+
+def select_grid_configuration(grid: list[dict], policy: str) -> tuple[dict, dict[str, dict], str]:
+    """Escolhe método e pesos no desenvolvimento, com desempates determinísticos."""
+    if policy not in SELECTION_POLICIES:
+        raise ValueError(f"Política de seleção desconhecida: {policy}")
+    method_order = {"cosine": 2, "levenshtein": 1, "hybrid": 0}
+    if policy == "pair_f1":
+        def pair_key(entry: dict) -> tuple:
+            result = entry["metrics"]
+            return (result["f1"], result["precision"], entry["threshold"],
+                    method_order[entry["method"]], entry["alpha"])
+
+        selected = max(grid, key=pair_key)
+        per_method = {
+            method: max((entry for entry in grid if entry["method"] == method), key=pair_key)
+            for method in method_order
+        }
+        rule = "max F1, precision, threshold, method order cosine/levenshtein/hybrid, alpha"
+        return selected, per_method, rule
+
+    # O limiar não altera a ordem dos itens. Usa-se um valor fixo somente para
+    # mostrar as métricas de classificação, sem calibrá-lo pela busca.
+    candidates = [entry for entry in grid if entry["threshold"] == RANKING_THRESHOLD]
+    def ranking_key(entry: dict) -> tuple:
+        result = entry["metrics"]
+        return (result["hit_at_1"], result["mrr"], result["hit_at_5"],
+                method_order[entry["method"]], entry["alpha"])
+
+    selected = max(candidates, key=ranking_key)
+    per_method = {
+        method: max((entry for entry in candidates if entry["method"] == method), key=ranking_key)
+        for method in method_order
+    }
+    rule = "max Hit@1, MRR, Hit@5, method order cosine/levenshtein/hybrid, alpha. Diagnostic threshold fixed at 0.4"
+    return selected, per_method, rule
 
 
 def metrics(rows: list[dict], method: str, alpha: float, threshold: float) -> dict:
@@ -197,7 +235,11 @@ def select_records(dataset: Path, split: str, *, allow_test: bool = False):
     return items, queries, validation
 
 
-def run(dataset: Path, output: Path, split: str) -> dict:
+def run(dataset: Path, output: Path, split: str, *, selection_policy: str = "ranking") -> dict:
+    if (output / "summary.json").exists():
+        raise FileExistsError(f"Resultado existente em {output}. Use outra pasta de saída")
+    if selection_policy not in SELECTION_POLICIES:
+        raise ValueError(f"Política de seleção desconhecida: {selection_policy}")
     started_at = perf_counter()
     items, queries, validation = select_records(dataset, split)
     paths = [dataset / name for name in ("items.jsonl", "queries.jsonl")]
@@ -209,9 +251,10 @@ def run(dataset: Path, output: Path, split: str) -> dict:
         "with_category": metrics(with_category, "hybrid", 0.5, 0.4),
         "without_category": metrics(without_category, "hybrid", 0.5, 0.4),
     }
-    # Hit@1, MRR e F1; empate favorece texto menor, sem categoria
+    # A composição de campos segue a mesma prioridade da seleção de pesos.
     def field_key(result: dict) -> tuple:
-        return result["hit_at_1"], result["mrr"], result["f1"]
+        third = "f1" if selection_policy == "pair_f1" else "hit_at_5"
+        return result["hit_at_1"], result["mrr"], result[third]
 
     include_category = field_key(ablation["with_category"]) > field_key(ablation["without_category"])
     rows = with_category if include_category else without_category
@@ -234,18 +277,11 @@ def run(dataset: Path, output: Path, split: str) -> dict:
                     "threshold": threshold,
                     "metrics": metrics(rows, method, alpha, threshold),
                 })
-    # Regra da metodologia: F1, precisão e maior limiar; pesos e método fixam último empate
-    method_order = {"cosine": 2, "levenshtein": 1, "hybrid": 0}
-    def grid_key(entry: dict) -> tuple:
-        result = entry["metrics"]
-        return (result["f1"], result["precision"], entry["threshold"],
-                method_order[entry["method"]], entry["alpha"])
-
-    selected = max(grid, key=grid_key)
+    selected, per_method, selection_rule = select_grid_configuration(grid, selection_policy)
     # Mede a rota HTTP com uma chave local e um limite suficiente para todas as consultas
     latency_rows = []
     for method in ("cosine", "levenshtein", "hybrid"):
-        best = max((entry for entry in grid if entry["method"] == method), key=grid_key)
+        best = per_method[method]
         app = create_app(
             repository=FixedRepository(items),
             settings=Settings(_env_file=None, service_api_key=EVALUATION_KEY,
@@ -289,7 +325,8 @@ def run(dataset: Path, output: Path, split: str) -> dict:
                         "processor": platform.processor(), "memory_bytes": memory_bytes()},
         "validation": {"items": validation.item_count, "queries": validation.query_count},
         "field_ablation": {"fixed_alpha": 0.5, "fixed_threshold": 0.4, "metrics": ablation, "selected": field_choice},
-        "grid": {"weights": WEIGHTS, "thresholds": THRESHOLDS, "selection_rule": "max F1, precision, threshold, method order cosine/levenshtein/hybrid, alpha", "results": grid, "selected": selected},
+        "grid": {"weights": WEIGHTS, "thresholds": THRESHOLDS, "selection_policy": selection_policy,
+                 "selection_rule": selection_rule, "results": grid, "selected": selected},
         "latency": {"measurement": "server-side HTTP middleware, request to response object; independent calls through TestClient, no grid reuse", "top_k": 5, "statistics": latency},
         "output_sha256": {name: file_sha256(output / name) for name in ("pairs.csv", "latency.csv")},
     }
@@ -298,15 +335,16 @@ def run(dataset: Path, output: Path, split: str) -> dict:
 
 
 def main() -> None:
-    parser = argparse.ArgumentParser(description="Avalia o piloto de desenvolvimento.")
+    parser = argparse.ArgumentParser(description="Avalia consultas de desenvolvimento.")
     parser.add_argument("--dataset", type=Path, default=PILOT)
     parser.add_argument("--output", type=Path, default=None)
     parser.add_argument("--split", choices=("pilot_development", "development"), default=None)
+    parser.add_argument("--selection-policy", choices=SELECTION_POLICIES, default="ranking")
     arguments = parser.parse_args()
-    is_final = arguments.dataset.resolve() == FINAL.resolve()
-    split = arguments.split or ("development" if is_final else "pilot_development")
-    output = arguments.output or Path("evaluation/final/results" if is_final else "evaluation/pilot/results")
-    result = run(arguments.dataset, output, split)
+    is_pilot = arguments.dataset.resolve() == PILOT.resolve()
+    split = arguments.split or ("pilot_development" if is_pilot else "development")
+    output = arguments.output or arguments.dataset / "results"
+    result = run(arguments.dataset, output, split, selection_policy=arguments.selection_policy)
     print(json.dumps({"field_choice": result["field_ablation"]["selected"],
                       "selected": result["grid"]["selected"], "output": str(output)},
                      ensure_ascii=False, indent=2))

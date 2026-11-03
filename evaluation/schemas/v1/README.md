@@ -2,7 +2,7 @@
 
 Os arquivos seguem JSON Schema Draft 2020-12 e descrevem registros JSON Lines. A versão do schema (`1.0`) é independente da versão de cada dataset. Alterações incompatíveis exigem um novo diretório de schema; extensões compatíveis devem preservar os campos obrigatórios.
 
-Os registros não incluem metadados de geração ou revisão humana. A validação estrutural não registra aprovação humana; as decisões de curadoria da base final ficam documentadas em `evaluation/final/README.md`.
+Os registros não incluem metadados de geração ou revisão humana. A validação estrutural não registra aprovação humana; as decisões de curadoria da base final ficam documentadas em `evaluation/v1/README.md`.
 
 `reference_id` identifica o objeto real ou sintético que originou o registro. Consultas positivas repetem a referência do item esperado. Consultas negativas usam uma referência sem candidato correspondente. Esse agrupamento permite que uma divisão futura mantenha todas as variações do mesmo objeto em um único split.
 

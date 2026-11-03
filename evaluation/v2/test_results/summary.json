@@ -1,0 +1,141 @@
+{
+  "completed_at_utc": "2026-11-03T04:33:39.281857+00:00",
+  "kind": "reanalysis_after_selection_rule_revision",
+  "independent_holdout": false,
+  "latency_remeasured": true,
+  "dataset_version": "v2",
+  "candidate_count": 300,
+  "query_count": 360,
+  "validation": {
+    "items": 1000,
+    "queries": 1200
+  },
+  "selection": {
+    "rule": "max Hit@1, MRR, Hit@5, method order cosine/levenshtein/hybrid, alpha. Diagnostic threshold fixed at 0.4",
+    "field_selection": "without_category",
+    "development_sha256": "aa7389096bbf2f919f12b219af3102a20bf1432bbbd1cbabeb20019219c528f2"
+  },
+  "winner": {
+    "method": "hybrid",
+    "alpha": 0.5,
+    "beta": 0.5
+  },
+  "per_method": {
+    "cosine": {
+      "method": "cosine",
+      "alpha": 1.0,
+      "beta": 0.0,
+      "threshold": 0.4
+    },
+    "levenshtein": {
+      "method": "levenshtein",
+      "alpha": 0.0,
+      "beta": 1.0,
+      "threshold": 0.4
+    },
+    "hybrid": {
+      "method": "hybrid",
+      "alpha": 0.5,
+      "beta": 0.5,
+      "threshold": 0.4
+    }
+  },
+  "metrics": {
+    "cosine": {
+      "pairs": 108000,
+      "positive_pairs": 270,
+      "negative_pairs": 107730,
+      "queries": 360,
+      "positive_queries": 270,
+      "confusion_matrix": {
+        "tp": 229,
+        "fp": 441,
+        "tn": 107289,
+        "fn": 41
+      },
+      "precision": 0.3417910447761194,
+      "recall": 0.8481481481481481,
+      "f1": 0.4872340425531914,
+      "hit_at_1": 0.8333333333333334,
+      "hit_at_3": 0.9222222222222223,
+      "hit_at_5": 0.9444444444444444,
+      "mrr": 0.8826457368363722
+    },
+    "levenshtein": {
+      "pairs": 108000,
+      "positive_pairs": 270,
+      "negative_pairs": 107730,
+      "queries": 360,
+      "positive_queries": 270,
+      "confusion_matrix": {
+        "tp": 126,
+        "fp": 659,
+        "tn": 107071,
+        "fn": 144
+      },
+      "precision": 0.16050955414012738,
+      "recall": 0.4666666666666667,
+      "f1": 0.23886255924170618,
+      "hit_at_1": 0.44814814814814813,
+      "hit_at_3": 0.6074074074074074,
+      "hit_at_5": 0.662962962962963,
+      "mrr": 0.5491699797468226
+    },
+    "hybrid": {
+      "pairs": 108000,
+      "positive_pairs": 270,
+      "negative_pairs": 107730,
+      "queries": 360,
+      "positive_queries": 270,
+      "confusion_matrix": {
+        "tp": 220,
+        "fp": 271,
+        "tn": 107459,
+        "fn": 50
+      },
+      "precision": 0.4480651731160896,
+      "recall": 0.8148148148148148,
+      "f1": 0.5781865965834428,
+      "hit_at_1": 0.8555555555555555,
+      "hit_at_3": 0.9259259259259259,
+      "hit_at_5": 0.9481481481481482,
+      "mrr": 0.8978690577801386
+    }
+  },
+  "input_sha256": {
+    "items.jsonl": "c9ad07f647247fb039df9a3f0702d979d4084513fd7fc7c0551f46315c9b5ac5",
+    "queries.jsonl": "794a86cbb03932f0b77f5c056f2c3a429616ffdbbba89da9c79432c66b80b1a1"
+  },
+  "output_sha256": {
+    "execution.json": "f84c08c635b951f039c3eeee917882fcfb4e5750bf34d7dc4eb677f27c5c80a9",
+    "pairs.csv": "135ba742926fe3b8bc2a0134a932a85e315f17ffa73583d7b3a67fd3e2e94058",
+    "latency.csv": "c79930c25e1b8029399d0b7a55846fa02c39ed8fd84dc20e0b5b752732549cab"
+  },
+  "latency": {
+    "measurement": "tempo no servidor via TestClient, uma chamada por consulta e método",
+    "top_k": 5,
+    "statistics": {
+      "cosine": {
+        "count": 360,
+        "mean_ms": 15.437394444444445,
+        "median_ms": 14.7016,
+        "stddev_ms": 3.1476055691186775,
+        "p95_ms": 19.952020000000005
+      },
+      "levenshtein": {
+        "count": 360,
+        "mean_ms": 15.269924166666666,
+        "median_ms": 14.81855,
+        "stddev_ms": 2.4702658295660265,
+        "p95_ms": 19.736295000000002
+      },
+      "hybrid": {
+        "count": 360,
+        "mean_ms": 15.381494722222222,
+        "median_ms": 14.5392,
+        "stddev_ms": 2.8057195624592617,
+        "p95_ms": 20.60032
+      }
+    }
+  }
+}

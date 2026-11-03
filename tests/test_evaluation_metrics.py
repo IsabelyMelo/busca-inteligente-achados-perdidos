@@ -2,7 +2,7 @@ from math import sqrt
 
 import pytest
 
-from evaluation.evaluate import latency_stats, metrics, score
+from evaluation.evaluate import latency_stats, metrics, score, select_grid_configuration
 
 
 def test_manual_pair_metrics_and_negative_query() -> None:
@@ -44,3 +44,33 @@ def test_hybrid_score_and_latency_statistics() -> None:
     assert result["mean_ms"] == result["median_ms"] == 2.5
     assert result["stddev_ms"] == pytest.approx(sqrt(1.25))
     assert result["p95_ms"] == pytest.approx(3.85)
+
+
+def test_ranking_selection_ignores_f1_and_threshold() -> None:
+    grid = []
+    for method, alpha, hit, mrr, f1 in (
+        ("cosine", 1.0, 0.70, 0.80, 0.40),
+        ("levenshtein", 0.0, 0.30, 0.45, 0.20),
+        ("hybrid", 0.5, 0.78, 0.85, 0.35),
+        ("hybrid", 0.75, 0.76, 0.84, 0.50),
+    ):
+        for threshold in (0.2, 0.4, 0.6):
+            grid.append({
+                "method": method, "alpha": alpha, "beta": 1 - alpha,
+                "threshold": threshold,
+                "metrics": {
+                    "hit_at_1": hit, "mrr": mrr, "hit_at_5": 0.9,
+                    "f1": f1 if threshold == 0.6 else f1 / 2,
+                    "precision": 0.5,
+                },
+            })
+
+    ranking, per_method, rule = select_grid_configuration(grid, "ranking")
+    pair_f1, _, _ = select_grid_configuration(grid, "pair_f1")
+
+    assert (ranking["method"], ranking["alpha"], ranking["threshold"]) == (
+        "hybrid", 0.5, 0.4
+    )
+    assert per_method["hybrid"] == ranking
+    assert rule.startswith("max Hit@1, MRR, Hit@5")
+    assert (pair_f1["alpha"], pair_f1["threshold"]) == (0.75, 0.6)

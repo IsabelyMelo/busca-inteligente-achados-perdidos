@@ -11,7 +11,7 @@ from pathlib import Path
 from evaluation.validate import validate_dataset
 
 
-FINAL = Path(__file__).resolve().parent / "final"
+FINAL = Path(__file__).resolve().parent / "v1"
 SOURCE_SHA256 = {
     "items.jsonl": "2c1f7c92a12f9ed903ce7933b001690d6bf923ff3824865d8602f6931d722e8d",
     "queries.jsonl": "5818b5933d01cea07ea83cadd99d10f567b5a12dd9f90c93a1af5ba4250b55c3",

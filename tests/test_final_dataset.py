@@ -15,7 +15,7 @@ from evaluation.finalize import load_development, manifest
 from evaluation.generate_load_sql import render
 
 
-DATASET = Path(__file__).parents[1] / "evaluation" / "final"
+DATASET = Path(__file__).parents[1] / "evaluation" / "v1"
 
 
 def _read_jsonl(path):
