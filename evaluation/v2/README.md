@@ -15,7 +15,7 @@ Os registros seguem o schema `evaluation/schemas/v1`: o número da versão do fo
 
 O grupo de desenvolvimento possui 700 itens e 840 consultas (630 positivas, 210 negativas). O grupo de teste possui 300 itens e 360 consultas (270 positivas, 90 negativas). A divisão foi feita por referência de item, aproximadamente estratificada por categoria. As consultas negativas foram divididas separadamente. **Ajustes de pesos e limiares devem usar apenas desenvolvimento.**
 
-Vinte buscas iniciais partem de exemplos fornecidos pela autora e receberam itens sintéticos correspondentes. Os demais textos foram montados com semente fixa para a escolha de tipos de objeto, cores, marcas, condições, locais e formas de escrever a busca, com revisão de amostras. As descrições dos itens e as consultas não são relatos reais. A geração usa vocabulário e estruturas predefinidos, embora com mais variação que o conjunto v1. Portanto, ainda pode favorecer algumas palavras ou formas de consulta. A validação automática confirma formato, unicidade e vínculos, mas **não equivale a uma revisão semântica humana de todos os 1.200 rótulos**. Antes de apresentar resultados como avaliação final do TCC, convém revisar especialmente consultas genéricas e casos sem correspondência.
+A primeira base experimental, v1, foi produzida por script Python. Ao inspecioná-la, a autora considerou as descrições padronizadas demais e solicitou ao Codex uma nova geração com escolhas pseudoaleatórias mais variadas de tipos de objeto, cores, atributos, locais e formulações de busca. Essa revisão originou a v2. Vinte buscas iniciais partem de exemplos fornecidos pela autora e receberam itens sintéticos correspondentes. Os demais textos foram montados com semente fixa para a escolha de tipos de objeto, cores, marcas, condições, locais e formas de escrever a busca, com revisão de amostras. As descrições dos itens e as consultas não são relatos reais. A geração usa vocabulário e estruturas predefinidos, embora com mais variação que o conjunto v1. Portanto, ainda pode favorecer algumas palavras ou formas de consulta. A validação automática confirma formato, unicidade e vínculos, mas **não equivale a uma revisão semântica humana de todos os 1.200 rótulos**. Antes de apresentar resultados como avaliação final do TCC, convém revisar especialmente consultas genéricas e casos sem correspondência.
 
 Para validar a estrutura na raiz do projeto:
 
@@ -23,27 +23,23 @@ Para validar a estrutura na raiz do projeto:
 .\.venv\Scripts\python.exe -m evaluation.validate --items evaluation\v2\items.jsonl --queries evaluation\v2\queries.jsonl --no-pilot-profile
 ```
 
-O avaliador usa desenvolvimento por padrão. Os resultados de desenvolvimento em `results/` foram gerados com a grade original e estão congelados. A seleção por ranking agora prioriza Hit@1, MRR e Hit@5. Para repetir a análise de desenvolvimento em uma pasta nova:
+O avaliador usa desenvolvimento por padrão. Os resultados em `results/` contêm a grade de configurações calculada nesse conjunto e estão congelados. A seleção para o teste prioriza Hit@1, MRR e Hit@5.
+
+Em `results/summary.json`, `grid.selected` reflete a política de seleção registrada no resumo de desenvolvimento. A configuração usada no teste foi extraída de `grid.results` pela política `ranking` e consta em `test_results/summary.json`. A grade e os CSVs de desenvolvimento não foram alterados.
+
+Para repetir a análise de desenvolvimento em uma pasta nova:
 
 ```powershell
 .\.venv\Scripts\python.exe -m evaluation.evaluate --dataset evaluation\v2 --output evaluation\v2\ranking_results
 ```
 
-O fluxo histórico de `evaluation.final_experiment` continua específico da v1. A v2 registrou sua configuração original antes do teste. A primeira tentativa foi interrompida sem métricas gravadas. A execução original completa está em `test_results_retry_2`. Ela foi retirada da análise principal depois da revisão do critério, mas preservada para conferir a sequência do trabalho. Para verificar esses arquivos com o avaliador comum:
+O fluxo histórico de `evaluation.final_experiment` continua específico da v1. Os resultados do teste v2 com os pesos escolhidos por ranking estão em `test_results/`. O avaliador calculou os escores e as métricas e mediu a latência HTTP local com 360 chamadas por método. Para conferir os arquivos:
 
 ```powershell
-.\.venv\Scripts\python.exe -m evaluation.experiment verify --dataset evaluation\v2 --criterion pair_f1 --output evaluation\v2\test_results_retry_2
+.\.venv\Scripts\python.exe -m evaluation.experiment verify --dataset evaluation\v2 --criterion ranking --output evaluation\v2\test_results
 ```
 
-Use apenas `verify` nos diretórios de resultados existentes.
-
-`ranking_review.md` compara as configurações no desenvolvimento. A reanálise principal do teste com os pesos escolhidos por ranking está em `ranking_reanalysis/`. Ela recalculou os escores e as métricas e repetiu a medição HTTP local de latência com 360 chamadas por método. Para conferir a reanálise:
-
-```powershell
-.\.venv\Scripts\python.exe -m evaluation.experiment verify --dataset evaluation\v2 --criterion ranking --output evaluation\v2\ranking_reanalysis
-```
-
-A revisão do critério ocorreu após a execução original e reutilizou a mesma divisão de teste. Essa limitação está descrita em `report.md`.
+Use apenas `verify` no diretório de resultados existente.
 
 Para uma avaliação futura com outra base, execute `evaluation.evaluate` no desenvolvimento. Depois use `evaluation.experiment freeze`, `run`, `latency` e `verify` com `--dataset`, `--criterion` e `--output`. Os comandos recusam sobrescrever resultados existentes.
 

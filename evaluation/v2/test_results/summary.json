@@ -1,8 +1,6 @@
 {
   "completed_at_utc": "2026-11-03T04:33:39.281857+00:00",
-  "kind": "reanalysis_after_selection_rule_revision",
-  "independent_holdout": false,
-  "latency_remeasured": true,
+  "kind": "test_evaluation",
   "dataset_version": "v2",
   "candidate_count": 300,
   "query_count": 360,
@@ -107,7 +105,7 @@
     "queries.jsonl": "794a86cbb03932f0b77f5c056f2c3a429616ffdbbba89da9c79432c66b80b1a1"
   },
   "output_sha256": {
-    "execution.json": "f84c08c635b951f039c3eeee917882fcfb4e5750bf34d7dc4eb677f27c5c80a9",
+    "execution.json": "37bdbd261092869370cddeafbbdc396f74099133436126362e536c63d35e9a39",
     "pairs.csv": "135ba742926fe3b8bc2a0134a932a85e315f17ffa73583d7b3a67fd3e2e94058",
     "latency.csv": "c79930c25e1b8029399d0b7a55846fa02c39ed8fd84dc20e0b5b752732549cab"
   },

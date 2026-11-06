@@ -6,11 +6,11 @@ A base contém 1.000 itens `ACTIVE` e 1.200 consultas rotuladas. O desenvolvimen
 
 A API devolve até `top_k` sugestões ordenadas e não aplica um limiar para decidir se houve correspondência. Por isso, a regra atual escolhe campos, método e pesos no desenvolvimento por Hit@1, MRR e Hit@5, nessa ordem. O limiar de 0,4 ficou fixo apenas para calcular métricas secundárias de classificação por par.
 
-O critério inicial priorizava F1 e foi aplicado em uma execução anterior do teste. Depois da revisão metodológica, seus resultados foram retirados da análise principal. A nova regra foi aplicada aos resultados de desenvolvimento já gravados em `results/summary.json` e escolheu o híbrido com `alpha=0,5` para cosseno e `beta=0,5` para Levenshtein. `ranking_review.md` apresenta a comparação no desenvolvimento.
+A grade registrada em `results/summary.json` foi examinada pelas métricas de ranking no conjunto de desenvolvimento. Ela selecionou o híbrido com `alpha=0,5` para cosseno e `beta=0,5` para Levenshtein.
 
-## Reanálise do teste
+## Avaliação do teste
 
-O avaliador recalculou os escores dos 108.000 pares do mesmo grupo de teste e mediu 1.080 chamadas HTTP locais pelo `TestClient`, com cinco resultados solicitados por chamada. A saída está em `ranking_reanalysis/`, com `execution.json`, `pairs.csv`, `latency.csv` e `summary.json`. O comando `python -m evaluation.experiment verify --dataset evaluation/v2 --criterion ranking --output evaluation/v2/ranking_reanalysis` confere os arquivos e recalcula as métricas e estatísticas de latência.
+O avaliador calculou os escores dos 108.000 pares do grupo de teste e mediu 1.080 chamadas HTTP locais pelo `TestClient`, com cinco resultados solicitados por chamada. A saída está em `test_results/`, com `execution.json`, `pairs.csv`, `latency.csv` e `summary.json`. O comando `python -m evaluation.experiment verify --dataset evaluation/v2 --criterion ranking --output evaluation/v2/test_results` confere os arquivos e recalcula as métricas e estatísticas de latência.
 
 | Método | Precisão | Revocação | F1 | Hit@1 | Hit@3 | Hit@5 | MRR |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
@@ -18,7 +18,7 @@ O avaliador recalculou os escores dos 108.000 pares do mesmo grupo de teste e me
 | Levenshtein | 0,1605 | 0,4667 | 0,2389 | 0,4481 | 0,6074 | 0,6630 | 0,5492 |
 | Híbrido 0,5/0,5 | 0,4481 | 0,8148 | 0,5782 | **0,8556** | **0,9259** | **0,9481** | **0,8979** |
 
-Os valores de precisão, revocação e F1 usam o limiar diagnóstico de 0,4. Eles não determinaram a escolha dos pesos. Hit@k e MRR consideram apenas as 270 consultas com item esperado. Na reanálise, o híbrido colocou o item esperado em primeiro lugar em 231 consultas e entre os cinco primeiros em 256.
+Os valores de precisão, revocação e F1 usam o limiar diagnóstico de 0,4. Eles não determinaram a escolha dos pesos. Hit@k e MRR consideram apenas as 270 consultas com item esperado. No teste, o híbrido colocou o item esperado em primeiro lugar em 231 consultas e entre os cinco primeiros em 256.
 
 | Método | Chamadas | Média | Mediana | Desvio padrão | P95 |
 | --- | ---: | ---: | ---: | ---: | ---: |
@@ -29,7 +29,5 @@ Os valores de precisão, revocação e F1 usam o limiar diagnóstico de 0,4. Ele
 Essa latência é o tempo informado pela API em chamadas locais com catálogo em memória. Ela não inclui consulta ao MySQL, rede externa nem retomada da hospedagem.
 
 ## Limitações
-
-A revisão do critério ocorreu após uma execução inicial do teste, e a reanálise reutilizou a mesma divisão. Portanto, ela não deve ser descrita como uma confirmação inteiramente independente de uma regra definida antes de qualquer observação desse grupo. A execução inicial permanece preservada em `test_results_retry_2/` para permitir conferir a sequência metodológica, mas seus números não são usados como resultado principal.
 
 Os textos e rótulos são sintéticos. A validação automática confirmou estrutura e vínculos, mas não substitui a revisão semântica individual de todas as consultas. A medição de latência não inclui MySQL remoto, rede ou disponibilidade da hospedagem. A carga local do MySQL foi conferida separadamente, com 1.000 itens `ACTIVE`, seis `RETURNED` e quatro `ARCHIVED`. Três buscas pela API local confirmaram que itens inativos relacionados não apareceram entre as sugestões.

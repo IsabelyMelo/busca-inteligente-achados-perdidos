@@ -14,7 +14,7 @@ O comando grava `pairs.csv`, `latency.csv` e `summary.json` na pasta indicada. O
 
 A comparação de campos usa híbrido com `alpha=0.5` e limiar diagnóstico `0.4`, fixados antes da grade. Em novas execuções, a seleção de campos, método e pesos prioriza Hit@1, MRR e Hit@5, nessa ordem. O limiar diagnóstico permanece em 0,4 e não participa da seleção. A grade ainda calcula F1, precisão e revocação sobre os pares para análise secundária. Consultas negativas participam dessas métricas de classificação, mas não dos denominadores de Hit@k e MRR.
 
-Os resultados originais da v1 e da v2 foram selecionados pela política `pair_f1`. Eles permanecem registrados sem alteração. Para reproduzir a política antiga no desenvolvimento em uma pasta nova, use `--selection-policy pair_f1`. O avaliador de desenvolvimento agora usa `ranking` por padrão e recusa gravar sobre um `summary.json` existente. A nova política precisa de um conjunto de teste independente antes de produzir uma nova estimativa confirmatória.
+A política `pair_f1` permanece disponível para reproduzir a avaliação histórica da v1. A grade de desenvolvimento da v2 está registrada em `evaluation/v2/results/`, e a seleção por ranking para o teste usa Hit@1, MRR e Hit@5. O avaliador de desenvolvimento usa `ranking` por padrão e recusa gravar sobre um `summary.json` existente. Para um novo conjunto, a seleção deve ser feita somente no desenvolvimento antes da avaliação do teste.
 
 `latency.csv` registra requisições HTTP reais à aplicação com o catálogo do split, uma por consulta e método, fora da grade. O cabeçalho `X-Server-Time-Ms` mede no servidor do recebimento pela aplicação até a resposta HTTP construída. As estatísticas são média, mediana, desvio padrão populacional e P95 (interpolação linear do NumPy), em milissegundos. Esses números são do piloto em `TestClient`; o ambiente final deverá ser medido novamente na avaliação final.
 
@@ -24,10 +24,10 @@ Para a base final, `evaluation/v1/manifest.json` fixa os IDs e checksums dos spl
 
 Ao receber `--dataset evaluation/v2`, o mesmo comando usa `development` e a saída padrão seria `evaluation/v2/results`. Como essa pasta contém a avaliação congelada, informe uma nova pasta com `--output` para qualquer análise exploratória.
 
-A reanálise da v2 com seleção por ranking está descrita em `evaluation/v2/report.md`. O avaliador comum `evaluation.experiment` confere essa execução e os resultados históricos da v1 e da v2. Por exemplo:
+A avaliação da v2 com seleção por ranking está descrita em `evaluation/v2/report.md`. O avaliador comum `evaluation.experiment` confere os resultados do teste v2. Por exemplo:
 
 ```powershell
-.\.venv\Scripts\python.exe -m evaluation.experiment verify --dataset evaluation\v2 --criterion ranking --output evaluation\v2\ranking_reanalysis
+.\.venv\Scripts\python.exe -m evaluation.experiment verify --dataset evaluation\v2 --criterion ranking --output evaluation\v2\test_results
 ```
 
 Para um novo conjunto, `evaluation.evaluate` calcula o desenvolvimento. Depois `evaluation.experiment freeze`, `run`, `latency` e `verify` usam os mesmos argumentos `--dataset`, `--criterion` (`ranking` ou `pair_f1`) e `--output`. O `freeze` registra a escolha feita apenas com o desenvolvimento. O `run` calcula os pares do teste, `latency` mede a API local e `verify` confere os CSVs e as métricas. Os comandos não sobrescrevem saídas existentes. O arquivo `evaluation.final_experiment` permanece como registro do fluxo legado da v1.

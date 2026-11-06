@@ -137,7 +137,7 @@ Invoke-RestMethod -Uri http://127.0.0.1:8000/matches/search -Method Post -Header
 
 O endpoint consulta somente itens `ACTIVE`. Registros `RETURNED` e `ARCHIVED` não participam do ranking.
 O resultado é uma lista de sugestões ordenadas e não confirma automaticamente
-uma correspondência. O limiar 0,6 da avaliação v2 original pertence somente à classificação experimental
+uma correspondência. O limiar de 0,4 da avaliação v2 pertence somente à classificação experimental
 por par e não filtra a resposta da API. Mesmo uma descrição sem correspondência
 rotulada pode receber `top_k` candidatos.
 
