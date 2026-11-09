@@ -1,0 +1,133 @@
+{
+  "measured_at_utc": "2026-11-09T23:53:56.394091+00:00",
+  "url": "https://busca-inteligente-achados-perdidos.onrender.com/matches/search",
+  "query_id": "q-000002",
+  "query_text_stored": false,
+  "credential_stored": false,
+  "first_call": {
+    "call": 1,
+    "client_ms": 2151.347,
+    "server_ms": 1913.321882,
+    "processing_ms": 1904.665,
+    "profile": {
+      "tfidf_fit_ms": 133.496,
+      "tfidf_refit": 1,
+      "repository_ms": 1458.507,
+      "item_count": 1000,
+      "prepare_items_ms": 245.647,
+      "cosine_ms": 4.405,
+      "ranking_ms": 59.721,
+      "total_ms": 1904.222
+    }
+  },
+  "warm_calls": 6,
+  "warm_median_ms": {
+    "client_ms": 896.683,
+    "server_ms": 673.692,
+    "processing_ms": 635.942,
+    "repository_ms": 350.216,
+    "prepare_items_ms": 276.452,
+    "tfidf_fit_ms": 0.0,
+    "cosine_ms": 1.922,
+    "ranking_ms": 5.579,
+    "total_ms": 635.441
+  },
+  "warm_samples": [
+    {
+      "call": 2,
+      "client_ms": 895.258,
+      "server_ms": 715.559603,
+      "processing_ms": 713.874,
+      "profile": {
+        "tfidf_fit_ms": 0.0,
+        "tfidf_refit": 0,
+        "repository_ms": 350.917,
+        "item_count": 1000,
+        "prepare_items_ms": 271.762,
+        "cosine_ms": 1.81,
+        "ranking_ms": 88.376,
+        "total_ms": 713.086
+      }
+    },
+    {
+      "call": 3,
+      "client_ms": 899.893,
+      "server_ms": 727.595122,
+      "processing_ms": 641.358,
+      "profile": {
+        "tfidf_fit_ms": 0.0,
+        "tfidf_refit": 0,
+        "repository_ms": 351.562,
+        "item_count": 1000,
+        "prepare_items_ms": 281.142,
+        "cosine_ms": 2.034,
+        "ranking_ms": 5.877,
+        "total_ms": 640.797
+      }
+    },
+    {
+      "call": 4,
+      "client_ms": 910.374,
+      "server_ms": 744.243444,
+      "processing_ms": 742.8,
+      "profile": {
+        "tfidf_fit_ms": 0.0,
+        "tfidf_refit": 0,
+        "repository_ms": 349.682,
+        "item_count": 1000,
+        "prepare_items_ms": 384.807,
+        "cosine_ms": 2.323,
+        "ranking_ms": 5.28,
+        "total_ms": 742.343
+      }
+    },
+    {
+      "call": 5,
+      "client_ms": 898.107,
+      "server_ms": 603.961873,
+      "processing_ms": 602.511,
+      "profile": {
+        "tfidf_fit_ms": 0.0,
+        "tfidf_refit": 0,
+        "repository_ms": 350.749,
+        "item_count": 1000,
+        "prepare_items_ms": 245.777,
+        "cosine_ms": 1.711,
+        "ranking_ms": 3.714,
+        "total_ms": 602.144
+      }
+    },
+    {
+      "call": 6,
+      "client_ms": 792.723,
+      "server_ms": 603.850004,
+      "processing_ms": 602.385,
+      "profile": {
+        "tfidf_fit_ms": 0.0,
+        "tfidf_refit": 0,
+        "repository_ms": 284.29,
+        "item_count": 1000,
+        "prepare_items_ms": 225.563,
+        "cosine_ms": 1.66,
+        "ranking_ms": 90.212,
+        "total_ms": 601.903
+      }
+    },
+    {
+      "call": 7,
+      "client_ms": 809.226,
+      "server_ms": 631.824357,
+      "processing_ms": 630.527,
+      "profile": {
+        "tfidf_fit_ms": 0.0,
+        "tfidf_refit": 0,
+        "repository_ms": 283.716,
+        "item_count": 1000,
+        "prepare_items_ms": 339.327,
+        "cosine_ms": 2.108,
+        "ranking_ms": 4.72,
+        "total_ms": 630.085
+      }
+    }
+  ]
+}

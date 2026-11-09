@@ -1,0 +1,112 @@
+{
+  "measured_at_utc": "2026-11-09T23:40:21.964201+00:00",
+  "environment": "local; direct MatchingService.search call; no HTTP, Render or Aiven",
+  "python": "3.12.14",
+  "items_sha256": "c9ad07f647247fb039df9a3f0702d979d4084513fd7fc7c0551f46315c9b5ac5",
+  "query": "carregador de celular branco com cabo meio descascado, acho que deixei no laboratório de informática",
+  "repeats": 12,
+  "scenarios": [
+    {
+      "scenario": "300 itens em memória",
+      "first_call": {
+        "normalization_ms": 12.921999703394249,
+        "item_count": 300,
+        "repository_ms": 0.0023000029614195228,
+        "tfidf_fit_ms": 8.62589999451302,
+        "tfidf_fit_calls": 1,
+        "tfidf_query_ms": 0.3369000041857362,
+        "cosine_ms": 0.5035000067437068,
+        "levenshtein_ms": 0.5917999951634556,
+        "total_ms": 23.787400001310743,
+        "similarity_ms": 1.4322000060928985,
+        "remaining_ms": 0.8050002943491563
+      },
+      "warm": {
+        "calls": 12,
+        "item_count": 300,
+        "tfidf_fit_calls": 0,
+        "median_ms": {
+          "total_ms": 13.013,
+          "repository_ms": 0.001,
+          "normalization_ms": 10.978,
+          "tfidf_fit_ms": 0.0,
+          "tfidf_query_ms": 0.404,
+          "cosine_ms": 0.375,
+          "levenshtein_ms": 0.564,
+          "similarity_ms": 1.363,
+          "remaining_ms": 0.63
+        },
+        "min_total_ms": 12.355,
+        "max_total_ms": 14.208
+      }
+    },
+    {
+      "scenario": "1000 itens em memória",
+      "first_call": {
+        "normalization_ms": 37.60920038621407,
+        "item_count": 1000,
+        "repository_ms": 0.000500003807246685,
+        "tfidf_fit_ms": 9.173900005407631,
+        "tfidf_fit_calls": 1,
+        "tfidf_query_ms": 0.2674999996088445,
+        "cosine_ms": 0.4233999934513122,
+        "levenshtein_ms": 1.7117000534199178,
+        "total_ms": 51.260499996715225,
+        "similarity_ms": 2.4026000464800745,
+        "remaining_ms": 2.0742995548062027
+      },
+      "warm": {
+        "calls": 12,
+        "item_count": 1000,
+        "tfidf_fit_calls": 0,
+        "median_ms": {
+          "total_ms": 42.024,
+          "repository_ms": 0.001,
+          "normalization_ms": 36.88,
+          "tfidf_fit_ms": 0.0,
+          "tfidf_query_ms": 0.478,
+          "cosine_ms": 0.426,
+          "levenshtein_ms": 1.757,
+          "similarity_ms": 2.698,
+          "remaining_ms": 2.056
+        },
+        "min_total_ms": 39.942,
+        "max_total_ms": 45.978
+      }
+    },
+    {
+      "scenario": "1000 itens no MySQL local",
+      "first_call": {
+        "normalization_ms": 40.37440012325533,
+        "item_count": 1000,
+        "repository_ms": 33.81259999878239,
+        "tfidf_fit_ms": 9.337199997389689,
+        "tfidf_fit_calls": 1,
+        "tfidf_query_ms": 0.3192000003764406,
+        "cosine_ms": 0.4538999928627163,
+        "levenshtein_ms": 1.7741996416589245,
+        "total_ms": 88.479300000472,
+        "similarity_ms": 2.5472996348980814,
+        "remaining_ms": 2.4078002461465076
+      },
+      "warm": {
+        "calls": 12,
+        "item_count": 1000,
+        "tfidf_fit_calls": 0,
+        "median_ms": {
+          "total_ms": 57.906,
+          "repository_ms": 10.436,
+          "normalization_ms": 41.465,
+          "tfidf_fit_ms": 0.0,
+          "tfidf_query_ms": 0.55,
+          "cosine_ms": 0.493,
+          "levenshtein_ms": 1.89,
+          "similarity_ms": 2.911,
+          "remaining_ms": 2.575
+        },
+        "min_total_ms": 50.767,
+        "max_total_ms": 67.586
+      }
+    }
+  ]
+}
