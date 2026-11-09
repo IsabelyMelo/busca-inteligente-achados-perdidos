@@ -1,4 +1,5 @@
 from threading import Lock
+from time import perf_counter
 
 import numpy as np
 from rapidfuzz.distance import Levenshtein
@@ -45,10 +46,12 @@ class MatchingService:
         self,
         query: str,
         signature: tuple[tuple[int, str], ...],
+        timings: dict[str, float | int] | None = None,
     ) -> np.ndarray:
         with self._index_lock:
             # Reajusta o TF-IDF somente quando IDs ou textos dos candidatos mudam
             if signature != self._collection_signature:
+                fit_started = perf_counter() if timings is not None else None
                 item_texts = [item_text for _, item_text in signature]
                 vectorizer = TfidfVectorizer()
                 try:
@@ -62,6 +65,9 @@ class MatchingService:
                 self._collection_signature = signature
                 self._vectorizer = vectorizer
                 self._item_matrix = item_matrix
+                if timings is not None and fit_started is not None:
+                    timings["tfidf_fit_ms"] = (perf_counter() - fit_started) * 1000
+                    timings["tfidf_refit"] = 1
 
             vectorizer = self._vectorizer
             item_matrix = self._item_matrix
@@ -70,8 +76,12 @@ class MatchingService:
             return np.zeros(len(signature), dtype=float)
 
         # Compara a consulta com a matriz já ajustada aos itens ativos
+        cosine_started = perf_counter() if timings is not None else None
         query_vector = vectorizer.transform([query])
-        return cosine_similarity(query_vector, item_matrix).ravel()
+        result = cosine_similarity(query_vector, item_matrix).ravel()
+        if timings is not None and cosine_started is not None:
+            timings["cosine_ms"] = (perf_counter() - cosine_started) * 1000
+        return result
 
     def _final_score(
         self,
@@ -84,24 +94,41 @@ class MatchingService:
             return levenshtein_score
         return self._alpha * cosine_score + self._beta * levenshtein_score
 
-    def search(self, description: str, top_k: int = 5) -> list[RankedItem]:
+    def search(
+        self,
+        description: str,
+        top_k: int = 5,
+        *,
+        timings: dict[str, float | int] | None = None,
+    ) -> list[RankedItem]:
+        started = perf_counter() if timings is not None else None
+        if timings is not None:
+            timings.update(tfidf_fit_ms=0.0, tfidf_refit=0)
         query = normalize_for_matching(description)
         if not query:
             raise ValueError("A descrição não contém termos úteis para a busca")
 
         # Ordena por ID para manter o índice e os desempates reproduzíveis
+        repository_started = perf_counter() if timings is not None else None
         items = sorted(self._repository.find_active_items(), key=lambda item: item.id)
+        if timings is not None and repository_started is not None:
+            timings["repository_ms"] = (perf_counter() - repository_started) * 1000
+            timings["item_count"] = len(items)
         if not items:
             return []
 
+        prepare_started = perf_counter() if timings is not None else None
         item_texts = [
             build_item_text(item, include_category=self._include_category) for item in items
         ]
         signature = tuple(
             (item.id, item_text) for item, item_text in zip(items, item_texts, strict=True)
         )
-        cosine_scores = self._cosine_scores(query, signature)
+        if timings is not None and prepare_started is not None:
+            timings["prepare_items_ms"] = (perf_counter() - prepare_started) * 1000
+        cosine_scores = self._cosine_scores(query, signature, timings)
 
+        ranking_started = perf_counter() if timings is not None else None
         ranked = []
         for item, item_text, cosine_score in zip(
             items, item_texts, cosine_scores, strict=True
@@ -122,4 +149,7 @@ class MatchingService:
 
         # Prioriza maior escore e usa o ID como desempate estável
         ranked.sort(key=lambda result: (-result.final_score, result.item.id))
+        if timings is not None and ranking_started is not None and started is not None:
+            timings["ranking_ms"] = (perf_counter() - ranking_started) * 1000
+            timings["total_ms"] = (perf_counter() - started) * 1000
         return ranked[:top_k]

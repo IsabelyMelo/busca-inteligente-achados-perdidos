@@ -1,3 +1,4 @@
+import json
 import logging
 import ssl
 from datetime import datetime
@@ -42,13 +43,28 @@ def test_search_endpoint_returns_ranked_items() -> None:
                 "description": "Celular Samsung preto com capa azul",
                 "top_k": 5,
             },
-            headers=AUTH_HEADERS,
+            headers={**AUTH_HEADERS, "X-Profile-Timings": "1"},
+        )
+        second_response = client.post(
+            "/matches/search",
+            json={"description": "Celular Samsung preto com capa azul", "top_k": 5},
+            headers={**AUTH_HEADERS, "X-Profile-Timings": "1"},
         )
 
     assert response.status_code == 200
     body = response.json()
     assert body["returned_count"] == 1
     assert body["matches"][0]["item_id"] == 1
+    assert second_response.json()["matches"] == body["matches"]
+    first_profile = json.loads(response.headers["X-Search-Profile"])
+    second_profile = json.loads(second_response.headers["X-Search-Profile"])
+    assert first_profile["item_count"] == 1
+    assert first_profile["tfidf_refit"] == 1
+    assert second_profile.get("tfidf_refit", 0) == 0
+    assert first_profile["repository_ms"] >= 0
+    assert first_profile["prepare_items_ms"] >= 0
+    assert first_profile["cosine_ms"] >= 0
+    assert first_profile["ranking_ms"] >= 0
 
 
 def test_search_endpoint_validates_short_description() -> None:

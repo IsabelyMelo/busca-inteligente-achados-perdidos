@@ -3,12 +3,13 @@ from collections import deque
 from contextlib import asynccontextmanager
 from datetime import datetime, timezone
 from hmac import compare_digest
+import json
 import logging
 from math import ceil
 from threading import Lock
 from time import perf_counter
 
-from fastapi import FastAPI, HTTPException, Request, Security
+from fastapi import FastAPI, HTTPException, Request, Response, Security
 from fastapi.exceptions import RequestValidationError
 from fastapi.responses import JSONResponse
 from fastapi.security import APIKeyHeader
@@ -147,11 +148,12 @@ def create_app(
         response_model=SearchResponse,
         dependencies=[Security(service_key_header)],
     )
-    def search(payload: SearchRequest, request: Request) -> SearchResponse:
+    def search(payload: SearchRequest, request: Request, response: Response) -> SearchResponse:
         started_at = perf_counter()
         service: MatchingService = request.app.state.matching_service
+        timings = {} if request.headers.get("X-Profile-Timings") == "1" else None
         try:
-            matches = service.search(payload.description, payload.top_k)
+            matches = service.search(payload.description, payload.top_k, timings=timings)
         except ValueError as error:
             raise HTTPException(status_code=422, detail="Descrição inválida") from error
         except Exception as error:
@@ -162,6 +164,12 @@ def create_app(
             ) from error
 
         elapsed_ms = (perf_counter() - started_at) * 1000
+        if timings is not None:
+            response.headers["X-Search-Profile"] = json.dumps(
+                {key: round(value, 3) if isinstance(value, float) else value
+                 for key, value in timings.items()},
+                separators=(",", ":"),
+            )
         response_matches = [MatchItem.from_ranked_item(item) for item in matches]
         return SearchResponse(
             returned_count=len(response_matches),
