@@ -16,13 +16,14 @@ permanece como metadado; a comparação controlada no piloto de desenvolvimento
 está registrada em `evaluation/README.md` e no resumo exportado pelo avaliador.
 
 Na busca, consulta e itens passam pela mesma lista de equivalências antes do
-ranqueamento: `telefone`, `smartphone` e `telemóvel` viram `celular`;
+ranqueamento: `telefone` e `smartphone` viram `celular`;
 `capinha` vira `capa`; `pendrive` vira `pen drive`; `power bank` e `powerbank`
 viram `carregador portátil`; `headphone`, `headphones` e `headset` viram `fone`.
 A substituição usa palavras inteiras e pode ser ampliada em
 `app/preprocessing.py`. Cores e outras características continuam distintas.
-Essa mudança altera escores e posições; os resultados experimentais já
-registrados em `evaluation/` descrevem a versão anterior do ranqueamento.
+A lista foi incorporada antes da avaliação v2. Os resultados congelados da v2
+usam a lista original de dez equivalências. A forma retirada posteriormente
+não aparece nos itens nem nas consultas avaliadas e não altera essas métricas.
 
 ## Requisitos
 

@@ -28,6 +28,34 @@ Os valores de precisão, revocação e F1 usam o limiar diagnóstico de 0,4. Ele
 
 Essa latência é o tempo informado pela API em chamadas locais com catálogo em memória. Ela não inclui consulta ao MySQL, rede externa nem retomada da hospedagem.
 
+## Análise complementar com o catálogo completo
+
+Após o teste final, as mesmas 270 consultas positivas foram ranqueadas contra os 1.000 itens `ACTIVE`, mantendo os campos e os pesos escolhidos no desenvolvimento. O TF-IDF foi ajustado ao catálogo ampliado. Os arquivos `full_catalog_sensitivity.json` e `full_catalog_ranks.csv` registram o resumo e a posição do item esperado em cada consulta. O procedimento reproduz as métricas originais a partir de `test_results/pairs.csv` antes da comparação e pode ser repetido com `python -m evaluation.full_catalog_sensitivity`.
+
+| Método | Candidatos | Hit@1 | Hit@5 | MRR |
+| --- | ---: | ---: | ---: | ---: |
+| Cosseno | 300 | 0,8333 | 0,9444 | 0,8826 |
+| Cosseno | 1.000 | 0,7296 | 0,8815 | 0,8040 |
+| Levenshtein | 300 | 0,4481 | 0,6630 | 0,5492 |
+| Levenshtein | 1.000 | 0,3259 | 0,5148 | 0,4222 |
+| Híbrido | 300 | 0,8556 | 0,9481 | 0,8979 |
+| Híbrido | 1.000 | 0,7370 | 0,9111 | 0,8132 |
+
+No híbrido, Hit@1 corresponde a 231 e 199 acertos, respectivamente. Hit@5 corresponde a 256 e 246. A queda reflete a ampliação do catálogo e o reajuste dos pesos IDF. Esta análise local não substitui o teste original nem mede a qualidade com relatos reais.
+
+## Diagnóstico por consulta da ausência de correspondência
+
+Uma análise posterior usou o escore híbrido do primeiro candidato para classificar cada consulta como possível correspondência (escore igual ou superior ao limiar) ou sem correspondência (escore inferior). Em vez de contar centenas de pares negativos por consulta, cada consulta contribui uma única vez. Os arquivos `query_match_diagnostic.json` e `query_match_scores_test.csv` preservam o cálculo e os escores do teste. O script `python -m evaluation.query_match_diagnostic` confere os hashes dos pares originais antes de recriá-los.
+
+| Conjunto | Limiar | Positivas acima | Positivas abaixo | Sem correspondência abaixo | Sem correspondência acima |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| Desenvolvimento | 0,40 | 531/630 | 99/630 | 91/210 | 119/210 |
+| Desenvolvimento | 0,51 | 327/630 | 303/630 | 194/210 | 16/210 |
+| Teste | 0,40 | 224/270 | 46/270 | 54/90 | 36/90 |
+| Teste | 0,51 | 134/270 | 136/270 | 86/90 | 4/90 |
+
+O corte 0,51 foi escolhido apenas no desenvolvimento, em uma grade de 0 a 1 com passo de 0,01, pela maior acurácia balanceada. No teste, ele reconheceu 86 das 90 consultas sem correspondência, mas deixou 136 das 270 positivas abaixo do corte. A classificação por escore do topo não comprova que o primeiro item esteja correto. Nenhum dos dois limiares é aplicado pela API publicada. Os valores se referem ao teste com 300 candidatos, não ao catálogo completo de 1.000 itens.
+
 ## Limitações
 
-Os textos e rótulos são sintéticos. A validação automática confirmou estrutura e vínculos, mas não substitui a revisão semântica individual de todas as consultas. A medição de latência não inclui MySQL remoto, rede ou disponibilidade da hospedagem. A carga local do MySQL foi conferida separadamente, com 1.000 itens `ACTIVE`, seis `RETURNED` e quatro `ARCHIVED`. Três buscas pela API local confirmaram que itens inativos relacionados não apareceram entre as sugestões.
+Os textos e rótulos são sintéticos. A validação automática confirmou estrutura e vínculos, mas não substitui a revisão semântica individual de todas as consultas. A análise complementar do catálogo completo considera apenas o ranqueamento de consultas positivas. O diagnóstico de ausência de correspondência usa somente os 300 candidatos do teste original. A medição de latência não inclui MySQL remoto, rede ou disponibilidade da hospedagem. A carga local do MySQL foi conferida separadamente, com 1.000 itens `ACTIVE`, seis `RETURNED` e quatro `ARCHIVED`. Três buscas pela API local confirmaram que itens inativos relacionados não apareceram entre as sugestões.

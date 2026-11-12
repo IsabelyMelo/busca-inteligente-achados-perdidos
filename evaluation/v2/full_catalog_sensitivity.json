@@ -1,0 +1,102 @@
+{
+  "kind": "post_test_full_catalog_sensitivity",
+  "test_queries": 360,
+  "positive_queries_ranked": 270,
+  "catalogs": {
+    "original_test": 300,
+    "full_active": 1000
+  },
+  "fields": "without_category",
+  "per_method": {
+    "cosine": {
+      "method": "cosine",
+      "alpha": 1.0,
+      "beta": 0.0,
+      "threshold": 0.4
+    },
+    "levenshtein": {
+      "method": "levenshtein",
+      "alpha": 0.0,
+      "beta": 1.0,
+      "threshold": 0.4
+    },
+    "hybrid": {
+      "method": "hybrid",
+      "alpha": 0.5,
+      "beta": 0.5,
+      "threshold": 0.4
+    }
+  },
+  "source_sha256": {
+    "items.jsonl": "c9ad07f647247fb039df9a3f0702d979d4084513fd7fc7c0551f46315c9b5ac5",
+    "queries.jsonl": "794a86cbb03932f0b77f5c056f2c3a429616ffdbbba89da9c79432c66b80b1a1",
+    "test_results/summary.json": "4146a9bb6362486bbdaabfb824b185cdde529e44f6516cae90da2e6705cedf50",
+    "test_results/pairs.csv": "135ba742926fe3b8bc2a0134a932a85e315f17ffa73583d7b3a67fd3e2e94058"
+  },
+  "ranks_sha256": "da0e5331ee0aec0b8082609d5688755e34c01150fe65952f8013baaf2c49fe16",
+  "results": {
+    "cosine": {
+      "300_candidates": {
+        "positive_queries": 270,
+        "hit_at_1_count": 225,
+        "hit_at_1": 0.8333333333333334,
+        "hit_at_5_count": 255,
+        "hit_at_5": 0.9444444444444444,
+        "mrr": 0.8826457368363722
+      },
+      "1000_candidates": {
+        "positive_queries": 270,
+        "hit_at_1_count": 197,
+        "hit_at_1": 0.7296296296296296,
+        "hit_at_5_count": 238,
+        "hit_at_5": 0.8814814814814815,
+        "mrr": 0.8039880094054885
+      },
+      "rank_worsened": 69,
+      "rank_unchanged": 201,
+      "rank_improved": 0
+    },
+    "levenshtein": {
+      "300_candidates": {
+        "positive_queries": 270,
+        "hit_at_1_count": 121,
+        "hit_at_1": 0.44814814814814813,
+        "hit_at_5_count": 179,
+        "hit_at_5": 0.662962962962963,
+        "mrr": 0.5491699797468226
+      },
+      "1000_candidates": {
+        "positive_queries": 270,
+        "hit_at_1_count": 88,
+        "hit_at_1": 0.32592592592592595,
+        "hit_at_5_count": 139,
+        "hit_at_5": 0.5148148148148148,
+        "mrr": 0.4221525922281422
+      },
+      "rank_worsened": 177,
+      "rank_unchanged": 93,
+      "rank_improved": 0
+    },
+    "hybrid": {
+      "300_candidates": {
+        "positive_queries": 270,
+        "hit_at_1_count": 231,
+        "hit_at_1": 0.8555555555555555,
+        "hit_at_5_count": 256,
+        "hit_at_5": 0.9481481481481482,
+        "mrr": 0.8978690577801386
+      },
+      "1000_candidates": {
+        "positive_queries": 270,
+        "hit_at_1_count": 199,
+        "hit_at_1": 0.737037037037037,
+        "hit_at_5_count": 246,
+        "hit_at_5": 0.9111111111111111,
+        "mrr": 0.8131658788581784
+      },
+      "rank_worsened": 70,
+      "rank_unchanged": 199,
+      "rank_improved": 1
+    }
+  }
+}

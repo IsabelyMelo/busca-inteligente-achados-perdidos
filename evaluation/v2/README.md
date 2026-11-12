@@ -43,17 +43,59 @@ O arquivo `threshold_curve.csv` registra a relação entre precisão e revocaç�
 
 O limiar 0,4 é apenas um ponto diagnóstico de classificação por pares. A busca publicada ordena candidatos sem aplicar esse corte.
 
+## Diagnóstico de correspondência por consulta
+
+`query_match_diagnostic.json` e `query_match_scores_test.csv` registram uma análise posterior ao teste final com o escore híbrido do primeiro candidato de cada consulta. Uma consulta é marcada como possível correspondência quando esse escore alcança o limiar. Assim, cada uma das 360 consultas de teste contribui com uma decisão, inclusive as 90 sem item esperado. Esse diagnóstico não verifica se o candidato no topo é o item correto. Os pares e resultados congelados não são alterados.
+
+O limiar 0,4 é apresentado por ser o corte diagnóstico já usado na classificação por pares. Separadamente, foi escolhido um limiar na grade de 0 a 1, com passo de 0,01, pela maior acurácia balanceada nas 840 consultas de desenvolvimento. Em empate, a regra prioriza maior taxa de detecção das positivas e depois o menor limiar. O valor escolhido foi 0,51 e só então aplicado às 360 consultas de teste. A escolha é exploratória e não muda a API, que continua retornando sugestões sem usar um limiar de aceitação.
+
+| Conjunto | Limiar | Positivas acima | Positivas abaixo | Sem correspondência abaixo | Sem correspondência acima |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| Desenvolvimento | 0,40 | 531/630 | 99/630 | 91/210 | 119/210 |
+| Desenvolvimento | 0,51 | 327/630 | 303/630 | 194/210 | 16/210 |
+| Teste | 0,40 | 224/270 | 46/270 | 54/90 | 36/90 |
+| Teste | 0,51 | 134/270 | 136/270 | 86/90 | 4/90 |
+
+Para reproduzir o cálculo a partir dos pares congelados:
+
+```powershell
+.\.venv\Scripts\python.exe -m evaluation.query_match_diagnostic
+```
+
+No teste, o corte 0,51 reconhece mais consultas sem correspondência, mas também rejeita mais consultas positivas. Esses números descrevem apenas o catálogo de 300 candidatos do teste sintético. A análise de catálogo completo abaixo usa apenas consultas positivas e não permite extrapolar essa decisão para os 1.000 itens da API publicada.
+
+## Sensibilidade ao tamanho do catálogo
+
+`full_catalog_sensitivity.json` e `full_catalog_ranks.csv` registram uma análise posterior ao teste final. As mesmas 270 consultas positivas de teste foram ranqueadas com os 1.000 itens ativos da v2, mantendo os campos e os pesos escolhidos no desenvolvimento. O TF-IDF foi ajustado ao catálogo completo, como na busca da API. Os rankings originais com 300 candidatos foram recalculados a partir dos pares congelados e conferidos contra `test_results/summary.json`. As 90 consultas sem correspondência não entram em Hit@1, Hit@5 ou MRR. Nenhum peso foi reajustado e os arquivos do teste original não foram alterados.
+
+Para reproduzir a análise:
+
+```powershell
+.\.venv\Scripts\python.exe -m evaluation.full_catalog_sensitivity
+```
+
+| Método | Candidatos | Hit@1 | Hit@5 | MRR |
+| --- | ---: | ---: | ---: | ---: |
+| Cosseno | 300 | 0,8333 | 0,9444 | 0,8826 |
+| Cosseno | 1.000 | 0,7296 | 0,8815 | 0,8040 |
+| Levenshtein | 300 | 0,4481 | 0,6630 | 0,5492 |
+| Levenshtein | 1.000 | 0,3259 | 0,5148 | 0,4222 |
+| Híbrido | 300 | 0,8556 | 0,9481 | 0,8979 |
+| Híbrido | 1.000 | 0,7370 | 0,9111 | 0,8132 |
+
+No híbrido, o item esperado ficou em primeiro lugar em 231 consultas com 300 candidatos e 199 com 1.000. Ele ficou entre os cinco primeiros em 256 e 246 consultas, respectivamente. A comparação modifica tanto o número de concorrentes quanto os pesos IDF, que dependem do catálogo. Ela mede sensibilidade no conjunto sintético, sem substituir o teste original nem estimar qualidade em relatos reais. A análise é local e não mede a latência da API publicada.
+
 ## Origem e ablação das equivalências lexicais
 
-A autora informou que as dez substituições de `app/preprocessing.py` vieram de sugestões do Codex após a validação da v1. A consulta exploratória `Telefone preto com capinha amarela` motivou especialmente as formas `telefone` e `capinha`. O commit `8a96839` registrou a lista em 02/11/2026, antes do commit `0385937` que registrou a v2 em 03/11/2026. A base v2 não foi avaliada antes da inclusão da lista. O histórico não permite excluir influência da lista sobre a geração posterior dos textos sintéticos.
+A autora informou que as dez substituições originais vieram de sugestões do Codex após a validação da v1. A consulta exploratória `Telefone preto com capinha amarela` motivou especialmente as formas `telefone` e `capinha`. O commit `8a96839` registrou a lista em 02/11/2026, antes do commit `0385937` que registrou a v2 em 03/11/2026. A base v2 não foi avaliada antes da inclusão da lista. O histórico não permite excluir influência da lista sobre a geração posterior dos textos sintéticos. A forma `telemóvel`, ausente dos itens e consultas finais da v1 e v2, foi removida posteriormente da lista ativa. Os arquivos de análise desta seção preservam a lista original de dez formas.
 
-`alias_occurrences.json` registra uma varredura reproduzível das dez formas. Nenhuma ocorre nos arquivos finais da v1. Na v2, ocorrem `power bank` (11 itens, três consultas), `telefone` (cinco consultas), `capinha` (quatro consultas), `pendrive` (três consultas) e `headset` (seis itens, duas consultas). As outras cinco formas não ocorrem nesses arquivos. A presença em um arquivo não demonstra que o termo tenha motivado a inclusão da equivalência. Para refazer a varredura:
+`alias_occurrences.json` registra uma varredura das dez formas originais. Nenhuma ocorre nos arquivos finais da v1. Na v2, ocorrem `power bank` (11 itens, três consultas), `telefone` (cinco consultas), `capinha` (quatro consultas), `pendrive` (três consultas) e `headset` (seis itens, duas consultas). As outras cinco formas não ocorrem nesses arquivos. A presença em um arquivo não demonstra que o termo tenha motivado a inclusão da equivalência. Para refazer essa varredura histórica, use uma cópia do projeto na revisão `b526a338d02eb938c244fefd0ef1697b8c214d4` e execute:
 
 ```powershell
 .\.venv\Scripts\python.exe -m evaluation.alias_provenance_scan
 ```
 
-`synonym_ablation.json` registra uma análise retrospectiva no teste congelado. A condição com a lista usa os pares originais, cujo hash é conferido. A condição sem a lista repete a pontuação dos mesmos 300 candidatos e 360 consultas, mantendo o híbrido com pesos 0,5/0,5 e os campos nome, descrição e local. Apenas `MATCHING_ALIASES` é desativado temporariamente. O teste final original não é sobrescrito e nenhuma configuração é escolhida novamente. Para repetir a ablação:
+`synonym_ablation.json` registra uma análise retrospectiva no teste congelado, feita com as dez formas originais. A condição com a lista usa os pares originais, cujo hash é conferido. A condição sem a lista repete a pontuação dos mesmos 300 candidatos e 360 consultas, mantendo o híbrido com pesos 0,5/0,5 e os campos nome, descrição e local. Apenas `MATCHING_ALIASES` é desativado temporariamente. O teste final original não é sobrescrito e nenhuma configuração é escolhida novamente. Para repetir essa análise histórica, use a mesma revisão indicada acima e execute:
 
 ```powershell
 .\.venv\Scripts\python.exe -m evaluation.synonym_ablation
@@ -150,5 +192,12 @@ Oito itens extras têm atributos parecidos com buscas positivas já rotuladas. E
 Os itens 1009 e 1010 completam os exemplos `ARCHIVED`. O repositório da API consulta apenas `status = 'ACTIVE'`. Por isso, o banco terá 1.010 linhas após a carga, mas somente 1.000 serão elegíveis para a busca. Os extras não entram na divisão desenvolvimento/teste nem nas 1.200 consultas da avaliação.
 
 A carga local foi conferida por leitura em 03/11/2026. A tabela tinha 1.010 IDs distintos, sendo 1.000 `ACTIVE`, seis `RETURNED` e quatro `ARCHIVED`. Três buscas pela API ligada ao MySQL local, com `top_k` igual a 20, confirmaram que os itens 1001, 1002 e 1003 não apareceram nas respostas a consultas relacionadas. Os itens ativos 1, 2 e 3 apareceram entre as três primeiras opções das respectivas buscas. Essa conferência é separada das métricas da avaliação, que usam os JSONL em memória.
+
+O teste de integração `tests/test_inactive_items.py` consulta diretamente a carga v2 no MySQL sintético, usando apenas operações de leitura. Ele confirma a distribuição dos 1.010 registros por status, verifica que o repositório retorna exatamente os IDs 1–1.000 e faz dez buscas autenticadas pela rota da API, uma com o texto de cada item inativo e `top_k` igual a 20. Nenhum ID de 1001 a 1010 pode aparecer nas respostas. A rota é exercitada localmente pelo cliente de testes com uma chave temporária. O teste exige que `matching_development` esteja carregado e que a conexão esteja configurada no `.env`. Em PowerShell, execute na raiz do repositório:
+
+```powershell
+$env:RUN_DB_INTEGRATION = '1'
+.\.venv\Scripts\python.exe -m pytest tests\test_inactive_items.py -q
+```
 
 Confira o schema ativo e os dados que deseja preservar antes de executar esse SQL. Ele é uma **substituição** da base sintética atual, e não uma carga adicional. Os splits e rótulos permanecem apenas nos JSONL. A API lê os 1.000 itens `ACTIVE` após a carga. A avaliação por split carrega os JSONL em memória e filtra candidatos e consultas de cada grupo.

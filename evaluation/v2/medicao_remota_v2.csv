@@ -1,0 +1,3 @@
+﻿"momento","data_hora","query_id","esperado","http_status","primeiro_item","processamento_api_ms","tempo_total_cliente_ms"
+"positiva_inicial","2026-11-04T00:52:40.7897788-03:00","q-000002","2","200","382","1924,036","64308,4"
+"negativa_inicial","2026-11-04T00:52:41.6637684-03:00","q-000901",,"200","853","674,604","860,1"

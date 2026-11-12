@@ -28,7 +28,6 @@ MATCHING_ALIASES: dict[tuple[str, ...], tuple[str, ...]] = {
     ("power", "bank"): ("carregador", "portatil"),
     ("telefone",): ("celular",),
     ("smartphone",): ("celular",),
-    ("telemovel",): ("celular",),
     ("capinha",): ("capa",),
     ("pendrive",): ("pen", "drive"),
     ("powerbank",): ("carregador", "portatil"),

@@ -26,7 +26,8 @@ def test_matching_aliases_use_complete_words_and_keep_attributes() -> None:
     assert normalize_for_matching("Telefone preto com capinha amarela") == (
         "celular preto com capa amarela"
     )
-    assert normalize_for_matching("Smartphone e telemóvel") == "celular celular"
+    assert normalize_for_matching("Smartphone e telefone") == "celular celular"
+    assert normalize_for_matching("Telemóvel preto") == "telemovel preto"
     assert normalize_for_matching("telefonema preto") == "telefonema preto"
 
 

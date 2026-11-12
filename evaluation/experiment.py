@@ -20,6 +20,7 @@ from evaluation.evaluate import (
     EVALUATION_KEY,
     FixedRepository,
     file_sha256,
+    git_revision,
     latency_stats,
     metrics,
     score_pairs,
@@ -113,6 +114,9 @@ def run_test(dataset: Path, output: Path, criterion: str) -> dict:
         raise FileNotFoundError("Execute freeze antes de abrir o teste")
     if any((output / name).exists() for name in ("execution.json", "pairs.csv", "latency.csv", "summary.json")):
         raise FileExistsError(f"O teste já possui resultados em {output}")
+    revision = git_revision()
+    if revision["working_tree_dirty"]:
+        raise ValueError("A avaliação de teste exige um commit limpo")
     selection = selected_for_output(dataset, output, criterion)
     output.mkdir(parents=True, exist_ok=True)
     items, queries, validation = select_records(dataset, "test", allow_test=True)
@@ -122,6 +126,7 @@ def run_test(dataset: Path, output: Path, criterion: str) -> dict:
     )
     execution = {
         "started_at_utc": datetime.now(timezone.utc).isoformat(),
+        "code": revision,
         "dataset": str(dataset.resolve()),
         "criterion": criterion,
         "selection_sha256": (
