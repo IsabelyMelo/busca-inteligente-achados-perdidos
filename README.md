@@ -68,10 +68,11 @@ A API recusa iniciar sem `SERVICE_API_KEY`. O cabeçalho `X-Service-Key` protege
 `POST /matches/search`; a chave deve ficar no ambiente do serviço consumidor,
 sem exposição a navegador ou usuário final. A credencial identifica um único
 consumidor de serviço, não pessoas. Ausência ou valor inválido retornam 401;
-excesso de requisições retorna 429 com `Retry-After`; falha interna de busca
-retorna 503 sem detalhes do banco. Requisições inválidas retornam 422 sem ecoar
-o texto enviado. O limite padrão é de 60 buscas autorizadas por janela móvel de
-60 segundos, compartilhado por essa credencial em uma única instância. Uma
+excesso de requisições retorna 429 com `Retry-After`; falha operacional do banco
+retorna 503 e os demais erros internos retornam 500, sem expor detalhes.
+Requisições inválidas retornam 422 sem ecoar o texto enviado. O limite padrão
+é de 60 buscas autorizadas por janela móvel de 60 segundos, compartilhado por
+essa credencial em uma única instância. Uma
 reinicialização ou hibernação zera a contagem; várias instâncias teriam
 contadores independentes. Assim, o limite reduz abuso ocasional, mas não é uma
 quota durável nem proteção distribuída.
@@ -254,8 +255,9 @@ a URL e a região efetiva sem copiar segredos para a documentação.
 
 Após a publicação, faça `/health` por HTTPS e buscas autorizadas positiva e
 sem correspondência. Confira 401 para `X-Service-Key` ausente e inválida, 429
-com `Retry-After` após 60 buscas autorizadas na janela de 60 segundos, e 503
-seguro quando o banco falhar. `/health` mede somente o processo e pode continuar
+com `Retry-After` após 60 buscas autorizadas na janela de 60 segundos, 503
+seguro para falha operacional do banco e 500 para erro interno da busca.
+`/health` mede somente o processo e pode continuar
 em 200 durante falha do MySQL. Uma consulta sem correspondência ainda retorna
 sugestões ranqueadas. Meça separadamente a primeira resposta, a resposta quente
 e a retomada após hibernação com os 1.000 itens consultados via MySQL; registre

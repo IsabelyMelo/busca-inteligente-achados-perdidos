@@ -1,0 +1,2727 @@
+{
+  "source_sha256": {
+    "pairs.csv": "135ba742926fe3b8bc2a0134a932a85e315f17ffa73583d7b3a67fd3e2e94058",
+    "items.jsonl": "c9ad07f647247fb039df9a3f0702d979d4084513fd7fc7c0551f46315c9b5ac5",
+    "queries.jsonl": "794a86cbb03932f0b77f5c056f2c3a429616ffdbbba89da9c79432c66b80b1a1"
+  },
+  "hit_at_1_errors": 39,
+  "outside_top_5": 14,
+  "cases": [
+    {
+      "query_id": "q-000039",
+      "query_text": "procuro modem na cor prateada, talvez tenha ficado no laboratório de informática",
+      "reference_id": "ref-v2-item-0043",
+      "noise_types": [
+        "location_cue",
+        "omission",
+        "synonym"
+      ],
+      "expected_rank": 2,
+      "expected_item": {
+        "item_id": 43,
+        "name": "Roteador portátil",
+        "description": "Roteador portátil com um adesivo de sol. A cor predominante é prateada. A etiqueta original está apagada.",
+        "location": "Laboratório de informática",
+        "category": "Eletrônicos"
+      },
+      "top_5": [
+        {
+          "item": {
+            "item_id": 932,
+            "name": "Moletom",
+            "description": "Moletom de cor cinza, com uma fita verde. Na inspeção, há uma pequena mancha.",
+            "location": "Laboratório de informática",
+            "category": "Vestuário"
+          },
+          "score": 0.3845625151088857
+        },
+        {
+          "item": {
+            "item_id": 43,
+            "name": "Roteador portátil",
+            "description": "Roteador portátil com um adesivo de sol. A cor predominante é prateada. A etiqueta original está apagada.",
+            "location": "Laboratório de informática",
+            "category": "Eletrônicos"
+          },
+          "score": 0.36189424837922857
+        },
+        {
+          "item": {
+            "item_id": 282,
+            "name": "Jaleco",
+            "description": "Há uma faixa refletiva no objeto registrado como jaleco, de cor cinza. Além disso, há uma pequena mancha.",
+            "location": "Laboratório de informática",
+            "category": "Vestuário"
+          },
+          "score": 0.3520334948779118
+        },
+        {
+          "item": {
+            "item_id": 28,
+            "name": "Jaleco",
+            "description": "Item encontrado: jaleco na cor verde-água. Há um ponto de tinta azul. O tecido tem acabamento fosco.",
+            "location": "Laboratório de informática",
+            "category": "Vestuário"
+          },
+          "score": 0.34474092723283933
+        },
+        {
+          "item": {
+            "item_id": 799,
+            "name": "CNH",
+            "description": "Item do tipo CNH, cor rosa, distinguido por um ponto de tinta azul. Um lado está desbotado.",
+            "location": "Laboratório de informática",
+            "category": "Documentos"
+          },
+          "score": 0.3359958539143563
+        }
+      ]
+    },
+    {
+      "query_id": "q-000098",
+      "query_text": "sumiu modem com planeta colado",
+      "reference_id": "ref-v2-item-0122",
+      "noise_types": [
+        "omission",
+        "synonym"
+      ],
+      "expected_rank": 2,
+      "expected_item": {
+        "item_id": 122,
+        "name": "Roteador portátil",
+        "description": "Roteador portátil na cor cinza, com um adesivo de planeta. Um canto está amassado.",
+        "location": "Bloco 10",
+        "category": "Eletrônicos"
+      },
+      "top_5": [
+        {
+          "item": {
+            "item_id": 764,
+            "name": "Caneca",
+            "description": "Caneca com um adesivo de planeta. A cor predominante é azul-marinho. A borda está riscada.",
+            "location": "Bloco 10",
+            "category": "Garrafas e recipientes"
+          },
+          "score": 0.2876106471539368
+        },
+        {
+          "item": {
+            "item_id": 122,
+            "name": "Roteador portátil",
+            "description": "Roteador portátil na cor cinza, com um adesivo de planeta. Um canto está amassado.",
+            "location": "Bloco 10",
+            "category": "Eletrônicos"
+          },
+          "score": 0.2731042312327179
+        },
+        {
+          "item": {
+            "item_id": 567,
+            "name": "Notebook",
+            "description": "Objeto do tipo notebook, na cor roxa. Nele aparece um adesivo de planeta. Um parafuso é diferente.",
+            "location": "Bloco 5",
+            "category": "Eletrônicos"
+          },
+          "score": 0.26230426757956543
+        },
+        {
+          "item": {
+            "item_id": 823,
+            "name": "Marmita",
+            "description": "Marmita na cor cinza, com uma etiqueta com a letra P. A borda está gasta.",
+            "location": "Bloco 2",
+            "category": "Garrafas e recipientes"
+          },
+          "score": 0.16734568909539324
+        },
+        {
+          "item": {
+            "item_id": 303,
+            "name": "Pingente",
+            "description": "Pingente de cor preta, com uma plaquinha redonda. Na inspeção, um lado está desbotado.",
+            "location": "Bloco 2",
+            "category": "Acessórios"
+          },
+          "score": 0.14300422669665125
+        }
+      ]
+    },
+    {
+      "query_id": "q-000105",
+      "query_text": "tem registro de bolsinha com solzinho colado e risquinho pequeno?",
+      "reference_id": "ref-v2-item-0129",
+      "noise_types": [
+        "reordered",
+        "synonym"
+      ],
+      "expected_rank": 43,
+      "expected_item": {
+        "item_id": 129,
+        "name": "Bolsa de mão",
+        "description": "Item registrado como bolsa de mão, com um adesivo de sol. Cor predominante: verde-escura. Há um arranhão discreto.",
+        "location": "Bloco 10",
+        "category": "Bolsas e mochilas"
+      },
+      "top_5": [
+        {
+          "item": {
+            "item_id": 810,
+            "name": "Óculos escuros",
+            "description": "Registro de óculos escuros na cor roxa. Detalhe visível: uma etiqueta com a letra P. Observa-se que há um pequeno descascado.",
+            "location": "Bloco 10",
+            "category": "Acessórios"
+          },
+          "score": 0.2732924593742976
+        },
+        {
+          "item": {
+            "item_id": 473,
+            "name": "Cuia",
+            "description": "Item registrado como cuia, com um adesivo de peixe. Cor predominante: verde-escura. Há um pequeno descascado.",
+            "location": "Bloco 5",
+            "category": "Garrafas e recipientes"
+          },
+          "score": 0.26300068843451874
+        },
+        {
+          "item": {
+            "item_id": 584,
+            "name": "Controle de portão",
+            "description": "Registro de controle de portão na cor rosa. Detalhe visível: um chaveiro de dinossauro. Observa-se que há um pequeno descascado.",
+            "location": "Teatro de Arena",
+            "category": "Chaves"
+          },
+          "score": 0.2627947215314212
+        },
+        {
+          "item": {
+            "item_id": 313,
+            "name": "Boné",
+            "description": "Registro de boné na cor cinza. Detalhe visível: uma etiqueta com a letra M. Observa-se que a borda está gasta.",
+            "location": "Bloco 4",
+            "category": "Acessórios"
+          },
+          "score": 0.24472784574378417
+        },
+        {
+          "item": {
+            "item_id": 849,
+            "name": "Sombrinha estampada",
+            "description": "Registro de sombrinha estampada na cor vinho. Detalhe visível: uma plaquinha redonda. Observa-se que a alça tem desgaste.",
+            "location": "Secretaria",
+            "category": "Guarda-chuvas"
+          },
+          "score": 0.2364138030883889
+        }
+      ]
+    },
+    {
+      "query_id": "q-000153",
+      "query_text": "vcs viram prancheta com abelhinha colada?",
+      "reference_id": "ref-v2-item-0184",
+      "noise_types": [
+        "omission"
+      ],
+      "expected_rank": 2,
+      "expected_item": {
+        "item_id": 184,
+        "name": "Prancheta",
+        "description": "Objeto registrado como prancheta, na cor azul-clara. Apresenta um adesivo de abelha. Verificou-se que um canto tem cola aparente.",
+        "location": "Bloco 10",
+        "category": "Material de estudo"
+      },
+      "top_5": [
+        {
+          "item": {
+            "item_id": 620,
+            "name": "Prancheta",
+            "description": "Prancheta com uma marca triangular. A cor predominante é azul-marinho. Um lado está desbotado.",
+            "location": "Recanto",
+            "category": "Material de estudo"
+          },
+          "score": 0.5103450794639638
+        },
+        {
+          "item": {
+            "item_id": 184,
+            "name": "Prancheta",
+            "description": "Objeto registrado como prancheta, na cor azul-clara. Apresenta um adesivo de abelha. Verificou-se que um canto tem cola aparente.",
+            "location": "Bloco 10",
+            "category": "Material de estudo"
+          },
+          "score": 0.4348240792987012
+        },
+        {
+          "item": {
+            "item_id": 823,
+            "name": "Marmita",
+            "description": "Marmita na cor cinza, com uma etiqueta com a letra P. A borda está gasta.",
+            "location": "Bloco 2",
+            "category": "Garrafas e recipientes"
+          },
+          "score": 0.17192576472266394
+        },
+        {
+          "item": {
+            "item_id": 789,
+            "name": "Fichário",
+            "description": "Fichário de cor bege, com uma etiqueta com a letra P. Na inspeção, uma ponta está torta.",
+            "location": "Secretaria",
+            "category": "Material de estudo"
+          },
+          "score": 0.16060433656242262
+        },
+        {
+          "item": {
+            "item_id": 14,
+            "name": "Guarda-chuva cinza",
+            "description": "Modelo dobrável cinza com cabo curvo e uma vareta torta.",
+            "location": "Secretaria",
+            "category": "Guarda-chuvas"
+          },
+          "score": 0.16052897194244578
+        }
+      ]
+    },
+    {
+      "query_id": "q-000166",
+      "query_text": "sumiu passador de slides, no teatro de arena",
+      "reference_id": "ref-v2-item-0201",
+      "noise_types": [
+        "generic",
+        "location_cue",
+        "omission",
+        "synonym"
+      ],
+      "expected_rank": 13,
+      "expected_item": {
+        "item_id": 201,
+        "name": "Controle de apresentação",
+        "description": "Controle de apresentação na cor amarela. Apresenta um adesivo de estrela. A borda está gasta.",
+        "location": "Teatro de Arena",
+        "category": "Eletrônicos"
+      },
+      "top_5": [
+        {
+          "item": {
+            "item_id": 814,
+            "name": "Broche",
+            "description": "Broche na cor marrom. Apresenta uma plaquinha redonda. Há uma pequena mancha.",
+            "location": "Teatro de Arena",
+            "category": "Acessórios"
+          },
+          "score": 0.27626929104613185
+        },
+        {
+          "item": {
+            "item_id": 761,
+            "name": "Webcam",
+            "description": "Webcam na cor prateada, com um desenho de montanha. Um parafuso é diferente.",
+            "location": "Teatro de Arena",
+            "category": "Eletrônicos"
+          },
+          "score": 0.27606553003955875
+        },
+        {
+          "item": {
+            "item_id": 439,
+            "name": "Necessaire",
+            "description": "Item encontrado: necessaire na cor laranja. Há uma etiqueta com a letra R. A superfície é fosca.",
+            "location": "Teatro de Arena",
+            "category": "Acessórios"
+          },
+          "score": 0.270404300995771
+        },
+        {
+          "item": {
+            "item_id": 429,
+            "name": "Estojo de canetas",
+            "description": "Estojo de canetas na cor prateada, com um adesivo de gato. A superfície é fosca.",
+            "location": "Teatro de Arena",
+            "category": "Material de estudo"
+          },
+          "score": 0.2574189122656684
+        },
+        {
+          "item": {
+            "item_id": 186,
+            "name": "Anel",
+            "description": "Objeto do tipo anel, na cor roxa. Nele aparece uma marca triangular. Há uma pequena mancha.",
+            "location": "Teatro de Arena",
+            "category": "Acessórios"
+          },
+          "score": 0.25391526928457764
+        }
+      ]
+    },
+    {
+      "query_id": "q-000187",
+      "query_text": "tava comigo e agora não acho pulseirinha com pinguinho branco, deixei em alguma mesa na quadra",
+      "reference_id": "ref-v2-item-0225",
+      "noise_types": [
+        "location_cue",
+        "omission",
+        "synonym"
+      ],
+      "expected_rank": 10,
+      "expected_item": {
+        "item_id": 225,
+        "name": "Pulseira",
+        "description": "Há um ponto de tinta branca no objeto registrado como pulseira, de cor dourada. Além disso, a superfície é fosca.",
+        "location": "Quadra",
+        "category": "Acessórios"
+      },
+      "top_5": [
+        {
+          "item": {
+            "item_id": 195,
+            "name": "Mochila infantil",
+            "description": "Mochila infantil na cor vinho. Apresenta um adesivo de gato. O fecho não encaixa direito.",
+            "location": "Quadra",
+            "category": "Bolsas e mochilas"
+          },
+          "score": 0.30841547428945115
+        },
+        {
+          "item": {
+            "item_id": 753,
+            "name": "Bolsa de mão",
+            "description": "Bolsa de mão de cor verde-água, com uma fita azul. Na inspeção, o fecho não encaixa direito.",
+            "location": "Auditório",
+            "category": "Bolsas e mochilas"
+          },
+          "score": 0.2832479660528113
+        },
+        {
+          "item": {
+            "item_id": 881,
+            "name": "Cuia",
+            "description": "Item registrado como cuia, com um adesivo de bicicleta. Cor predominante: azul-marinho. Há um arranhão discreto.",
+            "location": "Quadra",
+            "category": "Garrafas e recipientes"
+          },
+          "score": 0.2504086794087877
+        },
+        {
+          "item": {
+            "item_id": 26,
+            "name": "Vestido",
+            "description": "Vestido na cor roxa. Apresenta um ponto de tinta branca. O elástico está frouxo.",
+            "location": "Quadra",
+            "category": "Vestuário"
+          },
+          "score": 0.24756846239032765
+        },
+        {
+          "item": {
+            "item_id": 335,
+            "name": "Coqueteleira",
+            "description": "Objeto registrado como coqueteleira, na cor prateada. Apresenta um adesivo de gato. Verificou-se que há um pequeno descascado.",
+            "location": "Quadra",
+            "category": "Esportes"
+          },
+          "score": 0.24025063521900317
+        }
+      ]
+    },
+    {
+      "query_id": "q-000218",
+      "query_text": "deixei pra trás laptop com pinguinho branco, vi pela última vez no auditório",
+      "reference_id": "ref-v2-item-0263",
+      "noise_types": [
+        "location_cue",
+        "omission",
+        "synonym"
+      ],
+      "expected_rank": 7,
+      "expected_item": {
+        "item_id": 263,
+        "name": "Notebook",
+        "description": "Notebook na cor roxa. Apresenta um ponto de tinta branca. Um lado está desbotado.",
+        "location": "Auditório",
+        "category": "Eletrônicos"
+      },
+      "top_5": [
+        {
+          "item": {
+            "item_id": 7,
+            "name": "Mouse Logitech",
+            "description": "Mouse sem fio Logitech preto, com desgaste no botão esquerdo.",
+            "location": "Auditório",
+            "category": "Eletrônicos"
+          },
+          "score": 0.28731628583500635
+        },
+        {
+          "item": {
+            "item_id": 774,
+            "name": "Controle de portão",
+            "description": "Controle de portão de cor preta, com uma etiqueta com o número 7. Na inspeção, há um arranhão discreto.",
+            "location": "Auditório",
+            "category": "Chaves"
+          },
+          "score": 0.2799878328113491
+        },
+        {
+          "item": {
+            "item_id": 135,
+            "name": "Controle de apresentação",
+            "description": "Controle de apresentação com uma etiqueta com a letra R. A cor predominante é dourada. A etiqueta original está apagada.",
+            "location": "Auditório",
+            "category": "Eletrônicos"
+          },
+          "score": 0.26560956069847697
+        },
+        {
+          "item": {
+            "item_id": 41,
+            "name": "Necessaire",
+            "description": "Item registrado como necessaire, na cor vinho. Possui uma etiqueta com a letra P. Além disso, um lado está desbotado.",
+            "location": "Auditório",
+            "category": "Acessórios"
+          },
+          "score": 0.2654075427299798
+        },
+        {
+          "item": {
+            "item_id": 284,
+            "name": "Case de câmera",
+            "description": "Case de câmera com uma etiqueta com a letra M. A cor predominante é laranja. A parte de baixo está marcada.",
+            "location": "Auditório",
+            "category": "Bolsas e mochilas"
+          },
+          "score": 0.26494282948433856
+        }
+      ]
+    },
+    {
+      "query_id": "q-000223",
+      "query_text": "ontem perdi livro de direito com solzinho colado",
+      "reference_id": "ref-v2-item-0268",
+      "noise_types": [
+        "omission"
+      ],
+      "expected_rank": 4,
+      "expected_item": {
+        "item_id": 268,
+        "name": "Livro de direito",
+        "description": "Item do tipo livro de direito, cor laranja, distinguido por um adesivo de sol. Uma ponta está torta.",
+        "location": "Bloco 2",
+        "category": "Material de estudo"
+      },
+      "top_5": [
+        {
+          "item": {
+            "item_id": 880,
+            "name": "Livro de direito",
+            "description": "Livro de direito na cor preta. Apresenta uma etiqueta com a letra R. A borda está gasta.",
+            "location": "Secretaria",
+            "category": "Material de estudo"
+          },
+          "score": 0.5520177016262331
+        },
+        {
+          "item": {
+            "item_id": 287,
+            "name": "Livro de direito",
+            "description": "Item encontrado: livro de direito na cor vermelha. Há um desenho de flor. Um lado está desbotado.",
+            "location": "Secretaria",
+            "category": "Material de estudo"
+          },
+          "score": 0.5294444842947911
+        },
+        {
+          "item": {
+            "item_id": 222,
+            "name": "Livro de direito",
+            "description": "Item registrado como livro de direito, com um detalhe de bolinhas. Cor predominante: bege. Um canto está amassado.",
+            "location": "Biblioteca",
+            "category": "Material de estudo"
+          },
+          "score": 0.5222008741963633
+        },
+        {
+          "item": {
+            "item_id": 268,
+            "name": "Livro de direito",
+            "description": "Item do tipo livro de direito, cor laranja, distinguido por um adesivo de sol. Uma ponta está torta.",
+            "location": "Bloco 2",
+            "category": "Material de estudo"
+          },
+          "score": 0.5101195120599391
+        },
+        {
+          "item": {
+            "item_id": 588,
+            "name": "Livro de cálculo",
+            "description": "Livro de cálculo de cor cinza, com um desenho de flor. Na inspeção, a etiqueta original está apagada.",
+            "location": "Bloco 5",
+            "category": "Material de estudo"
+          },
+          "score": 0.30949626494533833
+        }
+      ]
+    },
+    {
+      "query_id": "q-000255",
+      "query_text": "tem registro de boné, no bloco 1?",
+      "reference_id": "ref-v2-item-0309",
+      "noise_types": [
+        "generic",
+        "location_cue",
+        "omission"
+      ],
+      "expected_rank": 4,
+      "expected_item": {
+        "item_id": 309,
+        "name": "Boné",
+        "description": "Item registrado como boné, com uma plaquinha redonda. Cor predominante: azul-marinho. A etiqueta original está apagada.",
+        "location": "Bloco 1",
+        "category": "Acessórios"
+      },
+      "top_5": [
+        {
+          "item": {
+            "item_id": 313,
+            "name": "Boné",
+            "description": "Registro de boné na cor cinza. Detalhe visível: uma etiqueta com a letra M. Observa-se que a borda está gasta.",
+            "location": "Bloco 4",
+            "category": "Acessórios"
+          },
+          "score": 0.3925631328723075
+        },
+        {
+          "item": {
+            "item_id": 307,
+            "name": "Boné",
+            "description": "Item registrado como boné, com uma etiqueta com a letra A. Cor predominante: lilás. O tecido tem acabamento fosco.",
+            "location": "Bloco 4",
+            "category": "Acessórios"
+          },
+          "score": 0.37971112128219386
+        },
+        {
+          "item": {
+            "item_id": 802,
+            "name": "Boné",
+            "description": "Item do tipo boné, cor dourada, distinguido por um risco em formato de X. Há uma pequena mancha.",
+            "location": "Bloco 10",
+            "category": "Acessórios"
+          },
+          "score": 0.3526103661544627
+        },
+        {
+          "item": {
+            "item_id": 309,
+            "name": "Boné",
+            "description": "Item registrado como boné, com uma plaquinha redonda. Cor predominante: azul-marinho. A etiqueta original está apagada.",
+            "location": "Bloco 1",
+            "category": "Acessórios"
+          },
+          "score": 0.34440586711054366
+        },
+        {
+          "item": {
+            "item_id": 860,
+            "name": "Crachá de estágio",
+            "description": "Há uma etiqueta com a letra P no objeto registrado como crachá de estágio, de cor bege. Além disso, um canto tem cola aparente.",
+            "location": "Bloco 10",
+            "category": "Documentos"
+          },
+          "score": 0.18978657600982335
+        }
+      ]
+    },
+    {
+      "query_id": "q-000262",
+      "query_text": "achei que tava na mochila, mas sumiu cachcol com pinguinho branco, depois da aula no bloco 1",
+      "reference_id": "ref-v2-item-0318",
+      "noise_types": [
+        "location_cue",
+        "omission",
+        "typo"
+      ],
+      "expected_rank": 20,
+      "expected_item": {
+        "item_id": 318,
+        "name": "Cachecol",
+        "description": "Cachecol na cor lilás. Marca particular: um ponto de tinta branca. Além disso, a etiqueta original está apagada.",
+        "location": "Bloco 1",
+        "category": "Acessórios"
+      },
+      "top_5": [
+        {
+          "item": {
+            "item_id": 286,
+            "name": "Mochila infantil",
+            "description": "Item registrado como mochila infantil, na cor bege. Possui um adesivo de sol. Além disso, a costura de um lado está solta.",
+            "location": "Biblioteca",
+            "category": "Bolsas e mochilas"
+          },
+          "score": 0.3441497526530166
+        },
+        {
+          "item": {
+            "item_id": 195,
+            "name": "Mochila infantil",
+            "description": "Mochila infantil na cor vinho. Apresenta um adesivo de gato. O fecho não encaixa direito.",
+            "location": "Quadra",
+            "category": "Bolsas e mochilas"
+          },
+          "score": 0.30843421344810124
+        },
+        {
+          "item": {
+            "item_id": 206,
+            "name": "Camisa social",
+            "description": "Item registrado como camisa social, na cor azul-clara. Possui um laço pequeno. Além disso, uma costura da barra está solta.",
+            "location": "Bloco 5",
+            "category": "Vestuário"
+          },
+          "score": 0.24241976173566526
+        },
+        {
+          "item": {
+            "item_id": 251,
+            "name": "Jaqueta jeans",
+            "description": "Objeto registrado como jaqueta jeans, na cor vinho. Apresenta um desenho de lua. Verificou-se que uma costura da barra está solta.",
+            "location": "Bloco 10",
+            "category": "Vestuário"
+          },
+          "score": 0.242361272364536
+        },
+        {
+          "item": {
+            "item_id": 449,
+            "name": "Camisa social",
+            "description": "Item registrado como camisa social, na cor cinza. Possui uma tira de tecido xadrez. Além disso, uma costura da barra está solta.",
+            "location": "Bloco 5",
+            "category": "Vestuário"
+          },
+          "score": 0.23996037302579054
+        }
+      ]
+    },
+    {
+      "query_id": "q-000296",
+      "query_text": "fiquei sem comrovante na cor laranja, passei no RU",
+      "reference_id": "ref-v2-item-0361",
+      "noise_types": [
+        "location_cue",
+        "omission",
+        "synonym",
+        "typo"
+      ],
+      "expected_rank": 8,
+      "expected_item": {
+        "item_id": 361,
+        "name": "Comprovante de matrícula",
+        "description": "Comprovante de matrícula na cor laranja. Apresenta uma etiqueta com a letra M. Há um arranhão discreto.",
+        "location": "Restaurante universitário",
+        "category": "Documentos"
+      },
+      "top_5": [
+        {
+          "item": {
+            "item_id": 518,
+            "name": "Mouse sem fio",
+            "description": "Objeto do tipo mouse sem fio, na cor branca. Nele aparece uma etiqueta com a letra A. Um parafuso é diferente.",
+            "location": "Bloco 5",
+            "category": "Eletrônicos"
+          },
+          "score": 0.28876382920926996
+        },
+        {
+          "item": {
+            "item_id": 769,
+            "name": "Fone de ouvido sem fio",
+            "description": "Fone de ouvido sem fio de cor rosa, com uma marca de caneta verde. Na inspeção, um canto tem cola aparente.",
+            "location": "Bloco 5",
+            "category": "Eletrônicos"
+          },
+          "score": 0.28430620400660683
+        },
+        {
+          "item": {
+            "item_id": 439,
+            "name": "Necessaire",
+            "description": "Item encontrado: necessaire na cor laranja. Há uma etiqueta com a letra R. A superfície é fosca.",
+            "location": "Teatro de Arena",
+            "category": "Acessórios"
+          },
+          "score": 0.2634844261349346
+        },
+        {
+          "item": {
+            "item_id": 857,
+            "name": "Fone de ouvido sem fio",
+            "description": "Registro de fone de ouvido sem fio na cor preta. Detalhe visível: uma faixa de fita isolante. Observa-se que há um pequeno descascado.",
+            "location": "Bloco 10",
+            "category": "Eletrônicos"
+          },
+          "score": 0.2575600016965457
+        },
+        {
+          "item": {
+            "item_id": 7,
+            "name": "Mouse Logitech",
+            "description": "Mouse sem fio Logitech preto, com desgaste no botão esquerdo.",
+            "location": "Auditório",
+            "category": "Eletrônicos"
+          },
+          "score": 0.24665985635018345
+        }
+      ]
+    },
+    {
+      "query_id": "q-000335",
+      "query_text": "ontem perdi pote de comida na cor rosa com número 7 na etiqueta",
+      "reference_id": "ref-v2-item-0410",
+      "noise_types": [
+        "exact_attributes",
+        "synonym"
+      ],
+      "expected_rank": 2,
+      "expected_item": {
+        "item_id": 410,
+        "name": "Marmita",
+        "description": "Objeto registrado como marmita, na cor rosa. Apresenta uma etiqueta com o número 7. Verificou-se que a borda está gasta.",
+        "location": "Secretaria",
+        "category": "Garrafas e recipientes"
+      },
+      "top_5": [
+        {
+          "item": {
+            "item_id": 32,
+            "name": "Chave de armário",
+            "description": "Item encontrado: chave de armário na cor rosa. Há uma etiqueta com o número 7. A superfície é fosca.",
+            "location": "Auditório",
+            "category": "Chaves"
+          },
+          "score": 0.3771592404840679
+        },
+        {
+          "item": {
+            "item_id": 410,
+            "name": "Marmita",
+            "description": "Objeto registrado como marmita, na cor rosa. Apresenta uma etiqueta com o número 7. Verificou-se que a borda está gasta.",
+            "location": "Secretaria",
+            "category": "Garrafas e recipientes"
+          },
+          "score": 0.37122881373184496
+        },
+        {
+          "item": {
+            "item_id": 774,
+            "name": "Controle de portão",
+            "description": "Controle de portão de cor preta, com uma etiqueta com o número 7. Na inspeção, há um arranhão discreto.",
+            "location": "Auditório",
+            "category": "Chaves"
+          },
+          "score": 0.34036040407214696
+        },
+        {
+          "item": {
+            "item_id": 161,
+            "name": "Necessaire",
+            "description": "Item registrado como necessaire, na cor bege. Possui uma etiqueta com o número 7. Além disso, há um arranhão discreto.",
+            "location": "Laboratório de informática",
+            "category": "Acessórios"
+          },
+          "score": 0.303665113644238
+        },
+        {
+          "item": {
+            "item_id": 661,
+            "name": "Régua",
+            "description": "Objeto do tipo régua, na cor vermelha. Nele aparece uma etiqueta com o número 7. A parte de baixo está marcada.",
+            "location": "Teatro de Arena",
+            "category": "Material de estudo"
+          },
+          "score": 0.30171368697817147
+        }
+      ]
+    },
+    {
+      "query_id": "q-000365",
+      "query_text": "achei que tava na mochila, mas sumiu camsa na cor cinza com tira xadrez",
+      "reference_id": "ref-v2-item-0449",
+      "noise_types": [
+        "exact_attributes",
+        "synonym",
+        "typo"
+      ],
+      "expected_rank": 3,
+      "expected_item": {
+        "item_id": 449,
+        "name": "Camisa social",
+        "description": "Item registrado como camisa social, na cor cinza. Possui uma tira de tecido xadrez. Além disso, uma costura da barra está solta.",
+        "location": "Bloco 5",
+        "category": "Vestuário"
+      },
+      "top_5": [
+        {
+          "item": {
+            "item_id": 195,
+            "name": "Mochila infantil",
+            "description": "Mochila infantil na cor vinho. Apresenta um adesivo de gato. O fecho não encaixa direito.",
+            "location": "Quadra",
+            "category": "Bolsas e mochilas"
+          },
+          "score": 0.3038090274295066
+        },
+        {
+          "item": {
+            "item_id": 286,
+            "name": "Mochila infantil",
+            "description": "Item registrado como mochila infantil, na cor bege. Possui um adesivo de sol. Além disso, a costura de um lado está solta.",
+            "location": "Biblioteca",
+            "category": "Bolsas e mochilas"
+          },
+          "score": 0.3022572434368741
+        },
+        {
+          "item": {
+            "item_id": 449,
+            "name": "Camisa social",
+            "description": "Item registrado como camisa social, na cor cinza. Possui uma tira de tecido xadrez. Além disso, uma costura da barra está solta.",
+            "location": "Bloco 5",
+            "category": "Vestuário"
+          },
+          "score": 0.28991281243101047
+        },
+        {
+          "item": {
+            "item_id": 630,
+            "name": "Par de tênis",
+            "description": "Item registrado como par de tênis, com uma tira de tecido xadrez. Cor predominante: dourada. A etiqueta original está apagada.",
+            "location": "Teatro de Arena",
+            "category": "Vestuário"
+          },
+          "score": 0.26746158454848734
+        },
+        {
+          "item": {
+            "item_id": 975,
+            "name": "Bolsa tiracolo",
+            "description": "Item registrado como bolsa tiracolo, na cor dourada. Possui uma tira de tecido xadrez. Além disso, o zíper está frouxo.",
+            "location": "Bloco 4",
+            "category": "Bolsas e mochilas"
+          },
+          "score": 0.251315613373332
+        }
+      ]
+    },
+    {
+      "query_id": "q-000368",
+      "query_text": "será que encontraram garrafa na cor dourada com pinguinho branco, depois da aula no bloco 4?",
+      "reference_id": "ref-v2-item-0452",
+      "noise_types": [
+        "exact_attributes",
+        "location_cue",
+        "synonym"
+      ],
+      "expected_rank": 5,
+      "expected_item": {
+        "item_id": 452,
+        "name": "Frasco de água",
+        "description": "Há um ponto de tinta branca no objeto registrado como frasco de água, de cor dourada. Além disso, a etiqueta original está apagada.",
+        "location": "Bloco 4",
+        "category": "Garrafas e recipientes"
+      },
+      "top_5": [
+        {
+          "item": {
+            "item_id": 407,
+            "name": "Garrafa térmica",
+            "description": "Objeto registrado como garrafa térmica, na cor amarela. Apresenta uma marca triangular. Verificou-se que há uma pequena mancha.",
+            "location": "Bloco 1",
+            "category": "Garrafas e recipientes"
+          },
+          "score": 0.37198373238896276
+        },
+        {
+          "item": {
+            "item_id": 910,
+            "name": "Garrafa térmica",
+            "description": "Garrafa térmica na cor roxa. Apresenta um adesivo de peixe. A parte de baixo está marcada.",
+            "location": "Bloco 5",
+            "category": "Garrafas e recipientes"
+          },
+          "score": 0.33503404104703216
+        },
+        {
+          "item": {
+            "item_id": 644,
+            "name": "Garrafa de vidro",
+            "description": "Garrafa de vidro. Cor vermelha. Apresenta um ponto de tinta branca. Também se observa que a base está amassada.",
+            "location": "Bloco 4",
+            "category": "Garrafas e recipientes"
+          },
+          "score": 0.3282455439996183
+        },
+        {
+          "item": {
+            "item_id": 602,
+            "name": "Compasso",
+            "description": "Objeto registrado como compasso, na cor dourada. Apresenta um adesivo de gato. Verificou-se que há um arranhão discreto.",
+            "location": "Bloco 10",
+            "category": "Material de estudo"
+          },
+          "score": 0.2840385798012174
+        },
+        {
+          "item": {
+            "item_id": 452,
+            "name": "Frasco de água",
+            "description": "Há um ponto de tinta branca no objeto registrado como frasco de água, de cor dourada. Além disso, a etiqueta original está apagada.",
+            "location": "Bloco 4",
+            "category": "Garrafas e recipientes"
+          },
+          "score": 0.28103215185333424
+        }
+      ]
+    },
+    {
+      "query_id": "q-000377",
+      "query_text": "alguém viu livro na cor dourada com pinguinho branco por aí?",
+      "reference_id": "ref-v2-item-0463",
+      "noise_types": [
+        "exact_attributes",
+        "synonym"
+      ],
+      "expected_rank": 2,
+      "expected_item": {
+        "item_id": 463,
+        "name": "Livro de cálculo",
+        "description": "Livro de cálculo na cor dourada. Apresenta um ponto de tinta branca. Um canto tem cola aparente.",
+        "location": "Restaurante universitário",
+        "category": "Material de estudo"
+      },
+      "top_5": [
+        {
+          "item": {
+            "item_id": 40,
+            "name": "Livro de cálculo",
+            "description": "Livro de cálculo de cor dourada, com um adesivo de sol. Na inspeção, a etiqueta original está apagada.",
+            "location": "Auditório",
+            "category": "Material de estudo"
+          },
+          "score": 0.4236798840423741
+        },
+        {
+          "item": {
+            "item_id": 463,
+            "name": "Livro de cálculo",
+            "description": "Livro de cálculo na cor dourada. Apresenta um ponto de tinta branca. Um canto tem cola aparente.",
+            "location": "Restaurante universitário",
+            "category": "Material de estudo"
+          },
+          "score": 0.3908423595777932
+        },
+        {
+          "item": {
+            "item_id": 268,
+            "name": "Livro de direito",
+            "description": "Item do tipo livro de direito, cor laranja, distinguido por um adesivo de sol. Uma ponta está torta.",
+            "location": "Bloco 2",
+            "category": "Material de estudo"
+          },
+          "score": 0.36356975596586155
+        },
+        {
+          "item": {
+            "item_id": 880,
+            "name": "Livro de direito",
+            "description": "Livro de direito na cor preta. Apresenta uma etiqueta com a letra R. A borda está gasta.",
+            "location": "Secretaria",
+            "category": "Material de estudo"
+          },
+          "score": 0.34863520190410885
+        },
+        {
+          "item": {
+            "item_id": 588,
+            "name": "Livro de cálculo",
+            "description": "Livro de cálculo de cor cinza, com um desenho de flor. Na inspeção, a etiqueta original está apagada.",
+            "location": "Bloco 5",
+            "category": "Material de estudo"
+          },
+          "score": 0.3279160390978188
+        }
+      ]
+    },
+    {
+      "query_id": "q-000395",
+      "query_text": "fiquei sem óculos escuros com etiqueta escrita R, acho que foi no RU",
+      "reference_id": "ref-v2-item-0490",
+      "noise_types": [
+        "location_cue",
+        "omission"
+      ],
+      "expected_rank": 2,
+      "expected_item": {
+        "item_id": 490,
+        "name": "Óculos escuros",
+        "description": "Item registrado como óculos escuros, com uma etiqueta com a letra R. Cor predominante: verde-escura. Um lado está desbotado.",
+        "location": "Restaurante universitário",
+        "category": "Acessórios"
+      },
+      "top_5": [
+        {
+          "item": {
+            "item_id": 810,
+            "name": "Óculos escuros",
+            "description": "Registro de óculos escuros na cor roxa. Detalhe visível: uma etiqueta com a letra P. Observa-se que há um pequeno descascado.",
+            "location": "Bloco 10",
+            "category": "Acessórios"
+          },
+          "score": 0.46408438086527115
+        },
+        {
+          "item": {
+            "item_id": 490,
+            "name": "Óculos escuros",
+            "description": "Item registrado como óculos escuros, com uma etiqueta com a letra R. Cor predominante: verde-escura. Um lado está desbotado.",
+            "location": "Restaurante universitário",
+            "category": "Acessórios"
+          },
+          "score": 0.4597345918012675
+        },
+        {
+          "item": {
+            "item_id": 811,
+            "name": "Óculos de grau",
+            "description": "Registro de óculos de grau na cor vinho. Detalhe visível: uma etiqueta com a letra M. Observa-se que a etiqueta original está apagada.",
+            "location": "Bloco 10",
+            "category": "Acessórios"
+          },
+          "score": 0.2996830851884136
+        },
+        {
+          "item": {
+            "item_id": 554,
+            "name": "Óculos de grau",
+            "description": "Foi encontrado um item do tipo óculos de grau na cor vermelha, com um ponto de tinta azul. Observação: um lado está desbotado.",
+            "location": "Recanto",
+            "category": "Acessórios"
+          },
+          "score": 0.29568529767010066
+        },
+        {
+          "item": {
+            "item_id": 970,
+            "name": "Estojo de óculos",
+            "description": "Item registrado como estojo de óculos, com um detalhe em zig-zag. Cor predominante: amarela. Um lado está desbotado.",
+            "location": "Quadra",
+            "category": "Acessórios"
+          },
+          "score": 0.2796841439814436
+        }
+      ]
+    },
+    {
+      "query_id": "q-000398",
+      "query_text": "achei que tava na mochila, mas sumiu bolsinha de higiene na cor azul-clara, risquinho pequeno",
+      "reference_id": "ref-v2-item-0493",
+      "noise_types": [
+        "exact_attributes",
+        "omission",
+        "synonym"
+      ],
+      "expected_rank": 5,
+      "expected_item": {
+        "item_id": 493,
+        "name": "Necessaire",
+        "description": "Item registrado como necessaire, com um risco em formato de X. Cor predominante: azul-clara. Há um arranhão discreto.",
+        "location": "Bloco 4",
+        "category": "Acessórios"
+      },
+      "top_5": [
+        {
+          "item": {
+            "item_id": 195,
+            "name": "Mochila infantil",
+            "description": "Mochila infantil na cor vinho. Apresenta um adesivo de gato. O fecho não encaixa direito.",
+            "location": "Quadra",
+            "category": "Bolsas e mochilas"
+          },
+          "score": 0.33987357254910183
+        },
+        {
+          "item": {
+            "item_id": 286,
+            "name": "Mochila infantil",
+            "description": "Item registrado como mochila infantil, na cor bege. Possui um adesivo de sol. Além disso, a costura de um lado está solta.",
+            "location": "Biblioteca",
+            "category": "Bolsas e mochilas"
+          },
+          "score": 0.32987528554570644
+        },
+        {
+          "item": {
+            "item_id": 184,
+            "name": "Prancheta",
+            "description": "Objeto registrado como prancheta, na cor azul-clara. Apresenta um adesivo de abelha. Verificou-se que um canto tem cola aparente.",
+            "location": "Bloco 10",
+            "category": "Material de estudo"
+          },
+          "score": 0.24862029736202793
+        },
+        {
+          "item": {
+            "item_id": 206,
+            "name": "Camisa social",
+            "description": "Item registrado como camisa social, na cor azul-clara. Possui um laço pequeno. Além disso, uma costura da barra está solta.",
+            "location": "Bloco 5",
+            "category": "Vestuário"
+          },
+          "score": 0.24611320237443174
+        },
+        {
+          "item": {
+            "item_id": 493,
+            "name": "Necessaire",
+            "description": "Item registrado como necessaire, com um risco em formato de X. Cor predominante: azul-clara. Há um arranhão discreto.",
+            "location": "Bloco 4",
+            "category": "Acessórios"
+          },
+          "score": 0.2372928570905533
+        }
+      ]
+    },
+    {
+      "query_id": "q-000404",
+      "query_text": "sumiu câmera do computador na cor prateada com estrelinha colada, deixei em alguma mesa na biblioteca",
+      "reference_id": "ref-v2-item-0499",
+      "noise_types": [
+        "exact_attributes",
+        "location_cue",
+        "synonym"
+      ],
+      "expected_rank": 3,
+      "expected_item": {
+        "item_id": 499,
+        "name": "Webcam",
+        "description": "Item encontrado: webcam na cor prateada. Há um adesivo de estrela. Um canto tem cola aparente.",
+        "location": "Biblioteca",
+        "category": "Eletrônicos"
+      },
+      "top_5": [
+        {
+          "item": {
+            "item_id": 284,
+            "name": "Case de câmera",
+            "description": "Case de câmera com uma etiqueta com a letra M. A cor predominante é laranja. A parte de baixo está marcada.",
+            "location": "Auditório",
+            "category": "Bolsas e mochilas"
+          },
+          "score": 0.3452114109996571
+        },
+        {
+          "item": {
+            "item_id": 207,
+            "name": "Case de câmera",
+            "description": "Case de câmera. Cor cinza. Apresenta um laço pequeno. Também se observa que há uma pequena mancha.",
+            "location": "Bloco 10",
+            "category": "Bolsas e mochilas"
+          },
+          "score": 0.32130291948593537
+        },
+        {
+          "item": {
+            "item_id": 499,
+            "name": "Webcam",
+            "description": "Item encontrado: webcam na cor prateada. Há um adesivo de estrela. Um canto tem cola aparente.",
+            "location": "Biblioteca",
+            "category": "Eletrônicos"
+          },
+          "score": 0.30483884565254216
+        },
+        {
+          "item": {
+            "item_id": 72,
+            "name": "Relógio de pulso",
+            "description": "Item encontrado: relógio de pulso na cor prateada. Há um risco em formato de X. Há um arranhão discreto.",
+            "location": "Biblioteca",
+            "category": "Acessórios"
+          },
+          "score": 0.28116724827735584
+        },
+        {
+          "item": {
+            "item_id": 761,
+            "name": "Webcam",
+            "description": "Webcam na cor prateada, com um desenho de montanha. Um parafuso é diferente.",
+            "location": "Teatro de Arena",
+            "category": "Eletrônicos"
+          },
+          "score": 0.27105181188381183
+        }
+      ]
+    },
+    {
+      "query_id": "q-000411",
+      "query_text": "cadê bolsinha na cor bege, risquinho pequeno, acho que foi no laboratório de informática?",
+      "reference_id": "ref-v2-item-0508",
+      "noise_types": [
+        "exact_attributes",
+        "location_cue",
+        "omission",
+        "synonym"
+      ],
+      "expected_rank": 2,
+      "expected_item": {
+        "item_id": 508,
+        "name": "Bolsa de mão",
+        "description": "Item registrado como bolsa de mão, na cor bege. Possui um detalhe em zig-zag. Além disso, há um arranhão discreto.",
+        "location": "Laboratório de informática",
+        "category": "Bolsas e mochilas"
+      },
+      "top_5": [
+        {
+          "item": {
+            "item_id": 161,
+            "name": "Necessaire",
+            "description": "Item registrado como necessaire, na cor bege. Possui uma etiqueta com o número 7. Além disso, há um arranhão discreto.",
+            "location": "Laboratório de informática",
+            "category": "Acessórios"
+          },
+          "score": 0.35734061950982865
+        },
+        {
+          "item": {
+            "item_id": 508,
+            "name": "Bolsa de mão",
+            "description": "Item registrado como bolsa de mão, na cor bege. Possui um detalhe em zig-zag. Além disso, há um arranhão discreto.",
+            "location": "Laboratório de informática",
+            "category": "Bolsas e mochilas"
+          },
+          "score": 0.3476194655067161
+        },
+        {
+          "item": {
+            "item_id": 932,
+            "name": "Moletom",
+            "description": "Moletom de cor cinza, com uma fita verde. Na inspeção, há uma pequena mancha.",
+            "location": "Laboratório de informática",
+            "category": "Vestuário"
+          },
+          "score": 0.3426588961459177
+        },
+        {
+          "item": {
+            "item_id": 426,
+            "name": "Bolsa de mão",
+            "description": "Foi encontrado um item do tipo bolsa de mão na cor azul-clara, com uma faixa refletiva. Observação: o zíper está frouxo.",
+            "location": "Laboratório de informática",
+            "category": "Bolsas e mochilas"
+          },
+          "score": 0.33797127853790276
+        },
+        {
+          "item": {
+            "item_id": 282,
+            "name": "Jaleco",
+            "description": "Há uma faixa refletiva no objeto registrado como jaleco, de cor cinza. Além disso, há uma pequena mancha.",
+            "location": "Laboratório de informática",
+            "category": "Vestuário"
+          },
+          "score": 0.3373352645714308
+        }
+      ]
+    },
+    {
+      "query_id": "q-000416",
+      "query_text": "perdi bolsinha na cor dourada",
+      "reference_id": "ref-v2-item-0515",
+      "noise_types": [
+        "location_cue",
+        "omission",
+        "synonym"
+      ],
+      "expected_rank": 7,
+      "expected_item": {
+        "item_id": 515,
+        "name": "Bolsa de mão",
+        "description": "Item registrado como bolsa de mão, com um detalhe de bolinhas. Cor predominante: dourada. O zíper está frouxo.",
+        "location": "Bloco 10",
+        "category": "Bolsas e mochilas"
+      },
+      "top_5": [
+        {
+          "item": {
+            "item_id": 569,
+            "name": "Pulseira",
+            "description": "Pulseira de cor dourada, com um detalhe em zig-zag. Na inspeção, um lado está desbotado.",
+            "location": "Bloco 5",
+            "category": "Acessórios"
+          },
+          "score": 0.2364463007813195
+        },
+        {
+          "item": {
+            "item_id": 738,
+            "name": "Casaco",
+            "description": "Casaco de cor dourada, com um ponto de tinta branca. Na inspeção, a costura de um lado está solta.",
+            "location": "Bloco 10",
+            "category": "Vestuário"
+          },
+          "score": 0.22990289134840036
+        },
+        {
+          "item": {
+            "item_id": 802,
+            "name": "Boné",
+            "description": "Item do tipo boné, cor dourada, distinguido por um risco em formato de X. Há uma pequena mancha.",
+            "location": "Bloco 10",
+            "category": "Acessórios"
+          },
+          "score": 0.21742469857230062
+        },
+        {
+          "item": {
+            "item_id": 154,
+            "name": "Bola de futsal",
+            "description": "Objeto do tipo bola de futsal, na cor dourada. Nele aparece uma etiqueta com a letra R. Há uma pequena mancha.",
+            "location": "Bloco 1",
+            "category": "Esportes"
+          },
+          "score": 0.20955962772316475
+        },
+        {
+          "item": {
+            "item_id": 592,
+            "name": "Bloco de anotações",
+            "description": "Item encontrado: bloco de anotações na cor dourada. Há uma marca de caneta verde. Um canto tem cola aparente.",
+            "location": "Teatro de Arena",
+            "category": "Material de estudo"
+          },
+          "score": 0.20804496777902776
+        }
+      ]
+    },
+    {
+      "query_id": "q-000456",
+      "query_text": "acho que deixei controle de apresentação com bicicletinha colada",
+      "reference_id": "ref-v2-item-0560",
+      "noise_types": [
+        "omission"
+      ],
+      "expected_rank": 6,
+      "expected_item": {
+        "item_id": 560,
+        "name": "Controle de apresentação",
+        "description": "Há um adesivo de bicicleta no objeto registrado como controle de apresentação, de cor cinza. Além disso, a borda está gasta.",
+        "location": "Secretaria",
+        "category": "Eletrônicos"
+      },
+      "top_5": [
+        {
+          "item": {
+            "item_id": 135,
+            "name": "Controle de apresentação",
+            "description": "Controle de apresentação com uma etiqueta com a letra R. A cor predominante é dourada. A etiqueta original está apagada.",
+            "location": "Auditório",
+            "category": "Eletrônicos"
+          },
+          "score": 0.5404686991739185
+        },
+        {
+          "item": {
+            "item_id": 994,
+            "name": "Controle de apresentação",
+            "description": "Item encontrado: controle de apresentação na cor cinza. Há um adesivo de bicicleta. Há um pequeno descascado.",
+            "location": "Auditório",
+            "category": "Eletrônicos"
+          },
+          "score": 0.5291373434889857
+        },
+        {
+          "item": {
+            "item_id": 201,
+            "name": "Controle de apresentação",
+            "description": "Controle de apresentação na cor amarela. Apresenta um adesivo de estrela. A borda está gasta.",
+            "location": "Teatro de Arena",
+            "category": "Eletrônicos"
+          },
+          "score": 0.5097816251830711
+        },
+        {
+          "item": {
+            "item_id": 981,
+            "name": "Controle de apresentação",
+            "description": "Objeto registrado como controle de apresentação, na cor branca. Apresenta uma etiqueta de papel dobrada. Verificou-se que há um pequeno descascado.",
+            "location": "Bloco 5",
+            "category": "Eletrônicos"
+          },
+          "score": 0.49838828442357413
+        },
+        {
+          "item": {
+            "item_id": 907,
+            "name": "Controle de apresentação",
+            "description": "Há uma etiqueta com o número 7 no objeto registrado como controle de apresentação, de cor prateada. Além disso, uma ponta está torta.",
+            "location": "Bloco 5",
+            "category": "Eletrônicos"
+          },
+          "score": 0.49780390155260873
+        }
+      ]
+    },
+    {
+      "query_id": "q-000495",
+      "query_text": "ontem perdi marmita na cor amarela com foguete colado",
+      "reference_id": "ref-v2-item-0616",
+      "noise_types": [
+        "exact_attributes",
+        "synonym"
+      ],
+      "expected_rank": 4,
+      "expected_item": {
+        "item_id": 616,
+        "name": "Caixa de almoço",
+        "description": "Foi encontrado um item do tipo caixa de almoço na cor amarela, com um adesivo de foguete. Observação: a etiqueta original está apagada.",
+        "location": "Secretaria",
+        "category": "Garrafas e recipientes"
+      },
+      "top_5": [
+        {
+          "item": {
+            "item_id": 823,
+            "name": "Marmita",
+            "description": "Marmita na cor cinza, com uma etiqueta com a letra P. A borda está gasta.",
+            "location": "Bloco 2",
+            "category": "Garrafas e recipientes"
+          },
+          "score": 0.47403377993610724
+        },
+        {
+          "item": {
+            "item_id": 410,
+            "name": "Marmita",
+            "description": "Objeto registrado como marmita, na cor rosa. Apresenta uma etiqueta com o número 7. Verificou-se que a borda está gasta.",
+            "location": "Secretaria",
+            "category": "Garrafas e recipientes"
+          },
+          "score": 0.3769416142893845
+        },
+        {
+          "item": {
+            "item_id": 748,
+            "name": "Marmita",
+            "description": "Há uma marca triangular no objeto registrado como marmita, de cor bege. Além disso, há um pequeno descascado.",
+            "location": "Bloco 1",
+            "category": "Garrafas e recipientes"
+          },
+          "score": 0.34382597008162835
+        },
+        {
+          "item": {
+            "item_id": 616,
+            "name": "Caixa de almoço",
+            "description": "Foi encontrado um item do tipo caixa de almoço na cor amarela, com um adesivo de foguete. Observação: a etiqueta original está apagada.",
+            "location": "Secretaria",
+            "category": "Garrafas e recipientes"
+          },
+          "score": 0.2873664854941659
+        },
+        {
+          "item": {
+            "item_id": 645,
+            "name": "Fone com fio",
+            "description": "Item encontrado: fone com fio na cor amarela. Há um risco em formato de X. Um lado está desbotado.",
+            "location": "Bloco 10",
+            "category": "Eletrônicos"
+          },
+          "score": 0.25528635951234313
+        }
+      ]
+    },
+    {
+      "query_id": "q-000506",
+      "query_text": "busco par de tênis na cor dourada",
+      "reference_id": "ref-v2-item-0630",
+      "noise_types": [
+        "location_cue",
+        "omission"
+      ],
+      "expected_rank": 2,
+      "expected_item": {
+        "item_id": 630,
+        "name": "Par de tênis",
+        "description": "Item registrado como par de tênis, com uma tira de tecido xadrez. Cor predominante: dourada. A etiqueta original está apagada.",
+        "location": "Teatro de Arena",
+        "category": "Vestuário"
+      },
+      "top_5": [
+        {
+          "item": {
+            "item_id": 141,
+            "name": "Par de tênis",
+            "description": "Par de tênis com uma fita azul. A cor predominante é azul-marinho. Um lado está desbotado.",
+            "location": "Biblioteca",
+            "category": "Vestuário"
+          },
+          "score": 0.4797560206139723
+        },
+        {
+          "item": {
+            "item_id": 630,
+            "name": "Par de tênis",
+            "description": "Item registrado como par de tênis, com uma tira de tecido xadrez. Cor predominante: dourada. A etiqueta original está apagada.",
+            "location": "Teatro de Arena",
+            "category": "Vestuário"
+          },
+          "score": 0.475147624634244
+        },
+        {
+          "item": {
+            "item_id": 241,
+            "name": "Par de tênis",
+            "description": "Objeto do tipo par de tênis, na cor lilás. Nele aparece um ponto de tinta azul. A borda está gasta.",
+            "location": "Biblioteca",
+            "category": "Vestuário"
+          },
+          "score": 0.46850602488745097
+        },
+        {
+          "item": {
+            "item_id": 656,
+            "name": "Par de tênis",
+            "description": "Item do tipo par de tênis, cor marrom, distinguido por uma faixa refletiva. Um lado está desbotado.",
+            "location": "Bloco 2",
+            "category": "Vestuário"
+          },
+          "score": 0.45600968409529175
+        },
+        {
+          "item": {
+            "item_id": 586,
+            "name": "Raquete de tênis",
+            "description": "Raquete de tênis na cor amarela. Marca particular: um cordão amarelo. Além disso, a superfície é fosca.",
+            "location": "Bloco 1",
+            "category": "Esportes"
+          },
+          "score": 0.26515148624278057
+        }
+      ]
+    },
+    {
+      "query_id": "q-000513",
+      "query_text": "tem registro de smartwatch na cor vinho com pinguinho de tinta azul, talvez tenha ficado no laboratório de informática?",
+      "reference_id": "ref-v2-item-0640",
+      "noise_types": [
+        "exact_attributes",
+        "location_cue",
+        "synonym"
+      ],
+      "expected_rank": 4,
+      "expected_item": {
+        "item_id": 640,
+        "name": "Relógio inteligente",
+        "description": "Item registrado como relógio inteligente, com um ponto de tinta azul. Cor predominante: vinho. Há um pequeno descascado.",
+        "location": "Laboratório de informática",
+        "category": "Eletrônicos"
+      },
+      "top_5": [
+        {
+          "item": {
+            "item_id": 28,
+            "name": "Jaleco",
+            "description": "Item encontrado: jaleco na cor verde-água. Há um ponto de tinta azul. O tecido tem acabamento fosco.",
+            "location": "Laboratório de informática",
+            "category": "Vestuário"
+          },
+          "score": 0.4303970945192811
+        },
+        {
+          "item": {
+            "item_id": 799,
+            "name": "CNH",
+            "description": "Item do tipo CNH, cor rosa, distinguido por um ponto de tinta azul. Um lado está desbotado.",
+            "location": "Laboratório de informática",
+            "category": "Documentos"
+          },
+          "score": 0.39232479467495396
+        },
+        {
+          "item": {
+            "item_id": 744,
+            "name": "Hub USB",
+            "description": "Item registrado como hub USB, com um ponto de tinta azul. Cor predominante: azul-marinho. Um canto tem cola aparente.",
+            "location": "Laboratório de informática",
+            "category": "Eletrônicos"
+          },
+          "score": 0.39127684478053126
+        },
+        {
+          "item": {
+            "item_id": 640,
+            "name": "Relógio inteligente",
+            "description": "Item registrado como relógio inteligente, com um ponto de tinta azul. Cor predominante: vinho. Há um pequeno descascado.",
+            "location": "Laboratório de informática",
+            "category": "Eletrônicos"
+          },
+          "score": 0.38506046212403905
+        },
+        {
+          "item": {
+            "item_id": 328,
+            "name": "Anel",
+            "description": "Registro de anel na cor azul-marinho. Detalhe visível: uma marca triangular. Observa-se que a superfície é fosca.",
+            "location": "Laboratório de informática",
+            "category": "Acessórios"
+          },
+          "score": 0.37828256650915504
+        }
+      ]
+    },
+    {
+      "query_id": "q-000583",
+      "query_text": "tem registro de maletinha na cor vinho, descascado, acho que foi perto da secretaria?",
+      "reference_id": "ref-v2-item-0726",
+      "noise_types": [
+        "exact_attributes",
+        "location_cue",
+        "omission",
+        "synonym"
+      ],
+      "expected_rank": 2,
+      "expected_item": {
+        "item_id": 726,
+        "name": "Maleta pequena",
+        "description": "Item encontrado: maleta pequena na cor vinho. Há um detalhe em zig-zag. Há um pequeno descascado.",
+        "location": "Secretaria",
+        "category": "Bolsas e mochilas"
+      },
+      "top_5": [
+        {
+          "item": {
+            "item_id": 849,
+            "name": "Sombrinha estampada",
+            "description": "Registro de sombrinha estampada na cor vinho. Detalhe visível: uma plaquinha redonda. Observa-se que a alça tem desgaste.",
+            "location": "Secretaria",
+            "category": "Guarda-chuvas"
+          },
+          "score": 0.33053776139394375
+        },
+        {
+          "item": {
+            "item_id": 726,
+            "name": "Maleta pequena",
+            "description": "Item encontrado: maleta pequena na cor vinho. Há um detalhe em zig-zag. Há um pequeno descascado.",
+            "location": "Secretaria",
+            "category": "Bolsas e mochilas"
+          },
+          "score": 0.3282573775752161
+        },
+        {
+          "item": {
+            "item_id": 390,
+            "name": "Chaveiro",
+            "description": "Registro de chaveiro na cor lilás. Detalhe visível: um risco em formato de X. Observa-se que a borda está gasta.",
+            "location": "Secretaria",
+            "category": "Acessórios"
+          },
+          "score": 0.3237297595772041
+        },
+        {
+          "item": {
+            "item_id": 997,
+            "name": "Bolsa de tecido",
+            "description": "Registro de bolsa de tecido na cor preta. Detalhe visível: uma fita azul. Observa-se que a parte de baixo está marcada.",
+            "location": "Secretaria",
+            "category": "Bolsas e mochilas"
+          },
+          "score": 0.29727920986821244
+        },
+        {
+          "item": {
+            "item_id": 564,
+            "name": "Celular",
+            "description": "Foi encontrado um item do tipo celular na cor amarela, com um desenho de flor. Observação: a parte de baixo está marcada.",
+            "location": "Secretaria",
+            "category": "Eletrônicos"
+          },
+          "score": 0.28293275901807724
+        }
+      ]
+    },
+    {
+      "query_id": "q-000631",
+      "query_text": "alguém viu shaker na cor verde-água com abelhinha colada por aí, sumiu no RU?",
+      "reference_id": "ref-v2-item-0784",
+      "noise_types": [
+        "exact_attributes",
+        "location_cue",
+        "synonym"
+      ],
+      "expected_rank": 14,
+      "expected_item": {
+        "item_id": 784,
+        "name": "Coqueteleira",
+        "description": "Item registrado como coqueteleira, na cor verde-água. Possui um adesivo de abelha. Além disso, há um pequeno descascado.",
+        "location": "Restaurante universitário",
+        "category": "Esportes"
+      },
+      "top_5": [
+        {
+          "item": {
+            "item_id": 685,
+            "name": "Frasco de água",
+            "description": "Item do tipo frasco de água, cor marrom, distinguido por uma faixa de fita isolante. Há uma pequena mancha.",
+            "location": "Biblioteca",
+            "category": "Garrafas e recipientes"
+          },
+          "score": 0.31751387575679635
+        },
+        {
+          "item": {
+            "item_id": 989,
+            "name": "Colete",
+            "description": "Item do tipo colete, cor verde-água, distinguido por um botão de cor diferente. Há uma pequena mancha.",
+            "location": "Bloco 4",
+            "category": "Vestuário"
+          },
+          "score": 0.3140782688821139
+        },
+        {
+          "item": {
+            "item_id": 452,
+            "name": "Frasco de água",
+            "description": "Há um ponto de tinta branca no objeto registrado como frasco de água, de cor dourada. Além disso, a etiqueta original está apagada.",
+            "location": "Bloco 4",
+            "category": "Garrafas e recipientes"
+          },
+          "score": 0.300188327202852
+        },
+        {
+          "item": {
+            "item_id": 20,
+            "name": "Garrafinha verde",
+            "description": "Garrafa verde-água de plástico com adesivo de girassol e tampa translúcida.",
+            "location": "Restaurante universitário",
+            "category": "Garrafas e recipientes"
+          },
+          "score": 0.2925087636674282
+        },
+        {
+          "item": {
+            "item_id": 753,
+            "name": "Bolsa de mão",
+            "description": "Bolsa de mão de cor verde-água, com uma fita azul. Na inspeção, o fecho não encaixa direito.",
+            "location": "Auditório",
+            "category": "Bolsas e mochilas"
+          },
+          "score": 0.29102301319902296
+        }
+      ]
+    },
+    {
+      "query_id": "q-000663",
+      "query_text": "será que foi entregue pote de comida na cor cinza com letra P?",
+      "reference_id": "ref-v2-item-0823",
+      "noise_types": [
+        "exact_attributes",
+        "synonym"
+      ],
+      "expected_rank": 2,
+      "expected_item": {
+        "item_id": 823,
+        "name": "Marmita",
+        "description": "Marmita na cor cinza, com uma etiqueta com a letra P. A borda está gasta.",
+        "location": "Bloco 2",
+        "category": "Garrafas e recipientes"
+      },
+      "top_5": [
+        {
+          "item": {
+            "item_id": 536,
+            "name": "Calculadora simples",
+            "description": "Foi encontrado um item do tipo calculadora simples na cor cinza, com um desenho de lua. Observação: uma ponta está torta.",
+            "location": "Bloco 2",
+            "category": "Material de estudo"
+          },
+          "score": 0.3006501448695297
+        },
+        {
+          "item": {
+            "item_id": 823,
+            "name": "Marmita",
+            "description": "Marmita na cor cinza, com uma etiqueta com a letra P. A borda está gasta.",
+            "location": "Bloco 2",
+            "category": "Garrafas e recipientes"
+          },
+          "score": 0.29074435346863475
+        },
+        {
+          "item": {
+            "item_id": 313,
+            "name": "Boné",
+            "description": "Registro de boné na cor cinza. Detalhe visível: uma etiqueta com a letra M. Observa-se que a borda está gasta.",
+            "location": "Bloco 4",
+            "category": "Acessórios"
+          },
+          "score": 0.28970663300650357
+        },
+        {
+          "item": {
+            "item_id": 678,
+            "name": "Microfone de lapela",
+            "description": "Foi encontrado um item do tipo microfone de lapela na cor cinza, com um ponto de tinta branca. Observação: há um pequeno descascado.",
+            "location": "Bloco 1",
+            "category": "Eletrônicos"
+          },
+          "score": 0.28562811270370364
+        },
+        {
+          "item": {
+            "item_id": 102,
+            "name": "Envelope com documentos",
+            "description": "Item encontrado: envelope com documentos na cor cinza. Há uma etiqueta com a letra A. A borda está gasta.",
+            "location": "Teatro de Arena",
+            "category": "Documentos"
+          },
+          "score": 0.2825801738669924
+        }
+      ]
+    },
+    {
+      "query_id": "q-000671",
+      "query_text": "procuro e-reader, no bloco 10",
+      "reference_id": "ref-v2-item-0833",
+      "noise_types": [
+        "generic",
+        "location_cue",
+        "omission",
+        "synonym"
+      ],
+      "expected_rank": 34,
+      "expected_item": {
+        "item_id": 833,
+        "name": "Leitor digital",
+        "description": "Leitor digital (azul-clara). Tem um ponto de tinta branca. Além disso, há uma marca de desgaste na carcaça.",
+        "location": "Bloco 10",
+        "category": "Eletrônicos"
+      },
+      "top_5": [
+        {
+          "item": {
+            "item_id": 860,
+            "name": "Crachá de estágio",
+            "description": "Há uma etiqueta com a letra P no objeto registrado como crachá de estágio, de cor bege. Além disso, um canto tem cola aparente.",
+            "location": "Bloco 10",
+            "category": "Documentos"
+          },
+          "score": 0.23169987540662135
+        },
+        {
+          "item": {
+            "item_id": 30,
+            "name": "Fone com fio",
+            "description": "Há um desenho de lua no objeto registrado como fone com fio, de cor rosa. Além disso, a etiqueta original está apagada.",
+            "location": "Bloco 10",
+            "category": "Eletrônicos"
+          },
+          "score": 0.22703838546096344
+        },
+        {
+          "item": {
+            "item_id": 944,
+            "name": "Webcam",
+            "description": "Webcam na cor vinho. Apresenta um adesivo de abelha. A parte de baixo está marcada.",
+            "location": "Bloco 10",
+            "category": "Eletrônicos"
+          },
+          "score": 0.20504785667937458
+        },
+        {
+          "item": {
+            "item_id": 748,
+            "name": "Marmita",
+            "description": "Há uma marca triangular no objeto registrado como marmita, de cor bege. Além disso, há um pequeno descascado.",
+            "location": "Bloco 1",
+            "category": "Garrafas e recipientes"
+          },
+          "score": 0.20293266123207204
+        },
+        {
+          "item": {
+            "item_id": 314,
+            "name": "Chaveiro",
+            "description": "Há um risco em formato de X no objeto registrado como chaveiro, de cor verde-escura. Além disso, a superfície é fosca.",
+            "location": "Bloco 4",
+            "category": "Acessórios"
+          },
+          "score": 0.19882719288037234
+        }
+      ]
+    },
+    {
+      "query_id": "q-000740",
+      "query_text": "tava comigo e agora não acho pote com número 7 na etiqueta",
+      "reference_id": "ref-v2-item-0927",
+      "noise_types": [
+        "omission",
+        "synonym"
+      ],
+      "expected_rank": 13,
+      "expected_item": {
+        "item_id": 927,
+        "name": "Vasilha com tampa",
+        "description": "Há uma etiqueta com o número 7 no objeto registrado como vasilha com tampa, de cor azul-clara. Além disso, um lado está desbotado.",
+        "location": "Recanto",
+        "category": "Garrafas e recipientes"
+      },
+      "top_5": [
+        {
+          "item": {
+            "item_id": 249,
+            "name": "Caixa de som",
+            "description": "Objeto do tipo caixa de som, na cor vinho. Nele aparece uma etiqueta com o número 7. Uma ponta está torta.",
+            "location": "Bloco 1",
+            "category": "Eletrônicos"
+          },
+          "score": 0.2916736953413299
+        },
+        {
+          "item": {
+            "item_id": 774,
+            "name": "Controle de portão",
+            "description": "Controle de portão de cor preta, com uma etiqueta com o número 7. Na inspeção, há um arranhão discreto.",
+            "location": "Auditório",
+            "category": "Chaves"
+          },
+          "score": 0.2903240609382054
+        },
+        {
+          "item": {
+            "item_id": 32,
+            "name": "Chave de armário",
+            "description": "Item encontrado: chave de armário na cor rosa. Há uma etiqueta com o número 7. A superfície é fosca.",
+            "location": "Auditório",
+            "category": "Chaves"
+          },
+          "score": 0.28588194239625264
+        },
+        {
+          "item": {
+            "item_id": 661,
+            "name": "Régua",
+            "description": "Objeto do tipo régua, na cor vermelha. Nele aparece uma etiqueta com o número 7. A parte de baixo está marcada.",
+            "location": "Teatro de Arena",
+            "category": "Material de estudo"
+          },
+          "score": 0.27646833404443677
+        },
+        {
+          "item": {
+            "item_id": 753,
+            "name": "Bolsa de mão",
+            "description": "Bolsa de mão de cor verde-água, com uma fita azul. Na inspeção, o fecho não encaixa direito.",
+            "location": "Auditório",
+            "category": "Bolsas e mochilas"
+          },
+          "score": 0.2732201443174692
+        }
+      ]
+    },
+    {
+      "query_id": "q-000752",
+      "query_text": "tem registro de câmera do computador com abelhinha colada e marca embaixo?",
+      "reference_id": "ref-v2-item-0944",
+      "noise_types": [
+        "reordered",
+        "synonym"
+      ],
+      "expected_rank": 91,
+      "expected_item": {
+        "item_id": 944,
+        "name": "Webcam",
+        "description": "Webcam na cor vinho. Apresenta um adesivo de abelha. A parte de baixo está marcada.",
+        "location": "Bloco 10",
+        "category": "Eletrônicos"
+      },
+      "top_5": [
+        {
+          "item": {
+            "item_id": 284,
+            "name": "Case de câmera",
+            "description": "Case de câmera com uma etiqueta com a letra M. A cor predominante é laranja. A parte de baixo está marcada.",
+            "location": "Auditório",
+            "category": "Bolsas e mochilas"
+          },
+          "score": 0.354677886649632
+        },
+        {
+          "item": {
+            "item_id": 207,
+            "name": "Case de câmera",
+            "description": "Case de câmera. Cor cinza. Apresenta um laço pequeno. Também se observa que há uma pequena mancha.",
+            "location": "Bloco 10",
+            "category": "Bolsas e mochilas"
+          },
+          "score": 0.30696141670959776
+        },
+        {
+          "item": {
+            "item_id": 3,
+            "name": "Notebook Dell",
+            "description": "Computador cinza da Dell com adesivo de gato na tampa e leve risco junto à dobradiça.",
+            "location": "Bloco 4",
+            "category": "Eletrônicos"
+          },
+          "score": 0.2350948669098024
+        },
+        {
+          "item": {
+            "item_id": 307,
+            "name": "Boné",
+            "description": "Item registrado como boné, com uma etiqueta com a letra A. Cor predominante: lilás. O tecido tem acabamento fosco.",
+            "location": "Bloco 4",
+            "category": "Acessórios"
+          },
+          "score": 0.23479315552294186
+        },
+        {
+          "item": {
+            "item_id": 486,
+            "name": "Anel",
+            "description": "Registro de anel na cor branca. Detalhe visível: uma marca triangular. Observa-se que um lado está desbotado.",
+            "location": "Teatro de Arena",
+            "category": "Acessórios"
+          },
+          "score": 0.22586527186110122
+        }
+      ]
+    },
+    {
+      "query_id": "q-000785",
+      "query_text": "tem registro de passador de slides com etiqueta dobrada, no bloco 5?",
+      "reference_id": "ref-v2-item-0981",
+      "noise_types": [
+        "location_cue",
+        "omission",
+        "synonym"
+      ],
+      "expected_rank": 20,
+      "expected_item": {
+        "item_id": 981,
+        "name": "Controle de apresentação",
+        "description": "Objeto registrado como controle de apresentação, na cor branca. Apresenta uma etiqueta de papel dobrada. Verificou-se que há um pequeno descascado.",
+        "location": "Bloco 5",
+        "category": "Eletrônicos"
+      },
+      "top_5": [
+        {
+          "item": {
+            "item_id": 498,
+            "name": "Cabo HDMI",
+            "description": "Item registrado como cabo HDMI, com uma etiqueta de papel dobrada. Cor predominante: prateada. Um canto tem cola aparente.",
+            "location": "Bloco 4",
+            "category": "Eletrônicos"
+          },
+          "score": 0.30614316097587074
+        },
+        {
+          "item": {
+            "item_id": 727,
+            "name": "CNH",
+            "description": "Registro de CNH na cor verde-água. Detalhe visível: uma etiqueta de papel dobrada. Observa-se que um canto está amassado.",
+            "location": "Teatro de Arena",
+            "category": "Documentos"
+          },
+          "score": 0.30207212473168166
+        },
+        {
+          "item": {
+            "item_id": 313,
+            "name": "Boné",
+            "description": "Registro de boné na cor cinza. Detalhe visível: uma etiqueta com a letra M. Observa-se que a borda está gasta.",
+            "location": "Bloco 4",
+            "category": "Acessórios"
+          },
+          "score": 0.2905300667092612
+        },
+        {
+          "item": {
+            "item_id": 307,
+            "name": "Boné",
+            "description": "Item registrado como boné, com uma etiqueta com a letra A. Cor predominante: lilás. O tecido tem acabamento fosco.",
+            "location": "Bloco 4",
+            "category": "Acessórios"
+          },
+          "score": 0.274575626827976
+        },
+        {
+          "item": {
+            "item_id": 823,
+            "name": "Marmita",
+            "description": "Marmita na cor cinza, com uma etiqueta com a letra P. A borda está gasta.",
+            "location": "Bloco 2",
+            "category": "Garrafas e recipientes"
+          },
+          "score": 0.2744864547869585
+        }
+      ]
+    },
+    {
+      "query_id": "q-000790",
+      "query_text": "vcs viram colete na cor verde-água?",
+      "reference_id": "ref-v2-item-0989",
+      "noise_types": [
+        "location_cue",
+        "omission"
+      ],
+      "expected_rank": 2,
+      "expected_item": {
+        "item_id": 989,
+        "name": "Colete",
+        "description": "Item do tipo colete, cor verde-água, distinguido por um botão de cor diferente. Há uma pequena mancha.",
+        "location": "Bloco 4",
+        "category": "Vestuário"
+      },
+      "top_5": [
+        {
+          "item": {
+            "item_id": 421,
+            "name": "Colete",
+            "description": "Colete com uma etiqueta com a letra R. A cor predominante é verde-água. A etiqueta original está apagada.",
+            "location": "Biblioteca",
+            "category": "Vestuário"
+          },
+          "score": 0.4733906859278324
+        },
+        {
+          "item": {
+            "item_id": 989,
+            "name": "Colete",
+            "description": "Item do tipo colete, cor verde-água, distinguido por um botão de cor diferente. Há uma pequena mancha.",
+            "location": "Bloco 4",
+            "category": "Vestuário"
+          },
+          "score": 0.4542890528245313
+        },
+        {
+          "item": {
+            "item_id": 521,
+            "name": "Colete",
+            "description": "Colete. Cor verde-água. Apresenta um ponto de tinta azul. Também se observa que a costura de um lado está solta.",
+            "location": "Bloco 4",
+            "category": "Vestuário"
+          },
+          "score": 0.431826736915336
+        },
+        {
+          "item": {
+            "item_id": 651,
+            "name": "Colete",
+            "description": "Colete na cor marrom. Apresenta uma fita azul. O tecido tem acabamento fosco.",
+            "location": "Bloco 4",
+            "category": "Vestuário"
+          },
+          "score": 0.3849602570815588
+        },
+        {
+          "item": {
+            "item_id": 252,
+            "name": "Bolsa de tecido",
+            "description": "Item registrado como bolsa de tecido, na cor verde-água. Possui um adesivo de abelha. Além disso, um canto está amassado.",
+            "location": "Recanto",
+            "category": "Bolsas e mochilas"
+          },
+          "score": 0.22313853057203314
+        }
+      ]
+    },
+    {
+      "query_id": "q-000793",
+      "query_text": "vcs viram maletinha na cor verde-água, depois da aula no bloco 1?",
+      "reference_id": "ref-v2-item-0992",
+      "noise_types": [
+        "location_cue",
+        "omission",
+        "synonym"
+      ],
+      "expected_rank": 2,
+      "expected_item": {
+        "item_id": 992,
+        "name": "Maleta pequena",
+        "description": "Há um pingente de coração no objeto registrado como maleta pequena, de cor verde-água. Além disso, a alça tem desgaste.",
+        "location": "Bloco 1",
+        "category": "Bolsas e mochilas"
+      },
+      "top_5": [
+        {
+          "item": {
+            "item_id": 452,
+            "name": "Frasco de água",
+            "description": "Há um ponto de tinta branca no objeto registrado como frasco de água, de cor dourada. Além disso, a etiqueta original está apagada.",
+            "location": "Bloco 4",
+            "category": "Garrafas e recipientes"
+          },
+          "score": 0.31485344547925387
+        },
+        {
+          "item": {
+            "item_id": 992,
+            "name": "Maleta pequena",
+            "description": "Há um pingente de coração no objeto registrado como maleta pequena, de cor verde-água. Além disso, a alça tem desgaste.",
+            "location": "Bloco 1",
+            "category": "Bolsas e mochilas"
+          },
+          "score": 0.31173014254371767
+        },
+        {
+          "item": {
+            "item_id": 221,
+            "name": "Fivela de cinto",
+            "description": "Fivela de cinto na cor verde-água. Apresenta um ponto de tinta azul. Há um pequeno descascado.",
+            "location": "Quadra",
+            "category": "Acessórios"
+          },
+          "score": 0.3025130561150376
+        },
+        {
+          "item": {
+            "item_id": 989,
+            "name": "Colete",
+            "description": "Item do tipo colete, cor verde-água, distinguido por um botão de cor diferente. Há uma pequena mancha.",
+            "location": "Bloco 4",
+            "category": "Vestuário"
+          },
+          "score": 0.2852837155110968
+        },
+        {
+          "item": {
+            "item_id": 749,
+            "name": "Webcam",
+            "description": "Webcam. Cor verde-água. Apresenta uma etiqueta com a letra P. Também se observa que um lado está desbotado.",
+            "location": "Bloco 1",
+            "category": "Eletrônicos"
+          },
+          "score": 0.28443697133223556
+        }
+      ]
+    },
+    {
+      "query_id": "q-000871",
+      "query_text": "será que foi entregue modem com solzinho colado e etiqueta apagada, no laboratório de informática?",
+      "reference_id": "ref-v2-item-0043",
+      "noise_types": [
+        "location_cue",
+        "reordered",
+        "synonym"
+      ],
+      "expected_rank": 2,
+      "expected_item": {
+        "item_id": 43,
+        "name": "Roteador portátil",
+        "description": "Roteador portátil com um adesivo de sol. A cor predominante é prateada. A etiqueta original está apagada.",
+        "location": "Laboratório de informática",
+        "category": "Eletrônicos"
+      },
+      "top_5": [
+        {
+          "item": {
+            "item_id": 369,
+            "name": "Hub USB",
+            "description": "Hub USB de cor branca, com uma etiqueta com a letra M. Na inspeção, a etiqueta original está apagada.",
+            "location": "Laboratório de informática",
+            "category": "Eletrônicos"
+          },
+          "score": 0.38566802769526887
+        },
+        {
+          "item": {
+            "item_id": 43,
+            "name": "Roteador portátil",
+            "description": "Roteador portátil com um adesivo de sol. A cor predominante é prateada. A etiqueta original está apagada.",
+            "location": "Laboratório de informática",
+            "category": "Eletrônicos"
+          },
+          "score": 0.35756660839369553
+        },
+        {
+          "item": {
+            "item_id": 426,
+            "name": "Bolsa de mão",
+            "description": "Foi encontrado um item do tipo bolsa de mão na cor azul-clara, com uma faixa refletiva. Observação: o zíper está frouxo.",
+            "location": "Laboratório de informática",
+            "category": "Bolsas e mochilas"
+          },
+          "score": 0.35571317538623815
+        },
+        {
+          "item": {
+            "item_id": 282,
+            "name": "Jaleco",
+            "description": "Há uma faixa refletiva no objeto registrado como jaleco, de cor cinza. Além disso, há uma pequena mancha.",
+            "location": "Laboratório de informática",
+            "category": "Vestuário"
+          },
+          "score": 0.349582185047625
+        },
+        {
+          "item": {
+            "item_id": 495,
+            "name": "Controle remoto",
+            "description": "Item encontrado: controle remoto na cor marrom. Há um desenho de lua. A etiqueta original está apagada.",
+            "location": "Laboratório de informática",
+            "category": "Eletrônicos"
+          },
+          "score": 0.3492981449026501
+        }
+      ]
+    },
+    {
+      "query_id": "q-000875",
+      "query_text": "perdi na universidade: fone de ouvido na cor rosa, passei no bloco 10",
+      "reference_id": "ref-v2-item-0030",
+      "noise_types": [
+        "location_cue",
+        "omission",
+        "synonym"
+      ],
+      "expected_rank": 3,
+      "expected_item": {
+        "item_id": 30,
+        "name": "Fone com fio",
+        "description": "Há um desenho de lua no objeto registrado como fone com fio, de cor rosa. Além disso, a etiqueta original está apagada.",
+        "location": "Bloco 10",
+        "category": "Eletrônicos"
+      },
+      "top_5": [
+        {
+          "item": {
+            "item_id": 769,
+            "name": "Fone de ouvido sem fio",
+            "description": "Fone de ouvido sem fio de cor rosa, com uma marca de caneta verde. Na inspeção, um canto tem cola aparente.",
+            "location": "Bloco 5",
+            "category": "Eletrônicos"
+          },
+          "score": 0.45071541428936773
+        },
+        {
+          "item": {
+            "item_id": 857,
+            "name": "Fone de ouvido sem fio",
+            "description": "Registro de fone de ouvido sem fio na cor preta. Detalhe visível: uma faixa de fita isolante. Observa-se que há um pequeno descascado.",
+            "location": "Bloco 10",
+            "category": "Eletrônicos"
+          },
+          "score": 0.4216559231654508
+        },
+        {
+          "item": {
+            "item_id": 30,
+            "name": "Fone com fio",
+            "description": "Há um desenho de lua no objeto registrado como fone com fio, de cor rosa. Além disso, a etiqueta original está apagada.",
+            "location": "Bloco 10",
+            "category": "Eletrônicos"
+          },
+          "score": 0.3962387431061599
+        },
+        {
+          "item": {
+            "item_id": 645,
+            "name": "Fone com fio",
+            "description": "Item encontrado: fone com fio na cor amarela. Há um risco em formato de X. Um lado está desbotado.",
+            "location": "Bloco 10",
+            "category": "Eletrônicos"
+          },
+          "score": 0.36839880979150563
+        },
+        {
+          "item": {
+            "item_id": 680,
+            "name": "Case de fone",
+            "description": "Item do tipo case de fone, cor laranja, distinguido por uma etiqueta com a letra M. Há um pequeno descascado.",
+            "location": "Teatro de Arena",
+            "category": "Eletrônicos"
+          },
+          "score": 0.27608478501398875
+        }
+      ]
+    },
+    {
+      "query_id": "q-000885",
+      "query_text": "preciso recuperar câmera do computador com estrelinha colada e cola aparecendo, passei na biblioteca",
+      "reference_id": "ref-v2-item-0499",
+      "noise_types": [
+        "location_cue",
+        "reordered",
+        "synonym"
+      ],
+      "expected_rank": 3,
+      "expected_item": {
+        "item_id": 499,
+        "name": "Webcam",
+        "description": "Item encontrado: webcam na cor prateada. Há um adesivo de estrela. Um canto tem cola aparente.",
+        "location": "Biblioteca",
+        "category": "Eletrônicos"
+      },
+      "top_5": [
+        {
+          "item": {
+            "item_id": 284,
+            "name": "Case de câmera",
+            "description": "Case de câmera com uma etiqueta com a letra M. A cor predominante é laranja. A parte de baixo está marcada.",
+            "location": "Auditório",
+            "category": "Bolsas e mochilas"
+          },
+          "score": 0.35055765879298856
+        },
+        {
+          "item": {
+            "item_id": 207,
+            "name": "Case de câmera",
+            "description": "Case de câmera. Cor cinza. Apresenta um laço pequeno. Também se observa que há uma pequena mancha.",
+            "location": "Bloco 10",
+            "category": "Bolsas e mochilas"
+          },
+          "score": 0.3020186223265914
+        },
+        {
+          "item": {
+            "item_id": 499,
+            "name": "Webcam",
+            "description": "Item encontrado: webcam na cor prateada. Há um adesivo de estrela. Um canto tem cola aparente.",
+            "location": "Biblioteca",
+            "category": "Eletrônicos"
+          },
+          "score": 0.29321033529783913
+        },
+        {
+          "item": {
+            "item_id": 961,
+            "name": "Power bank",
+            "description": "Power bank na cor verde-escura. Apresenta uma etiqueta com a letra M. Há um arranhão discreto.",
+            "location": "Biblioteca",
+            "category": "Eletrônicos"
+          },
+          "score": 0.2464518712476403
+        },
+        {
+          "item": {
+            "item_id": 864,
+            "name": "Presilha de cabelo",
+            "description": "Presilha de cabelo com uma plaquinha redonda. A cor predominante é marrom. Há um pequeno descascado.",
+            "location": "Biblioteca",
+            "category": "Acessórios"
+          },
+          "score": 0.23785332895372138
+        }
+      ]
+    },
+    {
+      "query_id": "q-000887",
+      "query_text": "acho q esqueci coqueteleira com abelhinha colada e descascado, no RU",
+      "reference_id": "ref-v2-item-0784",
+      "noise_types": [
+        "location_cue",
+        "reordered"
+      ],
+      "expected_rank": 2,
+      "expected_item": {
+        "item_id": 784,
+        "name": "Coqueteleira",
+        "description": "Item registrado como coqueteleira, na cor verde-água. Possui um adesivo de abelha. Além disso, há um pequeno descascado.",
+        "location": "Restaurante universitário",
+        "category": "Esportes"
+      },
+      "top_5": [
+        {
+          "item": {
+            "item_id": 335,
+            "name": "Coqueteleira",
+            "description": "Objeto registrado como coqueteleira, na cor prateada. Apresenta um adesivo de gato. Verificou-se que há um pequeno descascado.",
+            "location": "Quadra",
+            "category": "Esportes"
+          },
+          "score": 0.43671660964349795
+        },
+        {
+          "item": {
+            "item_id": 784,
+            "name": "Coqueteleira",
+            "description": "Item registrado como coqueteleira, na cor verde-água. Possui um adesivo de abelha. Além disso, há um pequeno descascado.",
+            "location": "Restaurante universitário",
+            "category": "Esportes"
+          },
+          "score": 0.4279043775973919
+        },
+        {
+          "item": {
+            "item_id": 187,
+            "name": "Coqueteleira",
+            "description": "Item do tipo coqueteleira, cor bege, distinguido por uma fita azul. A superfície é fosca.",
+            "location": "Quadra",
+            "category": "Esportes"
+          },
+          "score": 0.41423792233372775
+        },
+        {
+          "item": {
+            "item_id": 563,
+            "name": "Coqueteleira",
+            "description": "Item registrado como coqueteleira, na cor rosa. Possui um adesivo de gato. Além disso, a etiqueta original está apagada.",
+            "location": "Biblioteca",
+            "category": "Esportes"
+          },
+          "score": 0.37144819705307264
+        },
+        {
+          "item": {
+            "item_id": 748,
+            "name": "Marmita",
+            "description": "Há uma marca triangular no objeto registrado como marmita, de cor bege. Além disso, há um pequeno descascado.",
+            "location": "Bloco 1",
+            "category": "Garrafas e recipientes"
+          },
+          "score": 0.2907653165627335
+        }
+      ]
+    },
+    {
+      "query_id": "q-000896",
+      "query_text": "quero achar pingente na cor marrom com plaquinha circular, no bloco 5",
+      "reference_id": "ref-v2-item-0194",
+      "noise_types": [
+        "exact_attributes",
+        "location_cue"
+      ],
+      "expected_rank": 2,
+      "expected_item": {
+        "item_id": 194,
+        "name": "Pingente",
+        "description": "Pingente. Cor marrom. Apresenta uma plaquinha redonda. Também se observa que a superfície é fosca.",
+        "location": "Bloco 5",
+        "category": "Acessórios"
+      },
+      "top_5": [
+        {
+          "item": {
+            "item_id": 303,
+            "name": "Pingente",
+            "description": "Pingente de cor preta, com uma plaquinha redonda. Na inspeção, um lado está desbotado.",
+            "location": "Bloco 2",
+            "category": "Acessórios"
+          },
+          "score": 0.5046092758412515
+        },
+        {
+          "item": {
+            "item_id": 194,
+            "name": "Pingente",
+            "description": "Pingente. Cor marrom. Apresenta uma plaquinha redonda. Também se observa que a superfície é fosca.",
+            "location": "Bloco 5",
+            "category": "Acessórios"
+          },
+          "score": 0.5036398286347996
+        },
+        {
+          "item": {
+            "item_id": 814,
+            "name": "Broche",
+            "description": "Broche na cor marrom. Apresenta uma plaquinha redonda. Há uma pequena mancha.",
+            "location": "Teatro de Arena",
+            "category": "Acessórios"
+          },
+          "score": 0.32163224794952744
+        },
+        {
+          "item": {
+            "item_id": 238,
+            "name": "Camiseta",
+            "description": "Camiseta com um pingente de coração. A cor predominante é bege. A etiqueta original está apagada.",
+            "location": "Bloco 5",
+            "category": "Vestuário"
+          },
+          "score": 0.2989265080653611
+        },
+        {
+          "item": {
+            "item_id": 992,
+            "name": "Maleta pequena",
+            "description": "Há um pingente de coração no objeto registrado como maleta pequena, de cor verde-água. Além disso, a alça tem desgaste.",
+            "location": "Bloco 1",
+            "category": "Bolsas e mochilas"
+          },
+          "score": 0.29472802390466213
+        }
+      ]
+    },
+    {
+      "query_id": "q-000897",
+      "query_text": "achei que tava na mochila, mas sumiu bolsinha de moeda na cor preta",
+      "reference_id": "ref-v2-item-0877",
+      "noise_types": [
+        "location_cue",
+        "omission",
+        "synonym"
+      ],
+      "expected_rank": 8,
+      "expected_item": {
+        "item_id": 877,
+        "name": "Porta-moedas",
+        "description": "Objeto registrado como porta-moedas, na cor preta. Apresenta um detalhe de bolinhas. Verificou-se que há uma pequena mancha.",
+        "location": "Auditório",
+        "category": "Acessórios"
+      },
+      "top_5": [
+        {
+          "item": {
+            "item_id": 195,
+            "name": "Mochila infantil",
+            "description": "Mochila infantil na cor vinho. Apresenta um adesivo de gato. O fecho não encaixa direito.",
+            "location": "Quadra",
+            "category": "Bolsas e mochilas"
+          },
+          "score": 0.35831551900489633
+        },
+        {
+          "item": {
+            "item_id": 286,
+            "name": "Mochila infantil",
+            "description": "Item registrado como mochila infantil, na cor bege. Possui um adesivo de sol. Além disso, a costura de um lado está solta.",
+            "location": "Biblioteca",
+            "category": "Bolsas e mochilas"
+          },
+          "score": 0.35824263940138623
+        },
+        {
+          "item": {
+            "item_id": 948,
+            "name": "Cuia",
+            "description": "Item encontrado: cuia na cor preta. Há uma etiqueta com a letra M. A borda está riscada.",
+            "location": "Bloco 5",
+            "category": "Garrafas e recipientes"
+          },
+          "score": 0.24833083897074207
+        },
+        {
+          "item": {
+            "item_id": 997,
+            "name": "Bolsa de tecido",
+            "description": "Registro de bolsa de tecido na cor preta. Detalhe visível: uma fita azul. Observa-se que a parte de baixo está marcada.",
+            "location": "Secretaria",
+            "category": "Bolsas e mochilas"
+          },
+          "score": 0.24525211150090465
+        },
+        {
+          "item": {
+            "item_id": 711,
+            "name": "Chave de cadeado",
+            "description": "Registro de chave de cadeado na cor preta. Detalhe visível: uma fita verde. Observa-se que a etiqueta original está apagada.",
+            "location": "Bloco 5",
+            "category": "Chaves"
+          },
+          "score": 0.2279097778733723
+        }
+      ]
+    }
+  ]
+}

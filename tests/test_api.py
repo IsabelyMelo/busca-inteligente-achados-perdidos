@@ -7,6 +7,7 @@ import certifi
 import pytest
 from fastapi.testclient import TestClient
 from pydantic import SecretStr
+from sqlalchemy.exc import OperationalError, ProgrammingError
 
 from app.config import Settings
 from app.domain import ItemCandidate
@@ -78,6 +79,20 @@ def test_search_endpoint_validates_short_description() -> None:
         )
 
     assert response.status_code == 422
+
+
+def test_search_endpoint_rejects_description_without_search_terms() -> None:
+    application = create_app(repository=FakeItemRepository([]), settings=make_settings())
+
+    with TestClient(application) as client:
+        response = client.post(
+            "/matches/search",
+            json={"description": "Eu perdi meu em uma"},
+            headers=AUTH_HEADERS,
+        )
+
+    assert response.status_code == 422
+    assert response.json() == {"detail": "Descrição inválida"}
 
 
 def test_search_endpoint_uses_configured_matching_method() -> None:
@@ -178,7 +193,9 @@ def test_rate_limit_and_audit_omit_description_and_key(caplog) -> None:
 def test_database_failure_has_safe_response_and_log(caplog) -> None:
     class FailingRepository:
         def find_active_items(self):
-            raise RuntimeError("private-db-host password=do-not-log")
+            raise OperationalError(
+                "SELECT item", {}, RuntimeError("private-db-host password=do-not-log")
+            )
 
     application = create_app(repository=FailingRepository(), settings=make_settings())
     with caplog.at_level(logging.INFO, logger="app.audit"):
@@ -191,11 +208,41 @@ def test_database_failure_has_safe_response_and_log(caplog) -> None:
             health = client.get("/health")
 
     assert response.status_code == 503
-    assert response.json() == {"detail": "Não foi possível consultar os itens encontrados"}
+    assert response.json() == {"detail": "Serviço de busca temporariamente indisponível"}
     assert "private-db-host" not in caplog.text
     assert "do-not-log" not in caplog.text
     assert "status=503" in caplog.text
     assert health.status_code == 200
+
+
+@pytest.mark.parametrize(
+    "failure",
+    [
+        RuntimeError("private-db-host password=do-not-log"),
+        ProgrammingError(
+            "SELECT item", {}, RuntimeError("private-db-host password=do-not-log")
+        ),
+    ],
+)
+def test_internal_failure_returns_500_without_exposing_details(caplog, failure) -> None:
+    class FailingRepository:
+        def find_active_items(self):
+            raise failure
+
+    application = create_app(repository=FailingRepository(), settings=make_settings())
+    with caplog.at_level(logging.INFO, logger="app.audit"):
+        with TestClient(application) as client:
+            response = client.post(
+                "/matches/search",
+                json={"description": "Perdi uma carteira preta"},
+                headers=AUTH_HEADERS,
+            )
+
+    assert response.status_code == 500
+    assert response.json() == {"detail": "Erro interno na busca"}
+    assert "private-db-host" not in caplog.text
+    assert "do-not-log" not in caplog.text
+    assert "status=500" in caplog.text
 
 
 def test_invalid_request_does_not_echo_input() -> None:

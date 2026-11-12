@@ -1,0 +1,176 @@
+{
+  "source_sha256": {
+    "pairs.csv": "135ba742926fe3b8bc2a0134a932a85e315f17ffa73583d7b3a67fd3e2e94058",
+    "items.jsonl": "c9ad07f647247fb039df9a3f0702d979d4084513fd7fc7c0551f46315c9b5ac5",
+    "queries.jsonl": "794a86cbb03932f0b77f5c056f2c3a429616ffdbbba89da9c79432c66b80b1a1"
+  },
+  "positive_queries": 270,
+  "all_queries": 360,
+  "positive_reference_groups": 240,
+  "negative_reference_groups": 90,
+  "bootstrap": {
+    "samples": 20000,
+    "seed": 20261109,
+    "confidence_level": 0.95,
+    "method": "stratified cluster percentile; resample positive and negative reference groups separately"
+  },
+  "metrics": {
+    "cosine": {
+      "precision": 0.3417910447761194,
+      "recall": 0.8481481481481481,
+      "f1": 0.4872340425531914,
+      "hit_at_1": 0.8333333333333334,
+      "hit_at_3": 0.9222222222222223,
+      "hit_at_5": 0.9444444444444444,
+      "mrr": 0.882645736836372
+    },
+    "levenshtein": {
+      "precision": 0.16050955414012738,
+      "recall": 0.4666666666666667,
+      "f1": 0.23886255924170618,
+      "hit_at_1": 0.44814814814814813,
+      "hit_at_3": 0.6074074074074074,
+      "hit_at_5": 0.662962962962963,
+      "mrr": 0.5491699797468226
+    },
+    "hybrid": {
+      "precision": 0.4480651731160896,
+      "recall": 0.8148148148148148,
+      "f1": 0.5781865965834428,
+      "hit_at_1": 0.8555555555555555,
+      "hit_at_3": 0.9259259259259259,
+      "hit_at_5": 0.9481481481481482,
+      "mrr": 0.8978690577801386
+    }
+  },
+  "metric_95_intervals": {
+    "cosine": {
+      "precision": [
+        0.3178621659634318,
+        0.36891717852189415
+      ],
+      "recall": [
+        0.8028538384596149,
+        0.8901515151515151
+      ],
+      "f1": [
+        0.45991561181434604,
+        0.5160600126482564
+      ],
+      "hit_at_1": [
+        0.7851851851851852,
+        0.8786764705882353
+      ],
+      "hit_at_3": [
+        0.8893129770992366,
+        0.9523809523809523
+      ],
+      "hit_at_5": [
+        0.9163636363636364,
+        0.9702602230483272
+      ],
+      "mrr": [
+        0.8477362764740296,
+        0.9152856358325688
+      ]
+    },
+    "levenshtein": {
+      "precision": [
+        0.13696922715527365,
+        0.18911654508813255
+      ],
+      "recall": [
+        0.40441176470588236,
+        0.5285225733141029
+      ],
+      "f1": [
+        0.2084503547338622,
+        0.2727272727272727
+      ],
+      "hit_at_1": [
+        0.38686131386861317,
+        0.5097276264591439
+      ],
+      "hit_at_3": [
+        0.5451127819548872,
+        0.6691176470588235
+      ],
+      "hit_at_5": [
+        0.604314640160663,
+        0.7201492537313433
+      ],
+      "mrr": [
+        0.4960949298259613,
+        0.6028414197966651
+      ]
+    },
+    "hybrid": {
+      "precision": [
+        0.4142581888246628,
+        0.48590021691973967
+      ],
+      "recall": [
+        0.7657992565055762,
+        0.8619402985074627
+      ],
+      "f1": [
+        0.5452229299363057,
+        0.6123045123594998
+      ],
+      "hit_at_1": [
+        0.8095238095238095,
+        0.8984962406015038
+      ],
+      "hit_at_3": [
+        0.8932384341637011,
+        0.955719557195572
+      ],
+      "hit_at_5": [
+        0.9207547169811321,
+        0.9736842105263158
+      ],
+      "mrr": [
+        0.8643894769446241,
+        0.9290189412710267
+      ]
+    }
+  },
+  "hybrid_minus_cosine": {
+    "hit_at_1": {
+      "hybrid_only_correct": 9,
+      "cosine_only_correct": 3,
+      "discordant": 12,
+      "exact_two_sided_p": 0.14599609375,
+      "difference": 0.022222222222222143,
+      "paired_cluster_bootstrap_95_interval": [
+        -0.0035842293906810374,
+        0.047794117647058765
+      ]
+    },
+    "hit_at_5": {
+      "hybrid_only_correct": 1,
+      "cosine_only_correct": 0,
+      "discordant": 1,
+      "exact_two_sided_p": 1.0,
+      "difference": 0.0037037037037037646,
+      "paired_cluster_bootstrap_95_interval": [
+        0.0,
+        0.011278195488721776
+      ]
+    },
+    "mrr": {
+      "difference": 0.01522332094376655,
+      "paired_cluster_bootstrap_95_interval": [
+        0.00192779056189627,
+        0.02943845311848672
+      ],
+      "rank_changes": {
+        "hybrid_better": 23,
+        "cosine_better": 9,
+        "same_rank": 238
+      }
+    }
+  },
+  "mcnemar_note": "Exact query-level McNemar treats repeated formulations of one item as independent; cluster intervals address this dependence.",
+  "interpretation_scope": "frozen synthetic test, no parameter selection from this analysis"
+}

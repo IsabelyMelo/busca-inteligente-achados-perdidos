@@ -15,7 +15,7 @@ Os registros seguem o schema `evaluation/schemas/v1`: o número da versão do fo
 
 O grupo de desenvolvimento possui 700 itens e 840 consultas (630 positivas, 210 negativas). O grupo de teste possui 300 itens e 360 consultas (270 positivas, 90 negativas). A divisão foi feita por referência de item, aproximadamente estratificada por categoria. As consultas negativas foram divididas separadamente. **Ajustes de pesos e limiares devem usar apenas desenvolvimento.**
 
-A primeira base experimental, v1, foi produzida por script Python. Ao inspecioná-la, a autora considerou as descrições padronizadas demais e solicitou ao Codex uma nova geração com escolhas pseudoaleatórias mais variadas de tipos de objeto, cores, atributos, locais e formulações de busca. Essa revisão originou a v2. Vinte buscas iniciais partem de exemplos fornecidos pela autora e receberam itens sintéticos correspondentes. Os demais textos foram montados com semente fixa para a escolha de tipos de objeto, cores, marcas, condições, locais e formas de escrever a busca, com revisão de amostras. As descrições dos itens e as consultas não são relatos reais. A geração usa vocabulário e estruturas predefinidos, embora com mais variação que o conjunto v1. Portanto, ainda pode favorecer algumas palavras ou formas de consulta. A validação automática confirma formato, unicidade e vínculos, mas **não equivale a uma revisão semântica humana de todos os 1.200 rótulos**. Antes de apresentar resultados como avaliação final do TCC, convém revisar especialmente consultas genéricas e casos sem correspondência.
+A primeira base experimental, v1, foi produzida por script Python. Ao inspecioná-la, a autora considerou as descrições padronizadas demais e solicitou ao Codex uma nova geração com maior variedade de tipos de objeto, cores, atributos, locais e formulações de busca. Essa revisão originou a v2. Vinte buscas iniciais partem de exemplos fornecidos pela autora e receberam itens sintéticos correspondentes. Os registros finais da v2 foram produzidos diretamente com apoio de IAG, sem script gerador versionado ou semente de geração documentada. Após a geração, a autora leu itens e consultas e fez correções pontuais de coerência textual e naturalidade da linguagem. Não houve registro por identificador nem contagem das alterações. As descrições dos itens e as consultas não são relatos reais. A geração usa vocabulário e estruturas predefinidos, embora com mais variação que o conjunto v1. Portanto, ainda pode favorecer algumas palavras ou formas de consulta. Entre as 1.200 consultas, 32 têm a marcação `generic` em `noise_types`; outras também podem ser ambíguas. Cada consulta positiva possui um único item de referência, de modo que candidatos alternativos plausíveis podem ser contabilizados como erros. A validação automática confirma formato, unicidade e vínculos, mas **não equivale a uma revisão semântica humana de todos os 1.200 rótulos**.
 
 Para validar a estrutura na raiz do projeto:
 
@@ -26,6 +26,55 @@ Para validar a estrutura na raiz do projeto:
 O avaliador usa desenvolvimento por padrão. Os resultados em `results/` contêm a grade de configurações calculada nesse conjunto e estão congelados. A seleção para o teste prioriza Hit@1, MRR e Hit@5.
 
 Em `results/summary.json`, `grid.selected` reflete a política de seleção registrada no resumo de desenvolvimento. A configuração usada no teste foi extraída de `grid.results` pela política `ranking` e consta em `test_results/summary.json`. A grade e os CSVs de desenvolvimento não foram alterados.
+
+O arquivo `weight_sensitivity.json` registra uma análise complementar dos pesos sobre os pares congelados de desenvolvimento, incluindo os cinco pontos da grade original e o passo de 0,1. O script confere o SHA-256 de `results/pairs.csv` e reproduz as métricas dos pontos originais antes de gravar o resultado:
+
+```powershell
+.\.venv\Scripts\python.exe -m evaluation.weight_sensitivity
+```
+
+Nessa análise posterior, `alpha=0.6` teve Hit@1 e MRR ligeiramente maiores que `alpha=0.5` no desenvolvimento. A configuração `alpha=0.5` e os resultados de `test_results/` permanecem como os do experimento final já realizado. A análise complementar não usa os pares de teste.
+
+O arquivo `threshold_curve.csv` registra a relação entre precisão e revocação por pares do híbrido com `alpha=0.5`, calculada sobre `results/pairs.csv` para limiares de 0 a 1 com passo de 0,01. O script confere o hash dos pares e reproduz os valores congelados no limiar 0,4. Para refazer o CSV que fundamenta a tabela do TCC:
+
+```powershell
+.\.venv\Scripts\python.exe -m evaluation.threshold_diagnostic
+```
+
+O limiar 0,4 é apenas um ponto diagnóstico de classificação por pares. A busca publicada ordena candidatos sem aplicar esse corte.
+
+## Origem e ablação das equivalências lexicais
+
+A autora informou que as dez substituições de `app/preprocessing.py` vieram de sugestões do Codex após a validação da v1. A consulta exploratória `Telefone preto com capinha amarela` motivou especialmente as formas `telefone` e `capinha`. O commit `8a96839` registrou a lista em 02/11/2026, antes do commit `0385937` que registrou a v2 em 03/11/2026. A base v2 não foi avaliada antes da inclusão da lista. O histórico não permite excluir influência da lista sobre a geração posterior dos textos sintéticos.
+
+`alias_occurrences.json` registra uma varredura reproduzível das dez formas. Nenhuma ocorre nos arquivos finais da v1. Na v2, ocorrem `power bank` (11 itens, três consultas), `telefone` (cinco consultas), `capinha` (quatro consultas), `pendrive` (três consultas) e `headset` (seis itens, duas consultas). As outras cinco formas não ocorrem nesses arquivos. A presença em um arquivo não demonstra que o termo tenha motivado a inclusão da equivalência. Para refazer a varredura:
+
+```powershell
+.\.venv\Scripts\python.exe -m evaluation.alias_provenance_scan
+```
+
+`synonym_ablation.json` registra uma análise retrospectiva no teste congelado. A condição com a lista usa os pares originais, cujo hash é conferido. A condição sem a lista repete a pontuação dos mesmos 300 candidatos e 360 consultas, mantendo o híbrido com pesos 0,5/0,5 e os campos nome, descrição e local. Apenas `MATCHING_ALIASES` é desativado temporariamente. O teste final original não é sobrescrito e nenhuma configuração é escolhida novamente. Para repetir a ablação:
+
+```powershell
+.\.venv\Scripts\python.exe -m evaluation.synonym_ablation
+```
+
+| Condição | Hit@1 | Hit@5 | MRR |
+| --- | ---: | ---: | ---: |
+| Com equivalências | 0,8556 | 0,9481 | 0,8979 |
+| Sem equivalências | 0,8481 | 0,9444 | 0,8915 |
+
+A diferença corresponde a dois acertos no Hit@1 e um no Hit@5, entre 270 consultas positivas. A ablação mede o efeito da lista nesta base sintética. Ela não separa esse efeito de uma possível adaptação do vocabulário da base à lista já presente no código.
+
+## Incerteza na escolha dos campos
+
+`field_ablation_uncertainty.json` registra a comparação pareada de Hit@1 entre as composições com e sem categoria, ambas com pesos iguais para cosseno e Levenshtein. O script confere o SHA-256 de `results/pairs.csv` e reproduz as duas métricas do resumo antes de calcular as diferenças por consulta. Para refazer o resultado:
+
+```powershell
+.\.venv\Scripts\python.exe -m evaluation.field_ablation_uncertainty
+```
+
+Em 630 consultas positivas de desenvolvimento, a composição sem categoria acertou 484 primeiras posições e a composição com categoria acertou 477. Houve 14 acertos exclusivos da primeira e sete da segunda. A diferença pareada de Hit@1 foi de 1,11 ponto percentual, com intervalo de 95% por bootstrap percentil de -0,32 a 2,67 pontos percentuais (20.000 reamostragens dos 560 itens de referência, semente 20261109). Formulações do mesmo item permaneceram juntas em cada reamostragem. O intervalo inclui zero. Como a composição foi selecionada com os próprios dados de desenvolvimento, esta análise é exploratória e não valida uma vantagem em dados independentes.
 
 Para repetir a análise de desenvolvimento em uma pasta nova:
 
@@ -42,6 +91,44 @@ O fluxo histórico de `evaluation.final_experiment` continua específico da v1. 
 Use apenas `verify` no diretório de resultados existente.
 
 Para uma avaliação futura com outra base, execute `evaluation.evaluate` no desenvolvimento. Depois use `evaluation.experiment freeze`, `run`, `latency` e `verify` com `--dataset`, `--criterion` e `--output`. Os comandos recusam sobrescrever resultados existentes.
+
+## Incerteza e testes pareados no conjunto de teste
+
+`test_significance.json` complementa o resumo original do teste sem alterar os pares, as métricas ou a configuração congelada. `evaluation/test_significance.py` confere os hashes de `items.jsonl`, `queries.jsonl` e `test_results/pairs.csv`, reproduz as sete métricas originais dos três métodos e calcula intervalos percentis de 95% com 20.000 reamostragens (semente 20261109). A unidade de reamostragem é a referência do objeto: 240 grupos positivos e 90 sem correspondência são amostrados separadamente, mantendo juntas as duas formulações de um mesmo objeto quando existem. Para reproduzir:
+
+```powershell
+.\.venv\Scripts\python.exe -m evaluation.test_significance
+```
+
+Na comparação híbrido menos cosseno, Hit@1 diferiu em 0,0222. Nove consultas foram acertadas apenas pelo híbrido e três apenas pelo cosseno. O teste exato bilateral de McNemar deu `p=0,146`. Em Hit@5, houve uma discordância a favor do híbrido e nenhuma a favor do cosseno, com `p=1,000`. A diferença de MRR foi 0,0152, com intervalo pareado por grupos de 0,0019 a 0,0294. Os intervalos individuais das sete métricas da Tabela 1 do TCC estão no JSON.
+
+O McNemar usa as 270 consultas positivas como pares, mas 30 são formulações adicionais de objetos já representados. Seus valores de `p` são exploratórios. O bootstrap por referência preserva essa dependência. Hit@1 e Hit@5 não mostram diferença conclusiva. O intervalo de MRR sugere uma vantagem pequena do híbrido neste teste sintético, sem estabelecer superioridade geral em relatos reais. Não foi realizado teste formal de equivalência.
+
+## Análise dos erros de ranqueamento
+
+`error_cases.json` reúne as 39 consultas positivas em que o item esperado não ficou em primeiro lugar no teste híbrido, das quais 14 também ficaram fora do top 5. Para cada consulta, o arquivo registra o item esperado, sua posição e os cinco primeiros candidatos. `evaluation/prepare_error_cases.py` verifica os hashes das fontes congeladas e recria o arquivo sem alterar os resultados do teste:
+
+```powershell
+.\.venv\Scripts\python.exe -m evaluation.prepare_error_cases
+```
+
+`error_review.csv` registra uma categoria principal e a observação que fundamentou a classificação exploratória de cada caso. A revisão foi auxiliada pelo Codex e as categorias não representam causas comprovadas. Uma consulta pode ter mais de um fator. São 21 casos de variação do nome do objeto, sete de variação na descrição do atributo, cinco de descrição pouco específica, três de grafia ou contexto da consulta e três de atributo distintivo pouco aproveitado. Respectivamente, oito, três, um, dois e zero desses casos ficaram fora do top 5. Nenhum erro de rótulo foi confirmado. O caso `q-000411` tem rótulo potencialmente ambíguo, pois a descrição também é compatível com o item colocado em primeiro lugar.
+
+## Perfil de latência por etapa
+
+`evaluation/profile_search_latency.py` mede a busca direta no computador local, separando leitura do repositório, normalização dos textos, ajuste da matriz TF-IDF, transformação da consulta, cosseno e Levenshtein. Ele usa a mesma descrição na primeira chamada e em 12 repetições posteriores para três cenários: 300 itens em memória, 1.000 itens em memória e 1.000 itens no MySQL local. Não altera o banco nem os resultados congelados. Para recriar `latency_profile_local.json` com o MySQL local configurado:
+
+```powershell
+.\.venv\Scripts\python.exe -m evaluation.profile_search_latency --with-db
+```
+
+Na execução de 09/11/2026, as medianas totais após a primeira chamada foram 13,0 ms, 42,0 ms e 57,9 ms, respectivamente. Com 1.000 itens no MySQL local, a leitura teve mediana de 10,4 ms, a normalização de 41,5 ms e o cálculo de similaridade de 2,9 ms. O ajuste TF-IDF durou 9,3 ms na primeira chamada desse cenário e não se repetiu nas 12 seguintes. A medição não reproduz o ambiente do Render e da Aiven.
+
+Para uma medição equivalente na API publicada **após implantar esta versão**, envie uma busca autenticada com `X-Profile-Timings: 1`. A resposta inclui `X-Search-Profile`, com tempos em milissegundos para `repository_ms`, `prepare_items_ms`, `tfidf_fit_ms`, `cosine_ms`, `ranking_ms` e `total_ms`, além de `item_count` e `tfidf_refit` quando houve novo ajuste. A rota não altera o JSON de resposta e o cabeçalho de diagnóstico só é gerado quando solicitado. Registre várias chamadas com o serviço ativo e compare as etapas com `processing_time_ms` e `X-Server-Time-Ms`. Não publique a chave de serviço nem os textos das consultas nos resultados.
+
+`evaluation/profile_remote_search.py` automatiza sete chamadas autenticadas (uma inicial e seis posteriores) e salva apenas os tempos em `latency_profile_remote.json`. O script lê `SERVICE_API_KEY` do ambiente, sem gravá-la. Execute-o localmente após carregar a credencial apenas na sessão do terminal. A medição não é gerada automaticamente pelo deploy.
+
+Na medição de 09/11/2026, após o deploy manual da revisão `b4e4e83`, a primeira busca levou 1.904,2 ms dentro do serviço: 1.458,5 ms no repositório, 245,6 ms na preparação dos candidatos e 133,5 ms no ajuste TF-IDF. Nas seis seguintes, a mediana da busca foi 635,4 ms, com 350,2 ms no repositório, 276,5 ms na preparação e nenhum novo ajuste TF-IDF. Os 1.000 candidatos ativos foram recebidos em todas as chamadas. O repositório agrega conexão, SQL, transferência e conversão dos registros. O perfil não mede CPU nem isola essas partes da leitura. A inferência sustentada é que o tempo remoto observado se concentrou na leitura do repositório e na preparação repetida dos textos, sem reajuste da matriz em cada chamada.
 
 ## Carga no MySQL
 

@@ -1,0 +1,106 @@
+{
+  "v1": {
+    "power bank": {
+      "canonical": "carregador portatil",
+      "items": 0,
+      "queries": 0
+    },
+    "telefone": {
+      "canonical": "celular",
+      "items": 0,
+      "queries": 0
+    },
+    "smartphone": {
+      "canonical": "celular",
+      "items": 0,
+      "queries": 0
+    },
+    "telemovel": {
+      "canonical": "celular",
+      "items": 0,
+      "queries": 0
+    },
+    "capinha": {
+      "canonical": "capa",
+      "items": 0,
+      "queries": 0
+    },
+    "pendrive": {
+      "canonical": "pen drive",
+      "items": 0,
+      "queries": 0
+    },
+    "powerbank": {
+      "canonical": "carregador portatil",
+      "items": 0,
+      "queries": 0
+    },
+    "headphone": {
+      "canonical": "fone",
+      "items": 0,
+      "queries": 0
+    },
+    "headphones": {
+      "canonical": "fone",
+      "items": 0,
+      "queries": 0
+    },
+    "headset": {
+      "canonical": "fone",
+      "items": 0,
+      "queries": 0
+    }
+  },
+  "v2": {
+    "power bank": {
+      "canonical": "carregador portatil",
+      "items": 11,
+      "queries": 3
+    },
+    "telefone": {
+      "canonical": "celular",
+      "items": 0,
+      "queries": 5
+    },
+    "smartphone": {
+      "canonical": "celular",
+      "items": 0,
+      "queries": 0
+    },
+    "telemovel": {
+      "canonical": "celular",
+      "items": 0,
+      "queries": 0
+    },
+    "capinha": {
+      "canonical": "capa",
+      "items": 0,
+      "queries": 4
+    },
+    "pendrive": {
+      "canonical": "pen drive",
+      "items": 0,
+      "queries": 3
+    },
+    "powerbank": {
+      "canonical": "carregador portatil",
+      "items": 0,
+      "queries": 0
+    },
+    "headphone": {
+      "canonical": "fone",
+      "items": 0,
+      "queries": 0
+    },
+    "headphones": {
+      "canonical": "fone",
+      "items": 0,
+      "queries": 0
+    },
+    "headset": {
+      "canonical": "fone",
+      "items": 6,
+      "queries": 2
+    }
+  }
+}

@@ -1,0 +1,40 @@
+query_id,category,observation
+q-000039,Variação do nome do objeto,modem / roteador portátil
+q-000098,Variação do nome do objeto,modem / roteador portátil
+q-000105,Variação na descrição do atributo,solzinho / adesivo de sol e risquinho / arranhão
+q-000153,Variação na descrição do atributo,abelhinha / adesivo de abelha
+q-000166,Variação do nome do objeto,passador de slides / controle de apresentação
+q-000187,Variação na descrição do atributo,pinguinho branco / ponto de tinta branca
+q-000218,Variação do nome do objeto,laptop / notebook
+q-000223,Variação na descrição do atributo,solzinho / adesivo de sol
+q-000255,Descrição pouco específica,boné e bloco 1 sem atributo distintivo
+q-000262,Grafia e contexto da consulta,cachcol com menção anterior à mochila
+q-000296,Grafia e contexto da consulta,comrovante e abreviação RU
+q-000335,Variação do nome do objeto,pote de comida / marmita
+q-000365,Grafia e contexto da consulta,camsa com menção anterior à mochila
+q-000368,Variação do nome do objeto,garrafa / frasco de água
+q-000377,Variação na descrição do atributo,pinguinho branco / ponto de tinta branca
+q-000395,Atributo distintivo pouco aproveitado,letra R diferencia o rótulo mas o tokenizador descarta caracteres isolados
+q-000398,Variação do nome do objeto,bolsinha de higiene / necessaire
+q-000404,Variação do nome do objeto,câmera do computador / webcam
+q-000411,Descrição pouco específica,bolsinha bege pode descrever bolsa de mão ou necessaire
+q-000416,Descrição pouco específica,bolsinha dourada sem outros atributos
+q-000456,Variação na descrição do atributo,bicicletinha / adesivo de bicicleta
+q-000495,Variação do nome do objeto,marmita / caixa de almoço
+q-000506,Atributo distintivo pouco aproveitado,tênis de outra cor ficou acima do esperado dourado
+q-000513,Variação do nome do objeto,smartwatch / relógio inteligente
+q-000583,Variação do nome do objeto,maletinha / maleta pequena
+q-000631,Variação do nome do objeto,shaker / coqueteleira
+q-000663,Variação do nome do objeto,pote de comida / marmita
+q-000671,Variação do nome do objeto,e-reader / leitor digital
+q-000740,Variação do nome do objeto,pote / vasilha com tampa
+q-000752,Variação do nome do objeto,câmera do computador / webcam
+q-000785,Variação do nome do objeto,passador de slides / controle de apresentação
+q-000790,Descrição pouco específica,dois coletes verde-água sem atributo distintivo na consulta
+q-000793,Variação do nome do objeto,maletinha / maleta pequena
+q-000871,Variação do nome do objeto,modem / roteador portátil
+q-000875,Descrição pouco específica,fone de ouvido rosa pode ser com fio ou sem fio
+q-000885,Variação do nome do objeto,câmera do computador / webcam
+q-000887,Variação na descrição do atributo,abelhinha / adesivo de abelha
+q-000896,Atributo distintivo pouco aproveitado,marrom e bloco 5 não impediram que pingente preto do bloco 2 ficasse acima
+q-000897,Variação do nome do objeto,bolsinha de moeda / porta-moedas

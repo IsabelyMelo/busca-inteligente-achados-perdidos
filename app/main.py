@@ -14,9 +14,15 @@ from fastapi.exceptions import RequestValidationError
 from fastapi.responses import JSONResponse
 from fastapi.security import APIKeyHeader
 from sqlalchemy import create_engine
+from sqlalchemy.exc import (
+    DBAPIError,
+    InterfaceError,
+    OperationalError,
+    TimeoutError as SQLAlchemyTimeoutError,
+)
 
 from app.config import Settings, get_settings
-from app.matching import MatchingService
+from app.matching import InvalidSearchDescription, MatchingService
 from app.repository import ItemRepository, MySQLItemRepository
 from app.schemas import MatchItem, SearchRequest, SearchResponse
 
@@ -154,14 +160,25 @@ def create_app(
         timings = {} if request.headers.get("X-Profile-Timings") == "1" else None
         try:
             matches = service.search(payload.description, payload.top_k, timings=timings)
-        except ValueError as error:
+        except InvalidSearchDescription as error:
             raise HTTPException(status_code=422, detail="Descrição inválida") from error
-        except Exception as error:
-            # Esconde detalhes internos de falhas no banco ou no ranqueamento
+        except SQLAlchemyTimeoutError as error:
             raise HTTPException(
                 status_code=503,
-                detail="Não foi possível consultar os itens encontrados",
+                detail="Serviço de busca temporariamente indisponível",
             ) from error
+        except DBAPIError as error:
+            # Distingue indisponibilidade do banco de falhas na consulta SQL.
+            if error.connection_invalidated or isinstance(
+                error, (OperationalError, InterfaceError)
+            ):
+                raise HTTPException(
+                    status_code=503,
+                    detail="Serviço de busca temporariamente indisponível",
+                ) from error
+            raise HTTPException(status_code=500, detail="Erro interno na busca") from error
+        except Exception as error:
+            raise HTTPException(status_code=500, detail="Erro interno na busca") from error
 
         elapsed_ms = (perf_counter() - started_at) * 1000
         if timings is not None:

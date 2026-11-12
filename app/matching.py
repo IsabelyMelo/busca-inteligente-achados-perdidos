@@ -11,6 +11,10 @@ from app.preprocessing import normalize_for_matching
 from app.repository import ItemRepository
 
 
+class InvalidSearchDescription(ValueError):
+    """A descrição não contém termos para a busca após a normalização."""
+
+
 def build_item_text(item: ItemCandidate, *, include_category: bool = False) -> str:
     # Combina apenas os campos escolhidos para a comparação textual
     return normalize_for_matching(
@@ -106,7 +110,7 @@ class MatchingService:
             timings.update(tfidf_fit_ms=0.0, tfidf_refit=0)
         query = normalize_for_matching(description)
         if not query:
-            raise ValueError("A descrição não contém termos úteis para a busca")
+            raise InvalidSearchDescription("A descrição não contém termos úteis para a busca")
 
         # Ordena por ID para manter o índice e os desempates reproduzíveis
         repository_started = perf_counter() if timings is not None else None
