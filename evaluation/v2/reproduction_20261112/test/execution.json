@@ -1,0 +1,10 @@
+{
+  "started_at_utc": "2026-11-12T03:48:15.466575+00:00",
+  "code": {
+    "head": "837a1c43409a80e22f9daed1b7756867e8bd7974",
+    "working_tree_dirty": false
+  },
+  "dataset": "C:\\www\\busca-inteligente-achados-perdidos\\evaluation\\v2",
+  "criterion": "ranking",
+  "selection_sha256": "32f5479923eca0ff5efdb252d8b980f832c650175f26cd34965fe43c72ad5204"
+}

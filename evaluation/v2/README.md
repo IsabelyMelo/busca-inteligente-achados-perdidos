@@ -8,6 +8,7 @@ Esta pasta contém a base sintética e os resultados da avaliação v2, separado
 - `queries.jsonl`: 1.200 consultas rotuladas, sendo 900 com item esperado e 300 sem item correspondente.
 - `queries_development.jsonl` e `queries_test.jsonl`: cópias filtradas das consultas para leitura e revisão. O arquivo combinado é a entrada do validador e do avaliador.
 - `insert.sql`: substitui os itens sintéticos da tabela `matching_development.item` pelos 1.000 itens `ACTIVE` da avaliação e acrescenta dez itens com status diferente. A autora executou a carga no MySQL local em 03/11/2026.
+- `prompt_original.txt`: mensagem inicial fornecida pela autora ao Codex para solicitar a base v2, preservada com a grafia original. A mensagem documenta a solicitação inicial, mas não registra todas as iterações e revisões posteriores.
 
 Os registros seguem o schema `evaluation/schemas/v1`: o número da versão do formato (`schema_version: 1.0`) é diferente da versão do conjunto de dados (v2). O rótulo `expected_item_id` é nulo nas buscas sem correspondência. Há 800 itens com pelo menos uma consulta positiva e 200 itens que atuam somente como candidatos distratores. Cem itens têm uma segunda formulação de consulta. Todas as buscas do mesmo item permanecem no mesmo grupo.
 
@@ -131,6 +132,8 @@ O fluxo histórico de `evaluation.final_experiment` continua específico da v1. 
 ```
 
 Use apenas `verify` no diretório de resultados existente.
+
+Uma reexecução completa, feita em 12/11/2026 a partir do commit limpo `837a1c43409a80e22f9daed1b7756867e8bd7974`, está documentada em `reproduction_20261112/README.md`. Os pares e as métricas coincidiram com os resultados históricos. O script `python -m evaluation.verify_clean_reproduction` confere os arquivos dessa reexecução sem duplicar os CSVs de pares.
 
 Para uma avaliação futura com outra base, execute `evaluation.evaluate` no desenvolvimento. Depois use `evaluation.experiment freeze`, `run`, `latency` e `verify` com `--dataset`, `--criterion` e `--output`. Os comandos recusam sobrescrever resultados existentes.
 

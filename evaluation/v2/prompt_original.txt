@@ -1,0 +1,24 @@
+Imagine que vc tenha perdido um objeto na universidade e vai procurar esse item em um sistema de achados e perdidos. Gere exemplos de descriçoes de busca que uma pessoa nessa situaçao poderia escrever.
+
+São necessários 1.000 itens e 1.200 consultas rotuladas: 900 com item esperado e 300 sem correspondência.
+
+Escreva as consultas como a pessoa que esta procurando. Erros de digitação, abreviações e gírias são aceitos. Segue exemplos:
+
+fone de ouvido bluetooth preto da jbl na biblioteca
+carregador de celular branco com cabo meio descascado, acho que deixei no laboratório de informática
+notebook dell cinza com adesivo de gato na tampa, esqueci na mesa perto da janela do bloco 4
+calculadora cientifica casio fx-82 com meu nome escrito atras, perdida depois da prova no bloco 2
+pen drive azul de 32gb com um chaveiro de cordinha, tava com os trabalhos de calculo
+airpods com case rosa e capinha de silicone, perdi no restaurante universitário na hora do almoço
+mouse sem fio logitech preto, acho q caiu da mochila no auditório
+power bank da xiaomi azul escuro com uma risquinha na lateral, deixei carregando na tomada da biblioteca
+carteira de identidade e cpf dentro de uma capinha transparente, perdi perto da secretaria
+carteirinha do estudante da uemg com foto, caiu do bolso no bloco 10
+cartao do nubank roxo e cnh dentro de uma carteira preta pequena, perdi no ru
+crachá de estágio com cordão azul, esqueci na quadra depois do jogo
+preciso achar meus documentos que estavam numa pasta, perdi nessa semana
+chave com chaveiro colorido, não sei se foi na biblioteca ou no auditório
+perdi meu carregador, mas não sei dizer a cor, era de notebook e pesado
+uma garrafa grande de cor escura que eu sempre levo pra aula
+
+Organize as consultas em arquivos JSON de busca e gere um SQL para INSERT para cadastro dos itens no banco. Inclua também 10 itens semelhantes as consultas existentes, mas com estados diferentes de ACTIVE, para que possam ser inseridos e usados na verificaçao do filtro de status.
